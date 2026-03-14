@@ -26,7 +26,7 @@ export function TechSection() {
   return (
     <section
       ref={ref}
-      className="bg-surface border-t border-border py-16 sm:py-20 px-6"
+      className="bg-surface border-t border-border py-10 sm:py-12 px-6"
     >
       <div className="max-w-4xl mx-auto">
         {/* Header */}
@@ -40,7 +40,7 @@ export function TechSection() {
 
         {/* Tech badges */}
         <div
-          className={`flex flex-wrap justify-center gap-3 mb-12 transition-all duration-700 delay-100 ${
+          className={`flex flex-wrap justify-center gap-3 mb-6 transition-all duration-700 delay-100 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >

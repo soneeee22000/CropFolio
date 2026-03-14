@@ -1,7 +1,7 @@
 import { useInView } from "./use-in-view";
 import { Atom, Dice, Target } from "./icons";
 
-const MAX_BAR_HEIGHT = 120;
+const MAX_BAR_HEIGHT = 80;
 
 const RICE_ONLY_HEIGHTS = [85, 40, 25, 15, 10, 8, 6, 5, 3, 2];
 const OPTIMIZED_HEIGHTS = [3, 5, 12, 25, 35, 40, 35, 20, 10, 5];
@@ -41,12 +41,12 @@ export function MonteCarloSection() {
     <section
       id="the-science"
       ref={ref}
-      className="bg-[#1A1A18] text-[#FAFAF8] py-24 sm:py-32 px-6 border-t border-[#333330]"
+      className="bg-[#1A1A18] text-[#FAFAF8] py-12 sm:py-16 px-6 border-t border-[#333330]"
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div
-          className={`text-center mb-16 transition-all duration-700 ${
+          className={`text-center mb-8 transition-all duration-700 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -59,7 +59,7 @@ export function MonteCarloSection() {
         </div>
 
         {/* 3-column card grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
+        <div className="grid md:grid-cols-3 gap-6 mb-10">
           {cards.map((card, index) => (
             <div
               key={card.title}
@@ -70,7 +70,7 @@ export function MonteCarloSection() {
               }`}
               style={{ transitionDelay: `${index * 150 + 200}ms` }}
             >
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
                   <card.icon className="w-6 h-6 text-accent" />
                 </div>
@@ -91,8 +91,8 @@ export function MonteCarloSection() {
         >
           <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Rice Only histogram */}
-            <div className="bg-[#242422] border border-[#333330] rounded-2xl p-8">
-              <h4 className="font-display text-lg text-center mb-6">
+            <div className="bg-[#242422] border border-[#333330] rounded-2xl p-6">
+              <h4 className="font-display text-lg text-center mb-4">
                 Rice Only
               </h4>
               <div
@@ -122,8 +122,8 @@ export function MonteCarloSection() {
             </div>
 
             {/* Optimized Portfolio histogram */}
-            <div className="bg-[#242422] border border-[#333330] rounded-2xl p-8">
-              <h4 className="font-display text-lg text-center mb-6">
+            <div className="bg-[#242422] border border-[#333330] rounded-2xl p-6">
+              <h4 className="font-display text-lg text-center mb-4">
                 Optimized Portfolio
               </h4>
               <div
@@ -161,7 +161,7 @@ export function MonteCarloSection() {
 
         {/* Closing statement */}
         <div
-          className={`text-center mt-16 transition-all duration-700 delay-1000 ${
+          className={`text-center mt-8 transition-all duration-700 delay-1000 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >

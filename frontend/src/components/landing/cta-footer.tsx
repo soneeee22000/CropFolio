@@ -12,12 +12,12 @@ export function CTAFooter() {
   return (
     <footer
       ref={ref}
-      className="bg-[#1A1A18] text-[#FAFAF8] py-24 sm:py-32 px-6"
+      className="bg-[#1A1A18] text-[#FAFAF8] py-12 sm:py-16 px-6"
     >
       <div className="max-w-3xl mx-auto text-center">
         {/* Logo mark */}
         <div
-          className={`flex justify-center mb-8 transition-all duration-700 ${
+          className={`flex justify-center mb-6 transition-all duration-700 ${
             isInView ? "opacity-100 scale-100" : "opacity-0 scale-90"
           }`}
         >
@@ -28,7 +28,7 @@ export function CTAFooter() {
 
         {/* Heading */}
         <h2
-          className={`font-display text-4xl sm:text-5xl lg:text-6xl mb-8 leading-tight transition-all duration-700 delay-100 ${
+          className={`font-display text-4xl sm:text-5xl lg:text-6xl mb-6 leading-tight transition-all duration-700 delay-100 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -37,7 +37,7 @@ export function CTAFooter() {
 
         {/* CTA Button */}
         <div
-          className={`mb-12 transition-all duration-700 delay-200 ${
+          className={`mb-8 transition-all duration-700 delay-200 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -66,7 +66,7 @@ export function CTAFooter() {
 
         {/* Decorative line */}
         <div
-          className={`mt-16 pt-8 border-t border-[#333330] transition-all duration-700 delay-400 ${
+          className={`mt-10 pt-6 border-t border-[#333330] transition-all duration-700 delay-400 ${
             isInView ? "opacity-100" : "opacity-0"
           }`}
         >

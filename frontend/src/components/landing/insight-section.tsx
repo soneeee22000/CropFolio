@@ -9,9 +9,9 @@ export function InsightSection() {
   const { ref, isInView } = useInView<HTMLElement>({ threshold: 0.3 });
 
   return (
-    <section id="problem" ref={ref} className="bg-surface py-24 sm:py-32 px-6">
+    <section id="problem" ref={ref} className="bg-surface py-12 sm:py-16 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left: Text content */}
           <div
             className={`transition-all duration-700 ${
@@ -22,7 +22,7 @@ export function InsightSection() {
               The Problem
             </p>
 
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-text-primary mb-8 leading-tight text-balance">
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-text-primary mb-6 leading-tight text-balance">
               One Crop. One Risk.
             </h2>
 

@@ -12,12 +12,12 @@ export function CrossDomainSection() {
     <section
       id="about"
       ref={ref}
-      className="bg-[#1A1A18] text-[#FAFAF8] py-24 sm:py-32 px-6 overflow-hidden"
+      className="bg-[#1A1A18] text-[#FAFAF8] py-12 sm:py-16 px-6 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div
-          className={`text-center mb-16 transition-all duration-700 ${
+          className={`text-center mb-8 transition-all duration-700 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -140,7 +140,7 @@ export function CrossDomainSection() {
 
         {/* Bridge statement */}
         <div
-          className={`text-center mt-16 transition-all duration-700 delay-500 ${
+          className={`text-center mt-8 transition-all duration-700 delay-500 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >

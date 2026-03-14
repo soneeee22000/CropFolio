@@ -36,7 +36,7 @@ export function MetricsSection() {
   return (
     <section
       ref={ref}
-      className="relative py-24 sm:py-32 px-6 overflow-hidden"
+      className="relative py-12 sm:py-16 px-6 overflow-hidden"
       style={{
         background:
           "linear-gradient(180deg, #FAFAF8 0%, #F0F0EC 50%, #E8EBE4 100%)",
@@ -51,7 +51,7 @@ export function MetricsSection() {
       <div className="max-w-5xl mx-auto relative">
         {/* Header */}
         <div
-          className={`text-center mb-16 transition-all duration-700 ${
+          className={`text-center mb-8 transition-all duration-700 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >

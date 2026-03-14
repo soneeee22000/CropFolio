@@ -176,12 +176,12 @@ export function HowItWorksSection() {
     <section
       id="how-it-works"
       ref={ref}
-      className="bg-surface py-24 sm:py-32 px-6"
+      className="bg-surface py-12 sm:py-16 px-6"
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div
-          className={`text-center mb-16 transition-all duration-700 ${
+          className={`text-center mb-8 transition-all duration-700 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
