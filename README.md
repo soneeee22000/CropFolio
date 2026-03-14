@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
     <img src="https://img.shields.io/badge/D3.js-7-F9A03C?logo=d3dotjs&logoColor=white" alt="D3.js" />
-    <img src="https://img.shields.io/badge/tests-72%20passing-brightgreen" alt="Tests" />
+    <img src="https://img.shields.io/badge/tests-89%20passing-brightgreen" alt="Tests" />
   </p>
 </p>
 
@@ -160,7 +160,7 @@ graph TB
     end
 
     subgraph Backend["Backend (FastAPI + Python)"]
-        API["REST API\n8 Endpoints"]
+        API["REST API\n10 Endpoints"]
         subgraph Domain["Domain Layer"]
             OPT["Markowitz\nOptimizer"]
             SIM["Monte Carlo\nSimulator"]
@@ -207,6 +207,8 @@ graph TB
 | `POST` | `/api/v1/optimize`                   | Markowitz portfolio optimization           |
 | `POST` | `/api/v1/simulate`                   | Monte Carlo simulation (histogram + stats) |
 | `GET`  | `/api/v1/report/pdf`                 | Generate PDF report for portfolio          |
+| `POST` | `/api/v1/report/analyze`             | AI-powered portfolio analysis (Gemini)     |
+| `POST` | `/api/v1/compare`                    | Multi-township portfolio comparison        |
 
 Full interactive API docs available at `/docs` (Swagger UI).
 
@@ -237,17 +239,18 @@ Sources: FAO GAEZ, IRRI, Myanmar Department of Agriculture
 
 ## Tech Stack
 
-| Layer             | Technology                            | Why                                           |
-| ----------------- | ------------------------------------- | --------------------------------------------- |
-| **Backend**       | Python 3.10, FastAPI                  | Best ecosystem for scientific computing + API |
-| **Optimization**  | scipy.optimize (SLSQP)                | Markowitz mean-variance optimization          |
-| **Simulation**    | numpy                                 | Monte Carlo with multivariate normal sampling |
-| **Frontend**      | React 18, TypeScript (strict)         | Component-driven, type-safe UI                |
-| **Visualization** | D3.js + Recharts                      | Custom animated histogram + standard charts   |
-| **Styling**       | Tailwind CSS v4                       | Utility-first, rapid prototyping              |
-| **Data**          | NASA POWER, Open-Meteo, FAO, WFP      | All open, all verified for Myanmar coverage   |
-| **Deployment**    | Railway (backend) + Vercel (frontend) | Zero-config, instant deploys                  |
-| **Testing**       | pytest (72 tests), vitest             | 80%+ coverage on critical paths               |
+| Layer             | Technology                            | Why                                             |
+| ----------------- | ------------------------------------- | ----------------------------------------------- |
+| **Backend**       | Python 3.10, FastAPI                  | Best ecosystem for scientific computing + API   |
+| **Optimization**  | scipy.optimize (SLSQP)                | Markowitz mean-variance optimization            |
+| **Simulation**    | numpy                                 | Monte Carlo with multivariate normal sampling   |
+| **Frontend**      | React 18, TypeScript (strict)         | Component-driven, type-safe UI                  |
+| **AI/ML**         | Google Gemini 2.0 Flash               | AI-powered analysis and recommendations         |
+| **Visualization** | D3.js + Recharts                      | Custom animated histogram + standard charts     |
+| **Styling**       | Tailwind CSS v4                       | Utility-first, rapid prototyping                |
+| **Data**          | NASA POWER, Open-Meteo, FAO, WFP      | All open, all verified for Myanmar coverage     |
+| **Deployment**    | Railway (backend) + Vercel (frontend) | Zero-config, instant deploys                    |
+| **Testing**       | pytest (83 tests), vitest (6 tests)   | 89 total tests, 80%+ coverage on critical paths |
 
 ---
 
@@ -342,7 +345,7 @@ npm run dev
 ### Run Tests
 
 ```bash
-# Backend (72 tests)
+# Backend (83 tests)
 cd backend && pytest -v
 
 # Frontend
@@ -358,7 +361,7 @@ cropfolio/
 ├── backend/
 │   ├── app/
 │   │   ├── api/v1/
-│   │   │   ├── routes/          # 5 route handlers (thin)
+│   │   │   ├── routes/          # Route handlers (thin)
 │   │   │   └── schemas/         # Pydantic request/response models
 │   │   ├── core/                # Config, constants
 │   │   ├── domain/              # Pure business logic
@@ -371,7 +374,7 @@ cropfolio/
 │   │   │   └── open_meteo.py    # Open-Meteo weather forecasts
 │   │   └── services/            # Orchestration layer
 │   ├── data/                    # Static data (townships, prices)
-│   ├── tests/                   # 72 tests (unit + integration)
+│   ├── tests/                   # 83 tests (unit + integration)
 │   └── Dockerfile
 ├── frontend/
 │   ├── src/
@@ -436,7 +439,7 @@ portfolio_income = scenarios @ weights
 ## Testing
 
 ```
-72 tests | 0 failures
+89 tests | 0 failures (83 backend + 6 frontend)
 
 Unit Tests (32):
   - Climate risk engine: 8 tests
@@ -445,7 +448,7 @@ Unit Tests (32):
   - Diversification proof: monocrop vs diversified catastrophic loss
 
 Integration Tests (31):
-  - All 8 API endpoints tested
+  - All 10 API endpoints tested
   - Error handling: 400, 404, 422 responses
   - External API fallback behavior
   - Schema validation
@@ -454,7 +457,28 @@ Data Pipeline Tests (9):
   - NASA POWER mm/day to mm/month conversion
   - Open-Meteo seasonal scaling
   - WFP price data loading and validation
+
+AI & Comparison Tests (11):
+  - Gemini AI analysis endpoint
+  - Multi-township comparison endpoint
+  - AI-enhanced PDF report generation
+
+Frontend Tests (6):
+  - Component rendering tests
+  - Hook tests
 ```
+
+---
+
+## AI Features
+
+CropFolio integrates **Google Gemini 2.0 Flash** (free tier) for intelligent analysis:
+
+- **AI Analysis Button** — one-click AI-powered portfolio recommendations with actionable insights tailored to the selected township and climate conditions
+- **AI-Enhanced PDF Reports** — generated reports include Gemini-powered narrative analysis alongside the standard portfolio metrics
+- **Multi-Township Comparison** — compare optimized portfolios across multiple townships side-by-side to identify regional patterns
+
+AI features are **optional** — the app works fully without a Gemini API key. When available, AI adds a layer of contextual interpretation on top of the mathematical optimization.
 
 ---
 
@@ -483,6 +507,8 @@ This is a proof of concept. Here's what's real and what's not:
 | WFP price data                  | Real — 6 WFP price CSVs loaded for Myanmar crops                              |
 | The Burmese translations        | AI-generated, not reviewed by a native speaker                                |
 | The business model              | Speculative — zero customer validation                                        |
+
+| AI features | Optional — require GEMINI_API_KEY (free tier). App works fully without it |
 
 **What needs to happen for production:** Real historical crop yield + price time series for covariance estimation (currently heuristic). Native Burmese speaker review. User testing with actual extension workers. Customer interviews with insurers/cooperatives.
 

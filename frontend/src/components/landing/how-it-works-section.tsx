@@ -137,7 +137,8 @@ const steps = [
   {
     number: "04",
     title: "Simulate 1,000 Seasons",
-    description: "Monte Carlo simulation proves the diversification benefit",
+    description:
+      "Monte Carlo simulation proves the diversification benefit, with AI-powered analysis from Gemini",
     icon: Shuffle,
     mockUI: (
       <div className="bg-surface-elevated border border-border rounded-lg p-4 space-y-3">

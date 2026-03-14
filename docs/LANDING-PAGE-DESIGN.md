@@ -162,7 +162,7 @@ picture of income risk under diversification vs. monocrop strategies.
 [row of tech badges/icons]
 Python · FastAPI · React · D3.js · scipy · NASA POWER · Open-Meteo
 
-72 automated tests · Zero external AI costs
+89 automated tests · Gemini AI · Zero external AI costs
 ```
 
 ---

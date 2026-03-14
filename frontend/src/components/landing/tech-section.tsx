@@ -6,12 +6,13 @@ const techStack = [
   { name: "React", category: "Frontend" },
   { name: "D3.js", category: "Visualization" },
   { name: "scipy", category: "Optimization" },
+  { name: "Gemini AI", category: "AI" },
   { name: "NASA POWER", category: "Data" },
   { name: "Open-Meteo", category: "Data" },
 ];
 
 const stats = [
-  { value: "63", label: "Automated Tests" },
+  { value: "89", label: "Automated Tests" },
   { value: "88%", label: "Backend Coverage" },
   { value: "0", label: "External AI Costs" },
 ];

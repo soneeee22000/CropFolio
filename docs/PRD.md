@@ -121,6 +121,7 @@ Rice is flood-tolerant but drought-sensitive. Pulses and oilseeds are drought-to
 | **Charts**          | Recharts + D3.js (for Monte Carlo animation)                        | Recharts for standard charts, D3 for the custom simulation viz  |
 | **Backend**         | Python 3.10 + FastAPI                                               | Best ecosystem for data science + API in one codebase           |
 | **ML/Optimization** | scikit-learn, scipy.optimize, numpy, pandas                         | Markowitz optimization, Monte Carlo simulation, data processing |
+| **AI**              | Google Gemini 2.0 Flash (free tier)                                 | AI-powered analysis and recommendations (optional)              |
 | **Data Sources**    | NASA POWER API, Open-Meteo API, FAO GAEZ (static), WFP HDX (static) | All confirmed to cover Myanmar                                  |
 | **Database**        | SQLite (hackathon) → PostgreSQL (production)                        | Zero setup for MVP, easy migration path                         |
 | **Deployment**      | Vercel (frontend) + Railway (backend)                               | Free tier, instant deploys, no DevOps overhead                  |
@@ -161,10 +162,11 @@ Rice is flood-tolerant but drought-sensitive. Pulses and oilseeds are drought-to
 | GET    | `/api/v1/climate-risk/{township_id}` | Climate risk profile for township       |
 | GET    | `/api/v1/crops`                      | List available crops with profiles      |
 | GET    | `/api/v1/crops/{id}`                 | Single crop detail                      |
-| GET    | `/api/v1/climate-risk/{township_id}` | Climate risk profile for township       |
 | POST   | `/api/v1/optimize`                   | Run portfolio optimization              |
 | POST   | `/api/v1/simulate`                   | Run Monte Carlo simulation              |
 | GET    | `/api/v1/report/pdf`                 | Generate PDF report                     |
+| POST   | `/api/v1/report/analyze`             | AI-powered portfolio analysis (Gemini)  |
+| POST   | `/api/v1/compare`                    | Multi-township portfolio comparison     |
 
 ---
 
@@ -267,7 +269,7 @@ class PortfolioAllocation:
 
 **Deliverables:**
 
-- FastAPI backend with all 8 endpoints
+- FastAPI backend with all 10 endpoints
 - Pydantic schemas for all request/response models
 - Service layer separating business logic from routes
 - Integration tests for all endpoints

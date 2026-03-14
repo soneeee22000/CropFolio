@@ -34,9 +34,9 @@ Walk through the 4 steps:
 
 **Demo highlight:** Point to the monocrop red spike near zero income vs. the diversified green distribution. "40% catastrophic loss probability drops to 10%. That's the power of diversification."
 
-Toggle to Burmese to show localization. Download PDF report.
+Toggle to Burmese to show localization. Click the **AI Analysis** button to show Gemini-powered recommendations. Download the AI-enhanced PDF report.
 
-Optionally show the **admin dashboard** (/admin, login: admin / 12345) to demonstrate the B2B platform vision.
+Optionally show the **admin dashboard** (/admin, login: admin / 12345) to demonstrate the B2B platform vision. Show the **multi-township comparison** to demonstrate regional planning capability.
 
 ## 4. Impact (30s)
 
@@ -49,10 +49,11 @@ Optionally show the **admin dashboard** (/admin, login: admin / 12345) to demons
 ## 5. Tech (30s)
 
 - **Backend:** Python, FastAPI, scipy (Markowitz optimization), numpy (Monte Carlo)
+- **AI:** Google Gemini 2.0 Flash — intelligent portfolio analysis and recommendations
 - **Frontend:** React, TypeScript, D3.js (animated histogram)
 - **Data:** NASA POWER API, Open-Meteo API, FAO GAEZ, WFP food prices
-- **No LLM costs** — pure mathematical optimization, runs offline once deployed
-- **72 automated tests** — production-grade engineering
+- **AI costs:** Zero — Gemini free tier. Core math runs without AI; AI adds contextual analysis
+- **89 automated tests** (83 backend + 6 frontend) — production-grade engineering
 
 ## 6. Business Model (30s)
 
