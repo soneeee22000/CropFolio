@@ -30,13 +30,15 @@ class AiService:
     def __init__(self) -> None:
         """Initialize Gemini client if API key is available."""
         self._model: Any = None
-        if settings.gemini_api_key:
+        key = settings.gemini_api_key.strip()
+        logger.info("Gemini init: key length=%d, model=%s", len(key), GEMINI_MODEL_NAME)
+        if key:
             try:
                 import google.generativeai as genai
 
-                genai.configure(api_key=settings.gemini_api_key)
+                genai.configure(api_key=key)
                 self._model = genai.GenerativeModel(GEMINI_MODEL_NAME)
-                logger.info("Gemini AI service initialized")
+                logger.info("Gemini AI service initialized successfully")
             except Exception:
                 logger.warning("Failed to initialize Gemini", exc_info=True)
         else:
