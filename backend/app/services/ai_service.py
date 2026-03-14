@@ -21,7 +21,7 @@ from app.domain.ai_prompts import (
 logger = logging.getLogger(__name__)
 
 GEMINI_TIMEOUT_SECONDS = 15
-GEMINI_MODEL_NAME = "gemini-1.5-flash-latest"
+GEMINI_MODEL_NAME = "gemini-1.5-flash"
 
 
 class AiService:
@@ -29,15 +29,16 @@ class AiService:
 
     def __init__(self) -> None:
         """Initialize Gemini client if API key is available."""
-        self._model: Any = None
+        self._client: Any = None
         key = settings.gemini_api_key.strip()
-        logger.info("Gemini init: key length=%d, model=%s", len(key), GEMINI_MODEL_NAME)
+        logger.info(
+            "Gemini init: key length=%d, model=%s", len(key), GEMINI_MODEL_NAME
+        )
         if key:
             try:
-                import google.generativeai as genai
+                from google import genai
 
-                genai.configure(api_key=key)
-                self._model = genai.GenerativeModel(GEMINI_MODEL_NAME)
+                self._client = genai.Client(api_key=key)
                 logger.info("Gemini AI service initialized successfully")
             except Exception:
                 logger.warning("Failed to initialize Gemini", exc_info=True)
@@ -46,8 +47,8 @@ class AiService:
 
     @property
     def is_available(self) -> bool:
-        """Check if the AI model is configured and ready."""
-        return self._model is not None
+        """Check if the AI client is configured and ready."""
+        return self._client is not None
 
     async def generate_report_narrative(
         self,
@@ -60,11 +61,8 @@ class AiService:
         flood_probability: float = 0.0,
         risk_level: str = "moderate",
     ) -> AiNarrative | None:
-        """Generate an AI narrative for a portfolio report.
-
-        Returns None if AI is unavailable or on any error.
-        """
-        if self._model is None:
+        """Generate an AI narrative for a portfolio report."""
+        if self._client is None:
             return None
 
         prompt = build_report_prompt(
@@ -92,12 +90,8 @@ class AiService:
         drought_probability: float = 0.0,
         flood_probability: float = 0.0,
     ) -> dict[str, str] | None:
-        """Generate AI analysis of simulation results.
-
-        Returns dict with 'analysis' and 'analysis_mm' keys,
-        or None if AI is unavailable or on any error.
-        """
-        if self._model is None:
+        """Generate AI analysis of simulation results."""
+        if self._client is None:
             return None
 
         prompt = build_analysis_prompt(
@@ -120,13 +114,15 @@ class AiService:
         """Call Gemini and parse response into AiNarrative."""
         try:
             raw = await asyncio.wait_for(
-                asyncio.to_thread(self._generate_content, prompt, REPORT_SYSTEM_PROMPT),
+                asyncio.to_thread(
+                    self._generate, REPORT_SYSTEM_PROMPT + "\n\n" + prompt
+                ),
                 timeout=GEMINI_TIMEOUT_SECONDS,
             )
             data = json.loads(raw)
             return _parse_narrative(data)
         except Exception:
-            logger.warning("Gemini narrative generation failed", exc_info=True)
+            logger.warning("Gemini narrative failed", exc_info=True)
             return None
 
     async def _call_gemini_for_analysis(
@@ -136,7 +132,7 @@ class AiService:
         try:
             raw = await asyncio.wait_for(
                 asyncio.to_thread(
-                    self._generate_content, prompt, ANALYSIS_SYSTEM_PROMPT
+                    self._generate, ANALYSIS_SYSTEM_PROMPT + "\n\n" + prompt
                 ),
                 timeout=GEMINI_TIMEOUT_SECONDS,
             )
@@ -146,14 +142,19 @@ class AiService:
                 "analysis_mm": str(data.get("analysis_mm", "")),
             }
         except Exception:
-            logger.warning("Gemini analysis generation failed", exc_info=True)
+            logger.warning("Gemini analysis failed", exc_info=True)
             return None
 
-    def _generate_content(self, prompt: str, system_prompt: str) -> str:
+    def _generate(self, prompt: str) -> str:
         """Synchronous Gemini API call (run in thread)."""
-        response = self._model.generate_content(
-            [system_prompt, prompt],
-            generation_config={"response_mime_type": "application/json"},
+        from google.genai import types
+
+        response = self._client.models.generate_content(
+            model=GEMINI_MODEL_NAME,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+            ),
         )
         return str(response.text)
 
