@@ -96,11 +96,13 @@ flowchart LR
     A["1. Select\nTownship"] --> B["2. Climate\nRisk Assessment"]
     B --> C["3. Portfolio\nOptimization"]
     C --> D["4. Monte Carlo\nSimulation"]
+    D --> E["AI Analysis\n+ PDF Report"]
 
     style A fill:#f0fdf4,stroke:#16a34a,stroke-width:2px
     style B fill:#fef3c7,stroke:#d97706,stroke-width:2px
     style C fill:#eff6ff,stroke:#3b82f6,stroke-width:2px
     style D fill:#fdf2f8,stroke:#ec4899,stroke-width:2px
+    style E fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
 ```
 
 #### Step 1: Select Township
@@ -148,12 +150,13 @@ Real-time risk analysis using **NASA POWER** satellite data + **Open-Meteo** wea
 graph TB
     subgraph Frontend["Frontend (React + TypeScript)"]
         UI["Wizard UI\n4 Steps"]
-        Charts["Recharts\nPie Charts"]
+        Charts["Recharts\nDonut Charts"]
         D3["D3.js\nMonte Carlo Histogram"]
     end
 
     subgraph Backend["Backend (FastAPI + Python)"]
         API["REST API\n10 Endpoints"]
+        AI["Gemini 2.5 Flash\nAI Analysis"]
         subgraph Domain["Domain Layer"]
             OPT["Markowitz\nOptimizer"]
             SIM["Monte Carlo\nSimulator"]
@@ -162,14 +165,17 @@ graph TB
         subgraph Infra["Infrastructure"]
             NASA["NASA POWER\nClient"]
             METEO["Open-Meteo\nClient"]
+            FAOLOAD["FAOSTAT Yield\nLoader"]
+            WFPLOAD["WFP Price\nLoader"]
         end
     end
 
     subgraph Data["External Data Sources"]
         NP["NASA POWER\nSatellite Climate"]
         OM["Open-Meteo\nWeather Forecast"]
-        FAO["FAOSTAT\nCrop Yields 2010-2021"]
-        WFP["WFP VAM\nFood Prices"]
+        FAO["FAOSTAT\nYields 2010-2021"]
+        WFP["WFP VAM\nPrices 2022-2025"]
+        GEM["Google Gemini\nAPI"]
     end
 
     UI --> API
@@ -178,10 +184,16 @@ graph TB
     API --> OPT
     API --> SIM
     API --> CLM
+    API --> AI
     CLM --> NASA
     CLM --> METEO
+    OPT --> FAOLOAD
+    OPT --> WFPLOAD
     NASA --> NP
     METEO --> OM
+    FAOLOAD --> FAO
+    WFPLOAD --> WFP
+    AI --> GEM
 
     style Frontend fill:#f0fdf4,stroke:#16a34a
     style Backend fill:#eff6ff,stroke:#3b82f6
