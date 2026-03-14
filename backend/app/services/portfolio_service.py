@@ -159,6 +159,31 @@ class PortfolioService:
             histogram=histogram,
         )
 
+    async def compare_townships(
+        self,
+        township_ids: list[str],
+        crop_ids: list[str],
+        risk_tolerance: float,
+        season: str,
+    ) -> list[PortfolioResult | None]:
+        """Run optimization for multiple townships concurrently.
+
+        Args:
+            township_ids: List of township IDs to compare.
+            crop_ids: Crops to include in each optimization.
+            risk_tolerance: Risk tolerance parameter (0-1).
+            season: Growing season (monsoon/dry).
+
+        Returns:
+            List of optimization results (None for missing townships).
+        """
+        tasks = [
+            self.optimize(crop_ids, tid, risk_tolerance, season)
+            for tid in township_ids
+        ]
+        results: list[PortfolioResult | None] = await asyncio.gather(*tasks)
+        return results
+
     def _resolve_crops(self, crop_ids: list[str]) -> list[CropProfile]:
         """Resolve crop IDs to CropProfile objects."""
         crops: list[CropProfile] = []

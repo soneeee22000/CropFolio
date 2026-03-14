@@ -23,3 +23,29 @@ class ReportRequest(BaseModel):
     risk_reduction_pct: float
     prob_catastrophic_loss_monocrop: float
     prob_catastrophic_loss_diversified: float
+    climate_risk_level: str = ""
+    drought_probability: float = 0.0
+    flood_probability: float = 0.0
+
+
+class AnalysisRequest(BaseModel):
+    """Request body for AI portfolio analysis."""
+
+    township_name: str
+    season: str
+    allocations: list[CropAllocation]
+    expected_income: float
+    risk_reduction_pct: float
+    drought_probability: float = 0.0
+    flood_probability: float = 0.0
+    mean_income: float = 0.0
+    prob_catastrophic_loss_monocrop: float = 0.0
+    prob_catastrophic_loss_diversified: float = 0.0
+
+
+class AnalysisResponse(BaseModel):
+    """Response from AI portfolio analysis."""
+
+    analysis: str
+    analysis_mm: str
+    has_ai: bool

@@ -8,6 +8,7 @@ class Settings(BaseSettings):
 
     nasa_power_base_url: str = "https://power.larc.nasa.gov/api/temporal/"
     open_meteo_base_url: str = "https://api.open-meteo.com/v1/"
+    gemini_api_key: str = ""
     cors_origins: str = "http://localhost:5173,http://localhost:4173"
     port: int = 8000
     log_level: str = "INFO"

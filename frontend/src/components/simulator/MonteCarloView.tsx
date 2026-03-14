@@ -12,6 +12,13 @@ import { apiClient } from "@/api/client";
 import type { OptimizeResponse } from "@/types/optimizer";
 import type { SimulateResponse } from "@/types/simulator";
 
+/** Response from the AI analysis endpoint. */
+interface AnalysisResult {
+  analysis: string;
+  analysis_mm: string;
+  has_ai: boolean;
+}
+
 interface MonteCarloViewProps {
   townshipId: string;
   season: "monsoon" | "dry";
@@ -29,6 +36,11 @@ export function MonteCarloView({
   useLanguage(); // connected for future i18n
   const [numSims, setNumSims] = useState(DEFAULT_NUM_SIMULATIONS);
   const [showComparison, setShowComparison] = useState(false);
+  const [isPdfLoading, setIsPdfLoading] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(
+    null,
+  );
 
   const handleRun = async () => {
     const weights: Record<string, number> = {};
@@ -61,6 +73,77 @@ export function MonteCarloView({
       season,
     });
     if (mono) setShowComparison(true);
+    setAnalysisResult(null);
+  };
+
+  const handleAnalyze = async () => {
+    if (!result) return;
+    setIsAnalyzing(true);
+    try {
+      const res = await apiClient.post<AnalysisResult>("/report/analyze", {
+        township_name: result.township_name,
+        season: result.season,
+        allocations: optimizeResult.weights.map((w) => ({
+          crop_name: w.crop_name,
+          crop_name_mm: w.crop_name_mm,
+          weight_pct: w.weight * 100,
+        })),
+        expected_income: optimizeResult.metrics.expected_income_per_ha,
+        risk_reduction_pct: optimizeResult.metrics.risk_reduction_pct,
+        drought_probability: optimizeResult.climate_risk.drought_probability,
+        flood_probability: optimizeResult.climate_risk.flood_probability,
+        mean_income: result.stats.mean_income,
+        prob_catastrophic_loss_monocrop:
+          (monocropResult?.stats.prob_catastrophic_loss ?? 0) * 100,
+        prob_catastrophic_loss_diversified:
+          result.stats.prob_catastrophic_loss * 100,
+      });
+      setAnalysisResult(res.data);
+    } catch {
+      setAnalysisResult({
+        analysis: "Analysis temporarily unavailable. Please try again.",
+        analysis_mm: "",
+        has_ai: false,
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!result) return;
+    setIsPdfLoading(true);
+    try {
+      const reportData = {
+        township_name: result.township_name,
+        season: result.season,
+        allocations: optimizeResult.weights.map((w) => ({
+          crop_name: w.crop_name,
+          crop_name_mm: w.crop_name_mm,
+          weight_pct: w.weight * 100,
+        })),
+        expected_income: optimizeResult.metrics.expected_income_per_ha,
+        risk_reduction_pct: optimizeResult.metrics.risk_reduction_pct,
+        prob_catastrophic_loss_monocrop:
+          (monocropResult?.stats.prob_catastrophic_loss ?? 0) * 100,
+        prob_catastrophic_loss_diversified:
+          result.stats.prob_catastrophic_loss * 100,
+        climate_risk_level: optimizeResult.climate_risk.risk_level,
+        drought_probability: optimizeResult.climate_risk.drought_probability,
+        flood_probability: optimizeResult.climate_risk.flood_probability,
+      };
+      const res = await apiClient.post("/report/pdf", reportData, {
+        responseType: "blob",
+      });
+      const url = URL.createObjectURL(res.data as Blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "cropfolio-report.pdf";
+      a.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      setIsPdfLoading(false);
+    }
   };
 
   return (
@@ -120,38 +203,43 @@ export function MonteCarloView({
             monocrop={showComparison ? monocropResult : null}
           />
 
-          <div className="text-center mt-8">
+          {analysisResult && (
+            <Card className="mt-6 mb-6">
+              <h3 className="font-display text-lg text-text-primary mb-3">
+                {analysisResult.has_ai
+                  ? "AI-Powered Analysis"
+                  : "Portfolio Analysis"}
+              </h3>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                {analysisResult.analysis}
+              </p>
+              {analysisResult.analysis_mm && (
+                <p className="text-sm text-text-tertiary leading-relaxed mt-3">
+                  {analysisResult.analysis_mm}
+                </p>
+              )}
+              {!analysisResult.has_ai && (
+                <p className="text-xs text-text-tertiary mt-3 italic">
+                  (Basic analysis — add GEMINI_API_KEY for AI-powered insights)
+                </p>
+              )}
+            </Card>
+          )}
+
+          <div className="flex items-center justify-center gap-4 mt-8">
             <button
-              onClick={async () => {
-                const reportData = {
-                  township_name: result.township_name,
-                  season: result.season,
-                  allocations: optimizeResult.weights.map((w) => ({
-                    crop_name: w.crop_name,
-                    crop_name_mm: w.crop_name_mm,
-                    weight_pct: w.weight * 100,
-                  })),
-                  expected_income:
-                    optimizeResult.metrics.expected_income_per_ha,
-                  risk_reduction_pct: optimizeResult.metrics.risk_reduction_pct,
-                  prob_catastrophic_loss_monocrop:
-                    (monocropResult?.stats.prob_catastrophic_loss ?? 0) * 100,
-                  prob_catastrophic_loss_diversified:
-                    result.stats.prob_catastrophic_loss * 100,
-                };
-                const res = await apiClient.post("/report/pdf", reportData, {
-                  responseType: "blob",
-                });
-                const url = URL.createObjectURL(res.data as Blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "cropfolio-report.pdf";
-                a.click();
-                URL.revokeObjectURL(url);
-              }}
-              className="px-8 py-3 border border-border rounded-lg text-sm text-text-secondary hover:text-text-primary hover:border-text-tertiary transition-colors duration-200"
+              onClick={handleAnalyze}
+              disabled={isAnalyzing}
+              className="px-8 py-3 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors duration-200 disabled:opacity-40"
             >
-              Download PDF Report
+              {isAnalyzing ? "Analyzing with Gemini..." : "AI Analysis"}
+            </button>
+            <button
+              onClick={handleDownloadPdf}
+              disabled={isPdfLoading}
+              className="px-8 py-3 border border-border rounded-lg text-sm text-text-secondary hover:text-text-primary hover:border-text-tertiary transition-colors duration-200 disabled:opacity-40"
+            >
+              {isPdfLoading ? "Generating AI Report..." : "Download PDF Report"}
             </button>
           </div>
         </>
