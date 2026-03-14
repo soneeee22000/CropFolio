@@ -6,7 +6,7 @@ import { ArrowRight, ChevronDown } from "./icons";
 /**
  * Hero section — warm, welcoming, editorial.
  * Dark background with subtle grain texture and warm light wash.
- * The 40% → 10% counter is the centerpiece.
+ * The 40% -> 10% counter is the centerpiece.
  */
 export function HeroSection() {
   const [showCounter, setShowCounter] = useState(false);
@@ -24,7 +24,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden bg-[#1A1A18]">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden bg-surface">
       {/* Warm ambient light — soft, diffused, no harsh edges */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -52,7 +52,7 @@ export function HeroSection() {
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
-            className="absolute left-0 right-0 h-px bg-[#FAFAF8]"
+            className="absolute left-0 right-0 h-px bg-text-primary"
             style={{ top: `${15 + i * 14}%` }}
           />
         ))}
@@ -61,7 +61,7 @@ export function HeroSection() {
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         {/* Overline with warm fade-in */}
         <p
-          className={`text-[11px] uppercase tracking-[0.3em] text-[#A3A29D] mb-10 font-body transition-all duration-1000 ${
+          className={`text-[11px] uppercase tracking-[0.3em] text-text-tertiary mb-10 font-body transition-all duration-1000 ${
             showCounter
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-4"
@@ -75,7 +75,9 @@ export function HeroSection() {
           <div className="relative inline-flex items-baseline gap-2 sm:gap-6">
             <span
               className={`font-display text-[100px] sm:text-[140px] lg:text-[180px] leading-none tracking-tight transition-all duration-700 ${
-                showStrikethrough ? "text-[#A3A29D]/30" : "text-[#FAFAF8]"
+                showStrikethrough
+                  ? "text-text-tertiary/30"
+                  : "text-text-primary"
               }`}
             >
               <AnimatedCounter
@@ -90,7 +92,7 @@ export function HeroSection() {
             {/* Strikethrough */}
             {showStrikethrough && (
               <div
-                className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] sm:h-[3px] bg-[#FAFAF8]/40 origin-left"
+                className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] sm:h-[3px] bg-text-primary/40 origin-left"
                 style={{
                   width: showNewStat ? "45%" : "100%",
                   animation: "strike-through 0.4s ease-out forwards",
@@ -115,7 +117,7 @@ export function HeroSection() {
 
         {/* Story text */}
         <p
-          className={`text-lg sm:text-xl text-[#FAFAF8]/60 max-w-lg mx-auto mb-3 font-body leading-relaxed transition-all duration-1000 delay-200 ${
+          className={`text-lg sm:text-xl text-text-secondary max-w-lg mx-auto mb-3 font-body leading-relaxed transition-all duration-1000 delay-200 ${
             showCounter
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-4"
@@ -164,7 +166,7 @@ export function HeroSection() {
 
           <a
             href="#problem"
-            className="text-[#FAFAF8]/40 hover:text-[#FAFAF8]/70 transition-colors duration-300 flex items-center gap-2 text-sm font-body"
+            className="text-text-tertiary hover:text-text-secondary transition-colors duration-300 flex items-center gap-2 text-sm font-body"
           >
             See how it works
             <ChevronDown className="h-4 w-4" />
@@ -174,13 +176,13 @@ export function HeroSection() {
 
       {/* Scroll indicator — minimal, barely there */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-30">
-        <div className="w-5 h-8 rounded-full border border-[#FAFAF8]/30 flex items-start justify-center pt-1.5">
-          <div className="w-0.5 h-1.5 bg-[#FAFAF8]/50 rounded-full animate-bounce" />
+        <div className="w-5 h-8 rounded-full border border-text-primary/30 flex items-start justify-center pt-1.5">
+          <div className="w-0.5 h-1.5 bg-text-primary/50 rounded-full animate-bounce" />
         </div>
       </div>
 
       {/* Bottom edge fade — smooth transition to next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#1A1A18] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-surface to-transparent pointer-events-none" />
     </section>
   );
 }

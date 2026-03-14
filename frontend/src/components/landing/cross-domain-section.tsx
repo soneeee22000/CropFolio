@@ -12,7 +12,7 @@ export function CrossDomainSection() {
     <section
       id="about"
       ref={ref}
-      className="bg-[#1A1A18] text-[#FAFAF8] py-12 sm:py-16 px-6 overflow-hidden"
+      className="bg-surface text-text-primary py-12 sm:py-16 px-6 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
@@ -21,7 +21,7 @@ export function CrossDomainSection() {
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-[11px] uppercase tracking-[0.25em] text-[#A3A29D] mb-4 font-body">
+          <p className="text-[11px] uppercase tracking-[0.25em] text-text-tertiary mb-4 font-body">
             The Insight
           </p>
           <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-tight text-balance">
@@ -74,7 +74,7 @@ export function CrossDomainSection() {
 
           {/* Finance Card */}
           <div
-            className={`bg-[#242422] border border-[#333330] rounded-2xl p-8 transition-all duration-700 delay-100 ${
+            className={`bg-surface-elevated border border-border rounded-2xl p-8 transition-all duration-700 delay-100 ${
               isInView
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 -translate-x-8"
@@ -87,7 +87,7 @@ export function CrossDomainSection() {
               <h3 className="font-display text-2xl">In Finance</h3>
             </div>
 
-            <ul className="space-y-4 font-body text-[#FAFAF8]/80">
+            <ul className="space-y-4 font-body text-text-secondary">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
                 <span>Stocks have different risk profiles</span>
@@ -108,7 +108,7 @@ export function CrossDomainSection() {
 
           {/* Agriculture Card */}
           <div
-            className={`bg-[#242422] border border-[#333330] rounded-2xl p-8 transition-all duration-700 delay-300 ${
+            className={`bg-surface-elevated border border-border rounded-2xl p-8 transition-all duration-700 delay-300 ${
               isInView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
             }`}
           >
@@ -119,7 +119,7 @@ export function CrossDomainSection() {
               <h3 className="font-display text-2xl">In Agriculture</h3>
             </div>
 
-            <ul className="space-y-4 font-body text-[#FAFAF8]/80">
+            <ul className="space-y-4 font-body text-text-secondary">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
                 <span>Crops have different climate tolerances</span>
@@ -151,27 +151,27 @@ export function CrossDomainSection() {
           }`}
         >
           {[
-            { pair: "Rice × Sesame", corr: "-0.49", color: "text-primary" },
+            { pair: "Rice x Sesame", corr: "-0.49", color: "text-primary" },
             {
-              pair: "Rice × Groundnut",
+              pair: "Rice x Groundnut",
               corr: "-0.05",
-              color: "text-[#A3A29D]",
+              color: "text-text-tertiary",
             },
-            { pair: "Rice × Chickpea", corr: "+0.13", color: "text-accent" },
+            { pair: "Rice x Chickpea", corr: "+0.13", color: "text-accent" },
           ].map((item) => (
             <div
               key={item.pair}
-              className="text-center bg-[#242422] border border-[#333330] rounded-xl p-3"
+              className="text-center bg-surface-elevated border border-border rounded-xl p-3"
             >
               <p className={`font-data text-lg font-medium ${item.color}`}>
                 {item.corr}
               </p>
-              <p className="text-[10px] text-[#A3A29D] mt-1">{item.pair}</p>
+              <p className="text-[10px] text-text-tertiary mt-1">{item.pair}</p>
             </div>
           ))}
         </div>
-        <p className="text-center text-[10px] text-[#A3A29D]/60 mt-2">
-          Yield correlations from FAOSTAT 2010–2021
+        <p className="text-center text-[10px] text-text-tertiary/60 mt-2">
+          Yield correlations from FAOSTAT 2010-2021
         </p>
 
         {/* Bridge statement */}

@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTheme } from "@/hooks/useTheme";
 import { Menu, X } from "./icons";
 
 /**
  * Fixed header with transparent-to-solid scroll transition.
- * Includes mobile hamburger menu.
+ * Includes mobile hamburger menu and theme toggle.
  */
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,7 +25,7 @@ export function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-[#1A1A18]/95 backdrop-blur-md border-b border-[#333330]"
+          ? "bg-surface/95 backdrop-blur-md border-b border-border"
           : "bg-transparent"
       }`}
     >
@@ -41,7 +43,7 @@ export function Header() {
               width="32"
               height="32"
               rx="8"
-              fill={isScrolled ? "#1B7A4A" : "#FAFAF8"}
+              fill={isScrolled ? "#1B7A4A" : "currentColor"}
               fillOpacity={isScrolled ? 0.15 : 0.1}
             />
             <rect x="6" y="20" width="5" height="6" rx="1" fill="#3A8F5C" />
@@ -53,7 +55,7 @@ export function Header() {
               opacity="0.8"
             />
           </svg>
-          <span className="font-display text-lg text-[#FAFAF8] group-hover:text-primary transition-colors">
+          <span className="font-display text-lg text-text-primary group-hover:text-primary transition-colors">
             CropFolio
           </span>
         </Link>
@@ -62,28 +64,37 @@ export function Header() {
         <nav className="hidden md:flex items-center gap-8">
           <a
             href="#about"
-            className="text-sm text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body"
+            className="text-sm text-text-secondary hover:text-text-primary transition-colors font-body"
           >
             About
           </a>
           <a
             href="#the-science"
-            className="text-sm text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body"
+            className="text-sm text-text-secondary hover:text-text-primary transition-colors font-body"
           >
             The Science
           </a>
           <a
             href="#research"
-            className="text-sm text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body"
+            className="text-sm text-text-secondary hover:text-text-primary transition-colors font-body"
           >
             Research
           </a>
           <a
             href="#how-it-works"
-            className="text-sm text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body"
+            className="text-sm text-text-secondary hover:text-text-primary transition-colors font-body"
           >
             How It Works
           </a>
+          <button
+            onClick={toggleTheme}
+            className="px-3 py-1 text-[11px] border border-border rounded-full text-text-secondary hover:text-text-primary hover:border-text-tertiary transition-colors duration-200"
+            aria-label={
+              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+          >
+            {theme === "dark" ? "\u2600" : "\u263D"}
+          </button>
           <Link
             to="/app"
             className="px-6 py-2 bg-primary text-white rounded-lg text-sm uppercase tracking-wide font-medium hover:bg-primary-dark transition-colors"
@@ -94,7 +105,7 @@ export function Header() {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden p-2 text-[#FAFAF8]"
+          className="md:hidden p-2 text-text-primary"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -108,36 +119,50 @@ export function Header() {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-[#1A1A18] border-t border-[#333330]">
+        <div className="md:hidden bg-surface border-t border-border">
           <nav className="flex flex-col p-6 gap-4">
             <a
               href="#about"
-              className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body py-2"
+              className="text-text-secondary hover:text-text-primary transition-colors font-body py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               About
             </a>
             <a
               href="#the-science"
-              className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body py-2"
+              className="text-text-secondary hover:text-text-primary transition-colors font-body py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               The Science
             </a>
             <a
               href="#research"
-              className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body py-2"
+              className="text-text-secondary hover:text-text-primary transition-colors font-body py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Research
             </a>
             <a
               href="#how-it-works"
-              className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body py-2"
+              className="text-text-secondary hover:text-text-primary transition-colors font-body py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               How It Works
             </a>
+            <button
+              onClick={() => {
+                toggleTheme();
+                setIsMobileMenuOpen(false);
+              }}
+              className="px-3 py-1 text-[11px] border border-border rounded-full text-text-secondary hover:text-text-primary hover:border-text-tertiary transition-colors duration-200 w-fit"
+              aria-label={
+                theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"
+              }
+            >
+              {theme === "dark" ? "\u2600 Light" : "\u263D Dark"}
+            </button>
             <Link
               to="/app"
               className="px-6 py-3 bg-primary text-white rounded-lg text-sm uppercase tracking-wide font-medium hover:bg-primary-dark transition-colors text-center w-full mt-2"

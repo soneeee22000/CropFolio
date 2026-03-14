@@ -63,7 +63,7 @@ export function VolatilityVisualization({
             <path
               d="M 30 0 L 0 0 0 20"
               fill="none"
-              stroke="#FAFAF8"
+              stroke="currentColor"
               strokeOpacity="0.05"
               strokeWidth="0.5"
             />
@@ -72,10 +72,18 @@ export function VolatilityVisualization({
         <rect width="100%" height="100%" fill="url(#grid)" />
 
         {/* Labels */}
-        <text x="20" y="25" className="text-[10px] fill-[#A3A29D] font-body">
+        <text
+          x="20"
+          y="25"
+          className="text-[10px] fill-text-tertiary font-body"
+        >
           Monocrop (Rice Only)
         </text>
-        <text x="20" y="130" className="text-[10px] fill-[#A3A29D] font-body">
+        <text
+          x="20"
+          y="130"
+          className="text-[10px] fill-text-tertiary font-body"
+        >
           Diversified Portfolio
         </text>
 
@@ -94,7 +102,7 @@ export function VolatilityVisualization({
             x="130"
             y={80 - monoHeight - 8}
             textAnchor="middle"
-            className="text-[11px] font-body font-medium fill-[#FAFAF8]"
+            className="text-[11px] font-body font-medium fill-text-primary"
           >
             Rice: High Volatility
           </text>
@@ -136,17 +144,29 @@ export function VolatilityVisualization({
         {/* Legend */}
         <g transform="translate(20, 195)">
           <rect x="0" y="-8" width="12" height="8" fill="#1B7A4A" rx="1" />
-          <text x="16" y="0" className="text-[9px] fill-[#A3A29D] font-body">
+          <text
+            x="16"
+            y="0"
+            className="text-[9px] fill-text-tertiary font-body"
+          >
             Rice
           </text>
 
           <rect x="60" y="-8" width="12" height="8" fill="#B8860B" rx="1" />
-          <text x="76" y="0" className="text-[9px] fill-[#A3A29D] font-body">
+          <text
+            x="76"
+            y="0"
+            className="text-[9px] fill-text-tertiary font-body"
+          >
             Black Gram
           </text>
 
           <rect x="150" y="-8" width="12" height="8" fill="#5D8A66" rx="1" />
-          <text x="166" y="0" className="text-[9px] fill-[#A3A29D] font-body">
+          <text
+            x="166"
+            y="0"
+            className="text-[9px] fill-text-tertiary font-body"
+          >
             Sesame
           </text>
         </g>
@@ -155,8 +175,10 @@ export function VolatilityVisualization({
       {/* Volatility indicator */}
       <div className="absolute top-10 right-4 flex flex-col items-end gap-1">
         <div className="flex items-center gap-2">
-          <span className="text-xs text-[#A3A29D] font-body">Volatility</span>
-          <div className="w-16 h-2 bg-[#333330] rounded-full overflow-hidden">
+          <span className="text-xs text-text-tertiary font-body">
+            Volatility
+          </span>
+          <div className="w-16 h-2 bg-border rounded-full overflow-hidden">
             <div
               className="h-full bg-[#c43b3b] transition-all duration-100"
               style={{

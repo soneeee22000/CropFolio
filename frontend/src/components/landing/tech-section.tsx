@@ -29,12 +29,12 @@ export function TechSection() {
   return (
     <section
       ref={ref}
-      className="bg-[#1A1A18] text-[#FAFAF8] border-t border-[#333330] py-10 sm:py-12 px-6"
+      className="bg-surface text-text-primary border-t border-border py-10 sm:py-12 px-6"
     >
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <p
-          className={`text-[11px] uppercase tracking-[0.25em] text-[#A3A29D] mb-8 text-center font-body transition-all duration-700 ${
+          className={`text-[11px] uppercase tracking-[0.25em] text-text-tertiary mb-8 text-center font-body transition-all duration-700 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
@@ -50,7 +50,7 @@ export function TechSection() {
           {techStack.map((tech, index) => (
             <div
               key={tech.name}
-              className="px-4 py-2 bg-[#242422] border border-[#333330] rounded-full font-data text-sm text-[#FAFAF8] transition-all hover:border-primary/30 hover:bg-primary/10"
+              className="px-4 py-2 bg-surface-elevated border border-border rounded-full font-data text-sm text-text-primary transition-all hover:border-primary/30 hover:bg-primary/10"
               style={{ transitionDelay: `${index * 50}ms` }}
             >
               {tech.name}
@@ -66,10 +66,10 @@ export function TechSection() {
         >
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="font-data text-2xl text-[#FAFAF8] font-medium">
+              <div className="font-data text-2xl text-text-primary font-medium">
                 {stat.value}
               </div>
-              <div className="text-sm text-[#A3A29D] font-body">
+              <div className="text-sm text-text-tertiary font-body">
                 {stat.label}
               </div>
             </div>

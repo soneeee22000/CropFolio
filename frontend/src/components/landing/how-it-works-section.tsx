@@ -8,14 +8,14 @@ const steps = [
     description: "Choose from 25 Myanmar agricultural townships",
     icon: MapPin,
     mockUI: (
-      <div className="bg-[#242422] border border-[#333330] rounded-lg p-4 space-y-3">
-        <div className="text-xs text-[#A3A29D] font-body uppercase tracking-wide">
+      <div className="bg-surface-elevated border border-border rounded-lg p-4 space-y-3">
+        <div className="text-xs text-text-tertiary font-body uppercase tracking-wide">
           Township
         </div>
-        <div className="flex items-center gap-2 bg-[#2a2a28] rounded-md p-3">
+        <div className="flex items-center gap-2 bg-surface-subtle rounded-md p-3">
           <MapPin className="w-4 h-4 text-primary" />
           <span className="font-body text-sm">Magway</span>
-          <span className="ml-auto text-xs text-[#A3A29D]">
+          <span className="ml-auto text-xs text-text-tertiary">
             Central Myanmar
           </span>
         </div>
@@ -23,7 +23,7 @@ const steps = [
           {["Mandalay", "Sagaing", "Bago"].map((t) => (
             <div
               key={t}
-              className="text-xs text-[#A3A29D] bg-[#2a2a28]/50 rounded px-2 py-1 text-center font-body"
+              className="text-xs text-text-tertiary bg-surface-subtle/50 rounded px-2 py-1 text-center font-body"
             >
               {t}
             </div>
@@ -39,8 +39,8 @@ const steps = [
       "Real-time drought and flood probability from NASA satellite data",
     icon: CloudRain,
     mockUI: (
-      <div className="bg-[#242422] border border-[#333330] rounded-lg p-4 space-y-3">
-        <div className="text-xs text-[#A3A29D] font-body uppercase tracking-wide">
+      <div className="bg-surface-elevated border border-border rounded-lg p-4 space-y-3">
+        <div className="text-xs text-text-tertiary font-body uppercase tracking-wide">
           Climate Risk Analysis
         </div>
         <div className="space-y-2">
@@ -48,7 +48,7 @@ const steps = [
             <span className="text-sm font-body">Drought Risk</span>
             <span className="text-sm font-data text-accent">32%</span>
           </div>
-          <div className="h-2 bg-[#2a2a28] rounded-full overflow-hidden">
+          <div className="h-2 bg-surface-subtle rounded-full overflow-hidden">
             <div className="h-full bg-accent w-[32%] rounded-full" />
           </div>
         </div>
@@ -57,7 +57,7 @@ const steps = [
             <span className="text-sm font-body">Flood Risk</span>
             <span className="text-sm font-data text-primary">18%</span>
           </div>
-          <div className="h-2 bg-[#2a2a28] rounded-full overflow-hidden">
+          <div className="h-2 bg-surface-subtle rounded-full overflow-hidden">
             <div className="h-full bg-primary w-[18%] rounded-full" />
           </div>
         </div>
@@ -70,8 +70,8 @@ const steps = [
     description: "Markowitz optimization finds the ideal crop mix",
     icon: PieChart,
     mockUI: (
-      <div className="bg-[#242422] border border-[#333330] rounded-lg p-4 space-y-3">
-        <div className="text-xs text-[#A3A29D] font-body uppercase tracking-wide">
+      <div className="bg-surface-elevated border border-border rounded-lg p-4 space-y-3">
+        <div className="text-xs text-text-tertiary font-body uppercase tracking-wide">
           Optimal Allocation
         </div>
         <div className="flex items-center gap-4">
@@ -82,7 +82,7 @@ const steps = [
                 cy="18"
                 r="15"
                 fill="none"
-                stroke="#333330"
+                stroke="var(--color-border)"
                 strokeWidth="3"
               />
               <circle
@@ -141,8 +141,8 @@ const steps = [
       "Monte Carlo simulation proves the diversification benefit, with AI-powered analysis from Gemini",
     icon: Shuffle,
     mockUI: (
-      <div className="bg-[#242422] border border-[#333330] rounded-lg p-4 space-y-3">
-        <div className="text-xs text-[#A3A29D] font-body uppercase tracking-wide">
+      <div className="bg-surface-elevated border border-border rounded-lg p-4 space-y-3">
+        <div className="text-xs text-text-tertiary font-body uppercase tracking-wide">
           Monte Carlo Results
         </div>
         <div className="h-16 flex items-end gap-0.5">
@@ -156,7 +156,7 @@ const steps = [
             ),
           )}
         </div>
-        <div className="flex justify-between text-xs text-[#A3A29D] font-body">
+        <div className="flex justify-between text-xs text-text-tertiary font-body">
           <span>Low Income</span>
           <span>Expected</span>
           <span>High Income</span>
@@ -177,7 +177,7 @@ export function HowItWorksSection() {
     <section
       id="how-it-works"
       ref={ref}
-      className="bg-[#1A1A18] text-[#FAFAF8] py-12 sm:py-16 px-6"
+      className="bg-surface text-text-primary py-12 sm:py-16 px-6"
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
@@ -186,10 +186,10 @@ export function HowItWorksSection() {
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-[11px] uppercase tracking-[0.25em] text-[#A3A29D] mb-4 font-body">
+          <p className="text-[11px] uppercase tracking-[0.25em] text-text-tertiary mb-4 font-body">
             The Process
           </p>
-          <h2 className="font-display text-4xl sm:text-5xl text-[#FAFAF8] leading-tight text-balance">
+          <h2 className="font-display text-4xl sm:text-5xl text-text-primary leading-tight text-balance">
             Four Steps to Resilience
           </h2>
         </div>
@@ -208,17 +208,17 @@ export function HowItWorksSection() {
             >
               {/* Step number */}
               <div className="flex items-center gap-3 mb-4">
-                <span className="font-data text-5xl text-[#333330] font-bold">
+                <span className="font-data text-5xl text-border font-bold">
                   {step.number}
                 </span>
                 <step.icon className="w-6 h-6 text-primary" />
               </div>
 
               {/* Step content */}
-              <h3 className="font-display text-xl text-[#FAFAF8] mb-2">
+              <h3 className="font-display text-xl text-text-primary mb-2">
                 {step.title}
               </h3>
-              <p className="text-[#FAFAF8]/70 font-body text-sm mb-4 leading-relaxed">
+              <p className="text-text-secondary font-body text-sm mb-4 leading-relaxed">
                 {step.description}
               </p>
 

@@ -12,7 +12,7 @@ export function CTAFooter() {
   return (
     <footer
       ref={ref}
-      className="bg-[#1A1A18] text-[#FAFAF8] py-12 sm:py-16 px-6"
+      className="bg-surface text-text-primary py-12 sm:py-16 px-6"
     >
       <div className="max-w-3xl mx-auto text-center">
         {/* Logo mark */}
@@ -56,24 +56,24 @@ export function CTAFooter() {
             isInView ? "opacity-100" : "opacity-0"
           }`}
         >
-          <p className="text-sm text-[#A3A29D] font-body mb-2">
+          <p className="text-sm text-text-tertiary font-body mb-2">
             Built for the AI for Climate-Resilient Agriculture Hackathon 2026
           </p>
-          <p className="text-sm text-[#A3A29D] font-body">
+          <p className="text-sm text-text-tertiary font-body">
             Impact Hub Yangon x UNDP Myanmar
           </p>
         </div>
 
         {/* Decorative line */}
         <div
-          className={`mt-10 pt-6 border-t border-[#333330] transition-all duration-700 delay-400 ${
+          className={`mt-10 pt-6 border-t border-border transition-all duration-700 delay-400 ${
             isInView ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#A3A29D] font-body">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-tertiary font-body">
             <div className="flex items-center gap-2">
               <Sprout className="w-4 h-4 text-primary" />
-              <span className="font-display text-base text-[#FAFAF8]">
+              <span className="font-display text-base text-text-primary">
                 CropFolio
               </span>
             </div>

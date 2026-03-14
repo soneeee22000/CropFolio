@@ -4,32 +4,46 @@
   /* Primary palette */
   --color-primary: #1b7a4a;
   --color-primary-dark: #15613b;
-  --color-primary-subtle: #e8f5ee;
+  --color-primary-subtle: #1b3a2a;
   --color-accent: #b8860b;
   --color-danger: #c43b3b;
-  --color-danger-subtle: #fef2f2;
+  --color-danger-subtle: #3a1f1f;
   --color-warning: #d4940a;
   --color-success: #1b7a4a;
 
-  /* Surfaces */
-  --color-surface: #fafaf8;
-  --color-surface-elevated: #ffffff;
-  --color-surface-subtle: #f5f4f0;
+  /* Surfaces (dark default) */
+  --color-surface: #1a1a18;
+  --color-surface-elevated: #242422;
+  --color-surface-subtle: #2a2a27;
 
-  /* Borders */
-  --color-border: #e8e6e1;
-  --color-border-subtle: #f0eeea;
+  /* Borders (dark default) */
+  --color-border: #333330;
+  --color-border-subtle: #2c2c29;
 
-  /* Text */
-  --color-text-primary: #1a1a18;
-  --color-text-secondary: #6b6a65;
-  --color-text-tertiary: #a3a29d;
+  /* Text (dark default) */
+  --color-text-primary: #fafaf8;
+  --color-text-secondary: #b0afa8;
+  --color-text-tertiary: #7a7974;
 
   /* Font families */
   --font-family-display: "DM Serif Display", Georgia, serif;
   --font-family-body: "DM Sans", system-ui, sans-serif;
   --font-family-data: "JetBrains Mono", "Fira Code", monospace;
   --font-family-myanmar: "Padauk", "Myanmar Text", sans-serif;
+}
+
+/* Light mode override */
+[data-theme="light"] {
+  --color-surface: #fafaf8;
+  --color-surface-elevated: #ffffff;
+  --color-surface-subtle: #f5f4f0;
+  --color-border: #e8e6e1;
+  --color-border-subtle: #f0eeea;
+  --color-text-primary: #1a1a18;
+  --color-text-secondary: #6b6a65;
+  --color-text-tertiary: #a3a29d;
+  --color-primary-subtle: #e8f5ee;
+  --color-danger-subtle: #fef2f2;
 }
 
 /* Animation tokens */
@@ -50,6 +64,9 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
 }
 
 #root {
@@ -161,7 +178,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: white;
+  background: var(--color-surface-elevated);
   border: 2px solid var(--color-primary);
   cursor: pointer;
   transition: box-shadow var(--duration-fast) ease;
@@ -175,7 +192,7 @@ input[type="range"]::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: white;
+  background: var(--color-surface-elevated);
   border: 2px solid var(--color-primary);
   cursor: pointer;
 }
@@ -238,5 +255,5 @@ html {
 /* Selection colors */
 ::selection {
   background: rgba(27, 122, 74, 0.3);
-  color: #1a1a18;
+  color: var(--color-text-primary);
 }

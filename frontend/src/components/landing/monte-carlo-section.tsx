@@ -41,7 +41,7 @@ export function MonteCarloSection() {
     <section
       id="the-science"
       ref={ref}
-      className="bg-[#1A1A18] text-[#FAFAF8] py-12 sm:py-16 px-6 border-t border-[#333330]"
+      className="bg-surface text-text-primary py-12 sm:py-16 px-6 border-t border-border"
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
@@ -50,7 +50,7 @@ export function MonteCarloSection() {
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-[11px] uppercase tracking-[0.25em] text-[#A3A29D] mb-4 font-body">
+          <p className="text-[11px] uppercase tracking-[0.25em] text-text-tertiary mb-4 font-body">
             The Science
           </p>
           <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-tight text-balance">
@@ -63,7 +63,7 @@ export function MonteCarloSection() {
           {cards.map((card, index) => (
             <div
               key={card.title}
-              className={`bg-[#242422] border border-[#333330] rounded-2xl p-8 transition-all duration-700 ${
+              className={`bg-surface-elevated border border-border rounded-2xl p-8 transition-all duration-700 ${
                 isInView
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
@@ -76,7 +76,7 @@ export function MonteCarloSection() {
                 </div>
                 <h3 className="font-display text-xl">{card.title}</h3>
               </div>
-              <p className="font-body text-[#FAFAF8]/70 leading-relaxed">
+              <p className="font-body text-text-secondary leading-relaxed">
                 {card.body}
               </p>
             </div>
@@ -91,7 +91,7 @@ export function MonteCarloSection() {
         >
           <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Rice Only histogram */}
-            <div className="bg-[#242422] border border-[#333330] rounded-2xl p-6">
+            <div className="bg-surface-elevated border border-border rounded-2xl p-6">
               <h4 className="font-display text-lg text-center mb-4">
                 Rice Only
               </h4>
@@ -112,7 +112,7 @@ export function MonteCarloSection() {
                   />
                 ))}
               </div>
-              <div className="flex justify-between text-xs text-[#A3A29D] font-body mt-3">
+              <div className="flex justify-between text-xs text-text-tertiary font-body mt-3">
                 <span>Loss</span>
                 <span>Gain</span>
               </div>
@@ -122,7 +122,7 @@ export function MonteCarloSection() {
             </div>
 
             {/* Optimized Portfolio histogram */}
-            <div className="bg-[#242422] border border-[#333330] rounded-2xl p-6">
+            <div className="bg-surface-elevated border border-border rounded-2xl p-6">
               <h4 className="font-display text-lg text-center mb-4">
                 Optimized Portfolio
               </h4>
@@ -143,7 +143,7 @@ export function MonteCarloSection() {
                   />
                 ))}
               </div>
-              <div className="flex justify-between text-xs text-[#A3A29D] font-body mt-3">
+              <div className="flex justify-between text-xs text-text-tertiary font-body mt-3">
                 <span>Loss</span>
                 <span>Gain</span>
               </div>
@@ -154,7 +154,7 @@ export function MonteCarloSection() {
           </div>
 
           {/* Caption */}
-          <p className="text-center text-sm text-[#A3A29D] font-body mt-6">
+          <p className="text-center text-sm text-text-tertiary font-body mt-6">
             Each bar represents outcomes from 1,000 simulated climate seasons
           </p>
         </div>

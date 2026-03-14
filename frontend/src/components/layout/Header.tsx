@@ -1,13 +1,16 @@
+import { Link } from "react-router-dom";
 import { STEP_LABELS } from "@/constants";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useTheme } from "@/hooks/useTheme";
 
 interface HeaderProps {
   currentStep: number;
 }
 
-/** Premium sticky header with language toggle and step indicator. */
+/** Premium sticky header with language toggle, theme toggle, and step indicator. */
 export function Header({ currentStep }: HeaderProps) {
   const { lang, toggleLang } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <header className="sticky top-0 z-50 bg-surface-elevated/80 backdrop-blur-md border-b border-border">
@@ -48,40 +51,57 @@ export function Header({ currentStep }: HeaderProps) {
           >
             {lang === "en" ? "MM" : "EN"}
           </button>
+          <button
+            onClick={toggleTheme}
+            className="px-3 py-1 text-[11px] border border-border rounded-full text-text-secondary hover:text-text-primary hover:border-text-tertiary transition-colors duration-200"
+            aria-label={
+              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+          >
+            {theme === "dark" ? "\u2600" : "\u263D"}
+          </button>
         </div>
-        <nav className="hidden sm:flex items-center gap-1">
-          {STEP_LABELS.map((label, i) => (
-            <div key={label} className="flex items-center">
-              <div className="flex flex-col items-center gap-1">
-                <div
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    i === currentStep
-                      ? "bg-primary scale-125"
-                      : i < currentStep
-                        ? "bg-primary/40"
-                        : "bg-border"
-                  }`}
-                />
-                <span
-                  className={`text-[11px] tracking-wide transition-colors duration-300 ${
-                    i === currentStep
-                      ? "text-text-primary font-medium"
-                      : "text-text-tertiary"
-                  }`}
-                >
-                  {label}
-                </span>
+        <div className="flex items-center gap-6">
+          <nav className="hidden sm:flex items-center gap-1">
+            {STEP_LABELS.map((label, i) => (
+              <div key={label} className="flex items-center">
+                <div className="flex flex-col items-center gap-1">
+                  <div
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      i === currentStep
+                        ? "bg-primary scale-125"
+                        : i < currentStep
+                          ? "bg-primary/40"
+                          : "bg-border"
+                    }`}
+                  />
+                  <span
+                    className={`text-[11px] tracking-wide transition-colors duration-300 ${
+                      i === currentStep
+                        ? "text-text-primary font-medium"
+                        : "text-text-tertiary"
+                    }`}
+                  >
+                    {label}
+                  </span>
+                </div>
+                {i < STEP_LABELS.length - 1 && (
+                  <div
+                    className={`w-12 h-px mx-2 mt-[-14px] transition-colors duration-300 ${
+                      i < currentStep ? "bg-primary/30" : "bg-border"
+                    }`}
+                  />
+                )}
               </div>
-              {i < STEP_LABELS.length - 1 && (
-                <div
-                  className={`w-12 h-px mx-2 mt-[-14px] transition-colors duration-300 ${
-                    i < currentStep ? "bg-primary/30" : "bg-border"
-                  }`}
-                />
-              )}
-            </div>
-          ))}
-        </nav>
+            ))}
+          </nav>
+          <Link
+            to="/"
+            className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+          >
+            Home
+          </Link>
+        </div>
       </div>
     </header>
   );

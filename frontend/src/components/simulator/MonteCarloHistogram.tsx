@@ -4,6 +4,7 @@ import type { HistogramBin, SimulationStats } from "@/types/simulator";
 import { formatMMKCompact } from "@/utils/formatters";
 import { ANIMATION_DURATION_MS, STAGGER_DELAY_MS } from "@/constants";
 import { useResizeObserver } from "@/hooks/useResizeObserver";
+import { useTheme } from "@/hooks/useTheme";
 
 interface MonteCarloHistogramProps {
   histogram: HistogramBin[];
@@ -14,10 +15,6 @@ interface MonteCarloHistogramProps {
 const MARGIN = { top: 40, right: 40, bottom: 60, left: 80 };
 const PRIMARY_COLOR = "#1B7A4A";
 const COMPARISON_COLOR = "#C43B3B";
-const TEXT_PRIMARY = "#1A1A18";
-const TEXT_TERTIARY = "#A3A29D";
-const BORDER_COLOR = "#E8E6E1";
-const SURFACE_SUBTLE = "#F5F4F0";
 
 /** Gallery-quality D3 histogram for Monte Carlo income distribution. */
 export function MonteCarloHistogram({
@@ -27,9 +24,23 @@ export function MonteCarloHistogram({
 }: MonteCarloHistogramProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const { ref: containerRef, width } = useResizeObserver();
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!svgRef.current || !width) return;
+
+    const styles = getComputedStyle(document.documentElement);
+    const TEXT_PRIMARY =
+      styles.getPropertyValue("--color-text-primary").trim() || "#FAFAF8";
+    const TEXT_TERTIARY =
+      styles.getPropertyValue("--color-text-tertiary").trim() || "#7A7974";
+    const BORDER_COLOR =
+      styles.getPropertyValue("--color-border").trim() || "#333330";
+    const SURFACE_SUBTLE =
+      styles.getPropertyValue("--color-surface-subtle").trim() || "#2A2A27";
+    const SURFACE_ELEVATED =
+      styles.getPropertyValue("--color-surface-elevated").trim() || "#242422";
+
     const height = 420;
     const innerW = width - MARGIN.left - MARGIN.right;
     const innerH = height - MARGIN.top - MARGIN.bottom;
@@ -191,7 +202,7 @@ export function MonteCarloHistogram({
       .style("font-family", '"JetBrains Mono", monospace')
       .style("font-size", "11px")
       .style("font-weight", "500")
-      .style("fill", "#FFFFFF")
+      .style("fill", SURFACE_ELEVATED)
       .text(`Mean: ${formatMMKCompact(stats.mean_income)}`);
 
     meanTag.transition().delay(meanDelay).duration(400).attr("opacity", 1);
@@ -313,7 +324,7 @@ export function MonteCarloHistogram({
         .style("fill", TEXT_TERTIARY)
         .text("Monocrop (Rice)");
     }
-  }, [histogram, stats, comparisonHistogram, width]);
+  }, [histogram, stats, comparisonHistogram, width, theme]);
 
   return (
     <div ref={containerRef} className="w-full">

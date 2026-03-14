@@ -36,11 +36,7 @@ export function MetricsSection() {
   return (
     <section
       ref={ref}
-      className="relative py-12 sm:py-16 px-6 overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(180deg, #1A1A18 0%, #1E1E1C 50%, #1A1A18 100%)",
-      }}
+      className="relative py-12 sm:py-16 px-6 overflow-hidden bg-surface"
     >
       {/* Decorative elements */}
       <div className="absolute inset-0 opacity-30">
@@ -55,10 +51,10 @@ export function MetricsSection() {
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-[11px] uppercase tracking-[0.25em] text-[#A3A29D] mb-4 font-body">
+          <p className="text-[11px] uppercase tracking-[0.25em] text-text-tertiary mb-4 font-body">
             The Results
           </p>
-          <h2 className="font-display text-4xl sm:text-5xl text-[#FAFAF8] leading-tight text-balance">
+          <h2 className="font-display text-4xl sm:text-5xl text-text-primary leading-tight text-balance">
             Real Impact, Real Numbers
           </h2>
         </div>
@@ -68,14 +64,14 @@ export function MetricsSection() {
           {metrics.map((metric, index) => (
             <div
               key={metric.label}
-              className={`bg-[#242422] border border-[#333330] rounded-2xl p-8 text-center shadow-sm transition-all duration-700 hover:shadow-md ${
+              className={`bg-surface-elevated border border-border rounded-2xl p-8 text-center shadow-sm transition-all duration-700 hover:shadow-md ${
                 isInView
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${index * 150 + 200}ms` }}
             >
-              <div className="font-display text-5xl sm:text-6xl lg:text-7xl text-[#FAFAF8] mb-2">
+              <div className="font-display text-5xl sm:text-6xl lg:text-7xl text-text-primary mb-2">
                 <AnimatedCounter
                   end={metric.value}
                   duration={1500}
@@ -85,10 +81,10 @@ export function MetricsSection() {
                   shouldStart={isInView}
                 />
               </div>
-              <div className="text-lg font-body text-[#FAFAF8] font-medium mb-1">
+              <div className="text-lg font-body text-text-primary font-medium mb-1">
                 {metric.label}
               </div>
-              <div className="text-sm font-body text-[#A3A29D]">
+              <div className="text-sm font-body text-text-tertiary">
                 {metric.sublabel}
               </div>
             </div>
@@ -97,7 +93,7 @@ export function MetricsSection() {
 
         {/* Context note */}
         <p
-          className={`text-center text-sm text-[#A3A29D] font-body mt-8 transition-all duration-700 delay-700 ${
+          className={`text-center text-sm text-text-tertiary font-body mt-8 transition-all duration-700 delay-700 ${
             isInView ? "opacity-100" : "opacity-0"
           }`}
         >
