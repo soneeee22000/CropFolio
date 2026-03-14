@@ -1,17 +1,28 @@
 import { STEP_LABELS } from "@/constants";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface HeaderProps {
   currentStep: number;
 }
 
-/** Premium sticky header with backdrop blur and line-based step indicator. */
+/** Premium sticky header with language toggle and step indicator. */
 export function Header({ currentStep }: HeaderProps) {
+  const { lang, toggleLang } = useLanguage();
+
   return (
     <header className="sticky top-0 z-50 bg-surface-elevated/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <h1 className="font-display text-2xl text-text-primary tracking-tight">
-          CropFolio
-        </h1>
+        <div className="flex items-center gap-4">
+          <h1 className="font-display text-2xl text-text-primary tracking-tight">
+            CropFolio
+          </h1>
+          <button
+            onClick={toggleLang}
+            className="px-3 py-1 text-[11px] uppercase tracking-wide border border-border rounded-full text-text-secondary hover:text-text-primary hover:border-text-tertiary transition-colors duration-200"
+          >
+            {lang === "en" ? "MM" : "EN"}
+          </button>
+        </div>
         <nav className="hidden sm:flex items-center gap-1">
           {STEP_LABELS.map((label, i) => (
             <div key={label} className="flex items-center">

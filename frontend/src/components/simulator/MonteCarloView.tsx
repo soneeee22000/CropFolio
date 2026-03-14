@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSimulate } from "@/hooks/useSimulate";
+import { useLanguage } from "@/i18n/LanguageContext";
 import { Card } from "@/components/common/Card";
 import { MetricCard } from "@/components/common/MetricCard";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
@@ -7,6 +8,7 @@ import { ErrorAlert } from "@/components/common/ErrorAlert";
 import { MonteCarloHistogram } from "./MonteCarloHistogram";
 import { formatMMKCompact, formatPercent } from "@/utils/formatters";
 import { DEFAULT_NUM_SIMULATIONS } from "@/constants";
+import { apiClient } from "@/api/client";
 import type { OptimizeResponse } from "@/types/optimizer";
 import type { SimulateResponse } from "@/types/simulator";
 
@@ -24,6 +26,7 @@ export function MonteCarloView({
 }: MonteCarloViewProps) {
   const { result, isLoading, error, simulate } = useSimulate();
   const { result: monocropResult, simulate: simulateMonocrop } = useSimulate();
+  useLanguage(); // connected for future i18n
   const [numSims, setNumSims] = useState(DEFAULT_NUM_SIMULATIONS);
   const [showComparison, setShowComparison] = useState(false);
 
@@ -112,6 +115,41 @@ export function MonteCarloView({
             diversified={result}
             monocrop={showComparison ? monocropResult : null}
           />
+
+          <div className="text-center mt-8">
+            <button
+              onClick={async () => {
+                const reportData = {
+                  township_name: result.township_name,
+                  season: result.season,
+                  allocations: optimizeResult.weights.map((w) => ({
+                    crop_name: w.crop_name,
+                    crop_name_mm: w.crop_name_mm,
+                    weight_pct: w.weight * 100,
+                  })),
+                  expected_income:
+                    optimizeResult.metrics.expected_income_per_ha,
+                  risk_reduction_pct: optimizeResult.metrics.risk_reduction_pct,
+                  prob_catastrophic_loss_monocrop:
+                    (monocropResult?.stats.prob_catastrophic_loss ?? 0) * 100,
+                  prob_catastrophic_loss_diversified:
+                    result.stats.prob_catastrophic_loss * 100,
+                };
+                const res = await apiClient.post("/report/pdf", reportData, {
+                  responseType: "blob",
+                });
+                const url = URL.createObjectURL(res.data as Blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "cropfolio-report.pdf";
+                a.click();
+                URL.revokeObjectURL(url);
+              }}
+              className="px-8 py-3 border border-border rounded-lg text-sm text-text-secondary hover:text-text-primary hover:border-text-tertiary transition-colors duration-200"
+            >
+              Download PDF Report
+            </button>
+          </div>
         </>
       )}
     </div>

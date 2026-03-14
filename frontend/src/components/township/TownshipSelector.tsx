@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useTownships } from "@/hooks/useTownships";
+import { useLanguage } from "@/i18n/LanguageContext";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import type { Township } from "@/types/township";
 
@@ -10,6 +11,7 @@ interface TownshipSelectorProps {
 /** Premium township selector with hero typography and refined list. */
 export function TownshipSelector({ onSelect }: TownshipSelectorProps) {
   const { townships, isLoading } = useTownships();
+  const { t } = useLanguage();
   const [search, setSearch] = useState("");
   const [season, setSeason] = useState<"monsoon" | "dry">("monsoon");
 
@@ -26,14 +28,12 @@ export function TownshipSelector({ onSelect }: TownshipSelectorProps) {
     <div className="max-w-2xl mx-auto pt-8">
       <div className="text-center mb-12">
         <p className="text-[11px] uppercase tracking-[0.2em] text-text-tertiary mb-3">
-          Township
+          {t("township.overline")}
         </p>
         <h2 className="font-display text-4xl text-text-primary">
-          Choose Your Region
+          {t("township.heading")}
         </h2>
-        <p className="text-text-secondary mt-3">
-          Select an agricultural township in Myanmar to analyze
-        </p>
+        <p className="text-text-secondary mt-3">{t("township.subtitle")}</p>
       </div>
 
       <div className="flex justify-center mb-10">
@@ -46,7 +46,7 @@ export function TownshipSelector({ onSelect }: TownshipSelectorProps) {
                 : "text-text-secondary hover:text-text-primary"
             }`}
           >
-            Monsoon Season
+            {t("season.monsoon")}
           </button>
           <button
             onClick={() => setSeason("dry")}
@@ -56,7 +56,7 @@ export function TownshipSelector({ onSelect }: TownshipSelectorProps) {
                 : "text-text-secondary hover:text-text-primary"
             }`}
           >
-            Dry Season
+            {t("season.dry")}
           </button>
         </div>
       </div>
@@ -64,7 +64,7 @@ export function TownshipSelector({ onSelect }: TownshipSelectorProps) {
       <div className="mb-8">
         <input
           type="text"
-          placeholder="Search townships..."
+          placeholder={t("township.search")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full bg-transparent text-lg text-text-primary placeholder:text-text-tertiary border-b-2 border-border focus:border-primary pb-3 outline-none transition-colors duration-300"

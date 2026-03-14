@@ -25,9 +25,9 @@
 
 ## Live Demo
 
-> **Frontend:** _[Deploy URL will be added after Vercel deploy]_
-> **Backend API:** _[Deploy URL will be added after Railway deploy]_
-> **API Docs:** `{backend-url}/docs` (auto-generated Swagger)
+> **Frontend:** https://crop-folio.vercel.app
+> **Backend API:** https://cropfolio-production.up.railway.app
+> **API Docs:** https://cropfolio-production.up.railway.app/docs (Swagger UI)
 
 ---
 
