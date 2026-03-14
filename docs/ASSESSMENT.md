@@ -58,7 +58,7 @@ These are the problems the code-level review glossed over because they're not "b
 
 The covariance matrix is now **computed from real FAOSTAT 2010-2021 yield data** (element code 5419, country code 28, via data.un.org). 12 annual observations for Rice, Groundnut, Sesame, Chickpea, and Beans dry (proxy for Black Gram + Green Gram). The real correlations contradicted our initial heuristic: Rice vs Chickpea is +0.13 (not negative as assumed), and pulse-pulse correlations are +0.5 to +0.9 (diversifying within pulses doesn't reduce risk). Only Rice vs Sesame (-0.49) provides genuine diversification. A finance professor asking "where's your historical data?" now gets a real answer.
 
-**Remaining gap:** Price correlations are still synthetic. Yield correlations are real, but the price dimension of the covariance matrix is not data-driven.
+**Update (Phase 9 complete):** Price correlations are now computed from WFP monthly price data (2022-2025). The optimizer uses a dual revenue covariance matrix (0.6 yield + 0.4 price). Key finding: rice-sesame yield correlation (-0.49) is offset by price co-movement (+0.74), giving near-zero revenue correlation. Both dimensions are now data-driven.
 
 ### 2. ~~The Crop Profiles Are Approximations~~ — FIXED: Updated to FAOSTAT
 
@@ -163,18 +163,18 @@ Forecast rainfall is now scaled to seasonal units for comparison against seasona
 
 ## Hackathon Readiness Score (Revised — Honest)
 
-| Criterion              | Score      | Honest Take                                                                                                |
-| ---------------------- | ---------- | ---------------------------------------------------------------------------------------------------------- |
-| **Demo Reliability**   | 9/10       | Works end-to-end. Monocrop comparison now uses highest-weighted crop (not hardcoded rice)                  |
-| **Technical Depth**    | 9/10       | Real optimization, real simulation, real FAOSTAT covariance matrix — data-driven end to end                |
-| **Originality**        | 10/10      | No one else will apply Markowitz to crop selection. This is the genuine differentiator                     |
-| **Visual Polish**      | 7/10       | Premium design, histogram is art. But zero user testing, AI-generated Burmese unverified                   |
-| **Business Viability** | 6/10       | B2B pivot sounds credible. Zero validation. Pitch-deck fiction until someone talks to a customer           |
-| **Code Quality**       | 8/10       | Clean architecture, PSD + convergence fixes applied, zero lint errors                                      |
-| **Data Accuracy**      | 8/10       | FAOSTAT yield correlations real, crop yields updated, NASA units fixed. Price correlations still synthetic |
-| **AI Integration**     | 8/10       | Gemini 2.0 Flash adds real AI value. Optional dependency (free tier). Addresses hackathon gap              |
-| **Test Coverage**      | 7/10       | 83 backend + 6 frontend = 89 tests. Frontend still thin but no longer zero                                 |
-| **Overall**            | **8.5/10** | All 8 phases + FAOSTAT integration. Data-driven covariance + AI integration. Strong entry                  |
+| Criterion              | Score      | Honest Take                                                                                            |
+| ---------------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
+| **Demo Reliability**   | 9/10       | Works end-to-end. Monocrop comparison now uses highest-weighted crop (not hardcoded rice)              |
+| **Technical Depth**    | 9/10       | Real optimization, real simulation, real FAOSTAT covariance matrix — data-driven end to end            |
+| **Originality**        | 10/10      | No one else will apply Markowitz to crop selection. This is the genuine differentiator                 |
+| **Visual Polish**      | 7/10       | Premium design, histogram is art. But zero user testing, AI-generated Burmese unverified               |
+| **Business Viability** | 6/10       | B2B pivot sounds credible. Zero validation. Pitch-deck fiction until someone talks to a customer       |
+| **Code Quality**       | 8/10       | Clean architecture, PSD + convergence fixes applied, zero lint errors                                  |
+| **Data Accuracy**      | 8.5/10     | FAOSTAT yield correlations + WFP price correlations both real. Dual revenue covariance matrix complete |
+| **AI Integration**     | 8/10       | Gemini 2.0 Flash adds real AI value. Optional dependency (free tier). Addresses hackathon gap          |
+| **Test Coverage**      | 7/10       | 83 backend + 6 frontend = 89 tests. Frontend still thin but no longer zero                             |
+| **Overall**            | **8.5/10** | All 8 phases + FAOSTAT integration. Data-driven covariance + AI integration. Strong entry              |
 
 ### What the scores mean
 
@@ -239,7 +239,7 @@ If a judge asks "where's the historical data behind your covariance matrix?" —
 4. ~~Update yield variance to actual FAOSTAT coefficient of variation~~ — DONE
 5. ~~Replace heuristic covariance with data-driven covariance~~ — DONE
 
-**Key finding:** Rice vs Sesame correlation is -0.49 (strong hedge). Rice vs Chickpea is +0.13 (NOT a hedge as assumed). Pulses are +0.5 to +0.9 correlated (diversifying within pulses doesn't help). Data accuracy score: 6/10 to 8/10.
+**Key finding:** Rice vs Sesame correlation is -0.49 (strong hedge). Rice vs Chickpea is +0.13 (NOT a hedge as assumed). Pulses are +0.5 to +0.9 correlated (diversifying within pulses doesn't help). WFP price correlations now complete — rice-sesame price correlation is +0.74, offsetting yield hedge at revenue level. Data accuracy score: 6/10 to 8.5/10.
 
 ---
 
@@ -247,11 +247,11 @@ If a judge asks "where's the historical data behind your covariance matrix?" —
 
 CropFolio is a **data-driven proof of concept** with all 8 phases + FAOSTAT integration complete. The cross-domain insight is genuinely novel and now backed by real yield correlation data — that's the real asset. The technical execution is above average for a hackathon. The UI creates an impression of polish. The Monte Carlo visualization is memorable. The Gemini AI integration adds genuine AI value to an AI hackathon.
 
-It still has synthetic price correlations, AI-generated translations, minimal user validation, and a business model that exists only on slides. These are normal for hackathons. They are not normal for products. But the yield covariance — the core input to Markowitz — is now real.
+It still has AI-generated translations, minimal user validation, and a business model that exists only on slides. These are normal for hackathons. They are not normal for products. But the yield covariance — the core input to Markowitz — is now real.
 
 ### What to be honest about when asked:
 
-- "Price correlations are still synthetic — yield correlations are real, but the price dimension is not data-driven yet"
+- "Both yield and price correlations are computed from real data — FAOSTAT and WFP respectively"
 - "The Burmese text needs native speaker review — we'd do that before any field deployment"
 - "This is a proof of concept with real data foundations. We built it to prove the approach works."
 
@@ -265,6 +265,6 @@ It still has synthetic price correlations, AI-generated translations, minimal us
 
 ### The bottom line:
 
-This is a strong hackathon entry with a genuine differentiator, real data backing, and AI integration. All 8 phases + FAOSTAT integration complete. The covariance matrix — previously the biggest weakness — is now the biggest strength. Win the hackathon, then use the incubation period to add real price correlations and validate with actual users.
+This is a strong hackathon entry with a genuine differentiator, real data backing, and AI integration. All 8 phases + FAOSTAT integration complete. The covariance matrix — previously the biggest weakness — is now the biggest strength. Win the hackathon, then use the incubation period to validate with actual users.
 
 **Ship it with confidence. The data is real. Win it on originality + data-driven insights + AI integration.**

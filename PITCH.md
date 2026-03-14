@@ -49,7 +49,8 @@ Optionally show the **admin dashboard** (/admin, login: admin / 12345) to demons
 - **40-60% risk reduction** through crop diversification
 - **Printable reports** for cooperatives without internet access
 - **Burmese language** for actual Myanmar users
-- **Real data** — FAOSTAT 2010-2021 yield correlations + NASA POWER climate data + 6 WFP price CSVs
+- **Real data** — FAOSTAT 2010-2021 yield correlations + WFP 2022-2025 price correlations + NASA POWER climate data
+- **Revenue covariance** — yield hedging (rice-sesame = -0.49) is offset by price co-movement (+0.74), giving near-zero revenue correlation. Our dual model captures both dimensions
 - **Free for cooperatives** — no cost barrier for the people who need it most
 
 ## 5. Tech (30s)
@@ -86,7 +87,7 @@ TAM: Global crop insurance market = $40B+/year
 - Always use rice + black gram + sesame (tested safe combination)
 - Practice the Monte Carlo reveal — pause when the histogram animates
 - When judges ask "can farmers use this?" → "Extension workers and cooperatives are our users. They advise 500+ farmers each."
-- When judges ask "is the data real?" → "The covariance matrix is computed from 12 years of FAOSTAT yield data — real Myanmar crop yields from 2010 to 2021. Crop yield means are 2019-2021 FAOSTAT averages. Climate from NASA POWER. WFP price data for all 6 crops. Price correlations are still synthetic — that's our next phase."
+- When judges ask "is the data real?" → "The covariance matrix is computed from 12 years of FAOSTAT yield data — real Myanmar crop yields from 2010 to 2021. Crop yield means are 2019-2021 FAOSTAT averages. Price correlations computed from WFP monthly data 2022-2025. Climate from NASA POWER. Both yield AND price risk are data-driven."
 - When judges ask "where's the historical data?" → This is now a STRENGTH: "We downloaded FAOSTAT yield data for Myanmar, element 5419, 12 annual observations. We computed the actual correlation matrix. The data surprised us — only sesame genuinely hedges rice risk. Pulse-pulse correlations are too high for within-pulse diversification to help."
 - Don't claim 90% confidence — if asked about data quality, be honest about limitations
 - Don't bluff. Honesty about what's real and what's next is more credible than pretending it's finished.

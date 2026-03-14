@@ -257,7 +257,7 @@ Sources: FAOSTAT 2010-2021 (yield means + variance), FAO GAEZ, IRRI, Myanmar Dep
 | [FAO GAEZ](https://gaez.fao.org/)          | Crop yield potential by region      | Global, gridded                |
 | [WFP VAM](https://dataviz.vam.wfp.org/)    | Food commodity prices               | Myanmar, 70+ townships, weekly |
 
-FAOSTAT data (element code 5419 — yield hg/ha, country code 28 — Myanmar) provides the **real covariance matrix** behind the portfolio optimizer. 12 annual observations (2010-2021) for Rice, Groundnut, Sesame, Chickpea, and Beans dry (proxy for Black Gram + Green Gram). Crop yield means and variance are updated to 2019-2021 FAOSTAT averages.
+FAOSTAT data (element code 5419 — yield hg/ha, country code 28 — Myanmar) provides the **real yield covariance matrix** behind the portfolio optimizer. 12 annual observations (2010-2021) for Rice, Groundnut, Sesame, Chickpea, and Beans dry (proxy for Black Gram + Green Gram). WFP price data (2022-2025, monthly) provides the **price correlation matrix** for all 6 crops. The optimizer uses a dual revenue covariance matrix (0.6 yield + 0.4 price) — because yield hedging (rice-sesame = -0.49) is partially offset by price co-movement (rice-sesame = +0.74).
 
 All data sources are **open access** with confirmed Myanmar coverage. Climate data includes graceful fallback to regional averages when external APIs are unavailable.
 
@@ -502,12 +502,14 @@ This is a proof of concept. Here's what's real and what's not:
 | The covariance matrix           | **Real** — computed from FAOSTAT 2010-2021 yield data (12 annual observations) |
 | The climate data pipeline       | Working — NASA POWER mm/day→mm/month fixed, Open-Meteo seasonal scaling fixed  |
 | WFP price data                  | Real — 6 WFP price CSVs loaded for Myanmar crops                               |
+| WFP price correlations          | **Real** — computed from WFP monthly prices (2022-2025), all 6 crops           |
+| Revenue covariance matrix       | **Real** — dual yield (0.6) + price (0.4) weighted covariance                  |
 | The Burmese translations        | AI-generated, not reviewed by a native speaker                                 |
 | The business model              | Speculative — zero customer validation                                         |
 
 | AI features | Optional — require GEMINI_API_KEY (free tier). App works fully without it |
 
-**What needs to happen for production:** Price correlation data (currently synthetic — yield correlations are real but price correlations are not). Native Burmese speaker review. User testing with actual extension workers. Customer interviews with insurers/cooperatives.
+**What needs to happen for production:** Native Burmese speaker review. User testing with actual extension workers. Customer interviews with insurers/cooperatives.
 
 The core insight — that sesame is the one genuine hedge against rice yield risk (r = -0.49) — is now backed by real FAOSTAT data. The architecture supports iterating toward production quality. The bones are good.
 

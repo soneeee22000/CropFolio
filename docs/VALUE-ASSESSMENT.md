@@ -1,7 +1,7 @@
 # CropFolio — Value Assessment (Final Honest Take)
 
 **Date:** March 14, 2026
-**Stage:** All 8 phases complete, deployed, AI integrated
+**Stage:** All 9 phases complete (including revenue covariance), deployed, AI integrated
 **Tests:** 89 (83 backend + 6 frontend)
 
 ---
@@ -30,8 +30,8 @@ Impressive engineering output. But engineering output is not the same as value.
 
 ### Honest answer: Getting there. Here's the current state.
 
-**1. ~~The core optimizer runs on invented data.~~ — FIXED: Now data-driven.**
-The covariance matrix is now **computed from real FAOSTAT 2010-2021 yield data** (element code 5419, country code 28, 12 annual observations). The real correlations contradicted our heuristic assumptions: Rice vs Sesame is -0.49 (genuine hedge), but Rice vs Chickpea is +0.13 (not a hedge), and pulse-pulse correlations are +0.5 to +0.9 (no diversification benefit). The optimizer is now making allocation decisions based on real statistical relationships, not guesses. **Remaining gap:** price correlations are still synthetic.
+**1. ~~The core optimizer runs on invented data.~~ — FIXED: Now fully data-driven.**
+The covariance matrix is now **computed from real FAOSTAT 2010-2021 yield data** (element code 5419, country code 28, 12 annual observations) AND **real WFP 2022-2025 price data** (monthly, 6 crops). The real correlations contradicted our heuristic assumptions: Rice vs Sesame is -0.49 (genuine yield hedge), but Rice vs Chickpea is +0.13 (not a hedge), and pulse-pulse correlations are +0.5 to +0.9 (no diversification benefit). Price correlations are uniformly high (+0.67 to +0.97), with rice-sesame price correlation at +0.74 — offsetting the yield hedge and producing near-zero revenue correlation. The optimizer uses a dual revenue covariance matrix (0.6 yield + 0.4 price) that captures both dimensions.
 
 **2. Nobody in Myanmar agriculture asked for this.**
 Zero user research. Zero farmer interviews. Zero extension worker feedback. We assumed the problem exists (it does) and assumed our solution fits (unvalidated). The most dangerous hackathon projects are ones that solve a real problem with a solution nobody wants.
@@ -72,7 +72,7 @@ Whether the exact numbers are precisely calibrated or not, the directional truth
 - **Technical (CS/ML)** — Impressed by architecture and Monte Carlo viz. May not question covariance.
 - **Agricultural experts** — Recognize the insight is valid but may question data sources.
 - **Business/impact focused (UNDP)** — Love the impact narrative and B2B pivot story.
-- **Finance literate** — Will appreciate the FAOSTAT-backed covariance. May ask about price correlations (still synthetic).
+- **Finance literate** — Will appreciate the dual yield+price covariance matrix. Both FAOSTAT and WFP data-driven.
 
 **Against typical hackathon competition:**
 
@@ -94,7 +94,7 @@ Higher now that the covariance matrix is data-driven. The FAOSTAT integration re
 
 In order of impact on winning:
 
-1. ~~**Real covariance data**~~ — **DONE.** FAOSTAT 2010-2021 yield correlations integrated. Data accuracy 6/10 to 8/10. The project is now data-driven, not heuristic.
+1. ~~**Real covariance data**~~ — **DONE.** FAOSTAT 2010-2021 yield correlations + WFP 2022-2025 price correlations integrated. Dual revenue covariance matrix complete. Data accuracy 6/10 to 8.5/10.
 2. **One farmer testimonial** — A 30-second video from a real Myanmar farmer or extension worker saying "this would help me" would destroy the competition in the pitch
 3. **Native Burmese review** — Fix the AI-generated translations so the MM mode actually works
 4. **A sharper pitch** — The project is strong enough. The FAOSTAT finding ("data contradicted our assumptions") is a pitch-winning moment.

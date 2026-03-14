@@ -3,6 +3,7 @@ import { HeroSection } from "./hero-section";
 import { InsightSection } from "./insight-section";
 import { CrossDomainSection } from "./cross-domain-section";
 import { MonteCarloSection } from "./monte-carlo-section";
+import { ResearchSection } from "./research-section";
 import { HowItWorksSection } from "./how-it-works-section";
 import { MetricsSection } from "./metrics-section";
 import { TechSection } from "./tech-section";
@@ -20,6 +21,7 @@ export function LandingPage() {
       <InsightSection />
       <CrossDomainSection />
       <MonteCarloSection />
+      <ResearchSection />
       <HowItWorksSection />
       <MetricsSection />
       <TechSection />

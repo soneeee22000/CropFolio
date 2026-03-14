@@ -75,27 +75,29 @@ Partnerships with UNDP, FAO country office, Myanmar agricultural cooperatives, o
 | Yield correlations   | 9/10       | FAOSTAT 2010-2021 (12 years)              | None — this is strong                      |
 | Yield values (kg/ha) | 9/10       | FAOSTAT 2019-2021 means                   | None                                       |
 | Yield variance       | 9/10       | FAOSTAT coefficient of variation          | None                                       |
-| Price data           | 5/10       | Synthetic CSVs based on WFP ranges        | Need actual WFP download                   |
-| Price correlations   | 4/10       | Not computed                              | Need WFP time series → correlation matrix  |
+| Price data           | 8/10       | WFP monthly prices 2022-2025 (6 crops)    | Could extend to 2008-2025 with full HDX    |
+| Price correlations   | 9/10       | Computed from WFP monthly returns         | None — all 6 crops covered                 |
+| Revenue covariance   | 9/10       | Dual yield (0.6) + price (0.4) weighted   | None — complete                            |
 | Climate pipeline     | 6/10       | NASA POWER + Open-Meteo (mostly fallback) | Need reliable live data or curated dataset |
 | Township data        | 7/10       | Hand-entered coordinates                  | Need official Myanmar survey data          |
-| **Overall**          | **7.5/10** | Yield side: 9/10. Price side: 4.5/10      | Price data is the critical gap             |
+| **Overall**          | **8.5/10** | Yield + price both data-driven            | Climate pipeline is the remaining gap      |
 
 ---
 
 ## Growth Roadmap: Building Real Value
 
-### Phase 9: Complete the Data Moat
+### Phase 9: Complete the Data Moat — COMPLETE
 
 **Goal:** Make the data layer the strongest part of the product.
-**Timeline:** 1-2 sessions
 
-1. Download real WFP Myanmar price data from HDX (CSV, 2008-2026)
-2. Parse and clean price data for the 6 target crops
-3. Compute monthly price returns and price correlation matrix
-4. Combine yield covariance (FAOSTAT) + price covariance (WFP) into a **revenue covariance matrix**
-5. Update the optimizer to use revenue covariance instead of yield-only covariance
-6. Validate: does the optimizer recommendation change? (It should — price risk matters)
+1. ~~Download real WFP Myanmar price data from HDX~~ — DONE (6 crop CSVs, 2022-2025 monthly)
+2. ~~Parse and clean price data for the 6 target crops~~ — DONE
+3. ~~Compute monthly price returns and price correlation matrix~~ — DONE (all 15 pairs)
+4. ~~Combine yield covariance (FAOSTAT) + price covariance (WFP) into a revenue covariance matrix~~ — DONE (0.6 yield + 0.4 price)
+5. ~~Update the optimizer to use revenue covariance instead of yield-only covariance~~ — DONE
+6. ~~Validate: does the optimizer recommendation change?~~ — DONE (yes — price co-movement reduces net diversification benefit)
+
+**Key finding:** Rice-sesame yield correlation (-0.49) is offset by price co-movement (+0.74), giving near-zero revenue correlation (~0.00). All price correlations are strongly positive (+0.67 to +0.97). Diversification benefit comes from yield risk, not price arbitrage.
 
 **Moat impact:** No competing product has a dual yield+price covariance matrix for Myanmar crops.
 
@@ -173,8 +175,8 @@ Partnerships with UNDP, FAO country office, Myanmar agricultural cooperatives, o
 | Cross-domain insight       | —        | COMPLETE           | 9/10         |
 | FAOSTAT yield correlations | —        | COMPLETE           | 8/10         |
 | Domain expert validation   | Phase 10 | NOT STARTED        | 0/10 → 10/10 |
-| WFP price correlations     | Phase 9  | NOT STARTED        | 4/10 → 9/10  |
-| Revenue covariance matrix  | Phase 9  | NOT STARTED        | 0/10 → 9/10  |
+| WFP price correlations     | Phase 9  | COMPLETE           | 9/10         |
+| Revenue covariance matrix  | Phase 9  | COMPLETE           | 9/10         |
 | User validation            | Phase 11 | NOT STARTED        | 0/10 → 10/10 |
 | Myanmar climate dataset    | Phase 12 | PARTIAL (fallback) | 6/10 → 8/10  |
 | Institutional partnerships | Phase 13 | NOT STARTED        | 0/10 → 10/10 |
@@ -198,4 +200,6 @@ The hackathon is step one. The moat is built over years, not hours.
 
 ## Next Action
 
-**Phase 9 (Complete the Data Moat)** is the highest-leverage next step. Real WFP price correlations would make CropFolio the only crop portfolio optimizer in Myanmar with both yield AND price risk modeling. That's a genuine, defensible moat.
+~~**Phase 9 (Complete the Data Moat)**~~ — COMPLETE. WFP price correlations computed, revenue covariance matrix integrated. CropFolio is now the only crop portfolio optimizer in Myanmar with both yield AND price risk modeling.
+
+**Phase 10 (Domain Expert Validation)** is the highest-leverage next step. Get your father's input formalized — crop data verification, Burmese translation review, and connections to extension workers.
