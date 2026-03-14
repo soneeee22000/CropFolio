@@ -10,6 +10,7 @@ export function CrossDomainSection() {
 
   return (
     <section
+      id="about"
       ref={ref}
       className="bg-[#1A1A18] text-[#FAFAF8] py-24 sm:py-32 px-6 overflow-hidden"
     >

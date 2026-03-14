@@ -9,7 +9,7 @@ export function InsightSection() {
   const { ref, isInView } = useInView<HTMLElement>({ threshold: 0.3 });
 
   return (
-    <section id="insight" ref={ref} className="bg-surface py-24 sm:py-32 px-6">
+    <section id="problem" ref={ref} className="bg-surface py-24 sm:py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left: Text content */}

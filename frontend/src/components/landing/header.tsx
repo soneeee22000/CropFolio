@@ -45,16 +45,22 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <a
-            href="#insight"
-            className="text-sm text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body"
-          >
-            How It Works
-          </a>
-          <a
-            href="#"
+            href="#about"
             className="text-sm text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body"
           >
             About
+          </a>
+          <a
+            href="#the-science"
+            className="text-sm text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body"
+          >
+            The Science
+          </a>
+          <a
+            href="#how-it-works"
+            className="text-sm text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body"
+          >
+            How It Works
           </a>
           <Link
             to="/app"
@@ -83,21 +89,30 @@ export function Header() {
         <div className="md:hidden bg-[#1A1A18] border-t border-[#333330]">
           <nav className="flex flex-col p-6 gap-4">
             <a
-              href="#insight"
+              href="#about"
+              className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              About
+            </a>
+            <a
+              href="#the-science"
+              className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              The Science
+            </a>
+            <a
+              href="#how-it-works"
               className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               How It Works
             </a>
-            <a
-              href="#"
-              className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body py-2"
-            >
-              About
-            </a>
             <Link
               to="/app"
               className="px-6 py-3 bg-primary text-white rounded-lg text-sm uppercase tracking-wide font-medium hover:bg-primary-dark transition-colors text-center w-full mt-2"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
               Try CropFolio
             </Link>

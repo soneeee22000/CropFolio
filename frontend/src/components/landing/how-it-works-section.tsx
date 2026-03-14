@@ -173,7 +173,11 @@ export function HowItWorksSection() {
   const { ref, isInView } = useInView<HTMLElement>({ threshold: 0.1 });
 
   return (
-    <section ref={ref} className="bg-surface py-24 sm:py-32 px-6">
+    <section
+      id="how-it-works"
+      ref={ref}
+      className="bg-surface py-24 sm:py-32 px-6"
+    >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div

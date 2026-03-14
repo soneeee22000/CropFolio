@@ -133,7 +133,7 @@ export function HeroSection() {
           </Link>
 
           <a
-            href="#insight"
+            href="#problem"
             className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors flex items-center gap-2 text-sm font-body"
           >
             See how it works

@@ -202,6 +202,69 @@ export function PieChart({ className = "w-6 h-6" }: IconProps) {
   );
 }
 
+/** Atom / nucleus icon with orbiting ellipses. */
+export function Atom({ className = "w-6 h-6" }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <circle cx="12" cy="12" r="1" />
+      <path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z" />
+      <path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z" />
+    </svg>
+  );
+}
+
+/** Dice face icon. */
+export function Dice({ className = "w-6 h-6" }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+      <path d="M16 8h.01" />
+      <path d="M12 12h.01" />
+      <path d="M8 16h.01" />
+      <path d="M16 16h.01" />
+      <path d="M8 8h.01" />
+    </svg>
+  );
+}
+
+/** Crosshair / target icon. */
+export function Target({ className = "w-6 h-6" }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="6" />
+      <circle cx="12" cy="12" r="2" />
+    </svg>
+  );
+}
+
 /** Shuffle / random icon. */
 export function Shuffle({ className = "w-6 h-6" }: IconProps) {
   return (

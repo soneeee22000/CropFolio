@@ -2,6 +2,7 @@ import { Header } from "./header";
 import { HeroSection } from "./hero-section";
 import { InsightSection } from "./insight-section";
 import { CrossDomainSection } from "./cross-domain-section";
+import { MonteCarloSection } from "./monte-carlo-section";
 import { HowItWorksSection } from "./how-it-works-section";
 import { MetricsSection } from "./metrics-section";
 import { TechSection } from "./tech-section";
@@ -18,6 +19,7 @@ export function LandingPage() {
       <HeroSection />
       <InsightSection />
       <CrossDomainSection />
+      <MonteCarloSection />
       <HowItWorksSection />
       <MetricsSection />
       <TechSection />
