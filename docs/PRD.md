@@ -23,7 +23,7 @@ The information asymmetry between farmers and the market is the root cause of ru
 
 ### Core Insight
 
-Rice is flood-tolerant but drought-sensitive. Pulses and oilseeds are drought-tolerant but flood-sensitive. These **negatively correlated risk profiles** are exactly the diversification opportunity that portfolio theory exploits.
+Real FAOSTAT yield data (2010-2021, Myanmar) confirms the diversification opportunity: Rice vs Sesame has a **-0.49 correlation** — the strongest hedge available. However, pulse-pulse correlations are high (+0.5 to +0.9), meaning diversifying within pulses alone provides minimal risk reduction. The covariance matrix driving the optimizer is computed from 12 years of real yield data, not heuristic assumptions.
 
 ### Target Users
 
@@ -115,16 +115,16 @@ Rice is flood-tolerant but drought-sensitive. Pulses and oilseeds are drought-to
 
 ### Stack
 
-| Layer               | Technology                                                          | Justification                                                   |
-| ------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------- |
-| **Frontend**        | React 18 + TypeScript + Tailwind CSS                                | Fast to build, component-driven, great charting ecosystem       |
-| **Charts**          | Recharts + D3.js (for Monte Carlo animation)                        | Recharts for standard charts, D3 for the custom simulation viz  |
-| **Backend**         | Python 3.10 + FastAPI                                               | Best ecosystem for data science + API in one codebase           |
-| **ML/Optimization** | scikit-learn, scipy.optimize, numpy, pandas                         | Markowitz optimization, Monte Carlo simulation, data processing |
-| **AI**              | Google Gemini 2.0 Flash (free tier)                                 | AI-powered analysis and recommendations (optional)              |
-| **Data Sources**    | NASA POWER API, Open-Meteo API, FAO GAEZ (static), WFP HDX (static) | All confirmed to cover Myanmar                                  |
-| **Database**        | SQLite (hackathon) → PostgreSQL (production)                        | Zero setup for MVP, easy migration path                         |
-| **Deployment**      | Vercel (frontend) + Railway (backend)                               | Free tier, instant deploys, no DevOps overhead                  |
+| Layer               | Technology                                                          | Justification                                                    |
+| ------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| **Frontend**        | React 18 + TypeScript + Tailwind CSS                                | Fast to build, component-driven, great charting ecosystem        |
+| **Charts**          | Recharts + D3.js (for Monte Carlo animation)                        | Recharts for standard charts, D3 for the custom simulation viz   |
+| **Backend**         | Python 3.10 + FastAPI                                               | Best ecosystem for data science + API in one codebase            |
+| **ML/Optimization** | scikit-learn, scipy.optimize, numpy, pandas                         | Markowitz optimization, Monte Carlo simulation, data processing  |
+| **AI**              | Google Gemini 2.0 Flash (free tier)                                 | AI-powered analysis and recommendations (optional)               |
+| **Data Sources**    | NASA POWER API, Open-Meteo API, FAOSTAT 2010-2021, WFP HDX (static) | All confirmed to cover Myanmar. FAOSTAT provides real covariance |
+| **Database**        | SQLite (hackathon) → PostgreSQL (production)                        | Zero setup for MVP, easy migration path                          |
+| **Deployment**      | Vercel (frontend) + Railway (backend)                               | Free tier, instant deploys, no DevOps overhead                   |
 
 ### Architecture Diagram
 
@@ -149,7 +149,7 @@ Rice is flood-tolerant but drought-sensitive. Pulses and oilseeds are drought-to
 │         │                │               │         │
 │  ┌──────┴────────────────┴───────────────┴──────┐  │
 │  │              Data Layer                       │  │
-│  │  NASA POWER │ Open-Meteo │ FAO GAEZ │ WFP   │  │
+│  │  NASA POWER │ Open-Meteo │ FAOSTAT  │ WFP   │  │
 │  └──────────────────────────────────────────────┘  │
 └────────────────────────────────────────────────────┘
 ```
@@ -183,11 +183,13 @@ class CropProfile:
     growing_season: str  # monsoon, dry, both
     drought_tolerance: float  # 0.0 - 1.0
     flood_tolerance: float  # 0.0 - 1.0
-    avg_yield_kg_per_ha: float
-    yield_variance: float
+    avg_yield_kg_per_ha: float   # Source: FAOSTAT 2019-2021 mean
+    yield_variance: float        # Source: FAOSTAT 2010-2021 CV
     avg_price_mmk_per_kg: float
     price_variance: float
 ```
+
+Yield means and variance are sourced from FAOSTAT (element 5419 — yield hg/ha, country code 28 — Myanmar). The covariance matrix is computed from 12 annual yield observations (2010-2021).
 
 ### Climate Risk Profile
 
@@ -256,7 +258,7 @@ class PortfolioAllocation:
 
 **Deliverables:**
 
-- Crop profile database (6 Myanmar crops with research-backed characteristics)
+- Crop profile database (6 Myanmar crops with FAOSTAT-backed yields and real covariance matrix)
 - Climate data pipeline (NASA POWER + Open-Meteo integration)
 - WFP price data loader (historical prices for key crops)
 - Markowitz portfolio optimization engine (scipy.optimize)

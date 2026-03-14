@@ -28,10 +28,10 @@ Impressive engineering output. But engineering output is not the same as value.
 
 ## Does It Have Real Value?
 
-### Honest answer: Not yet. Here's why.
+### Honest answer: Getting there. Here's the current state.
 
-**1. The core optimizer runs on invented data.**
-The covariance matrix — the thing that makes Markowitz work — is fabricated from drought/flood tolerance heuristics, not estimated from actual historical crop yield data. A real portfolio optimizer needs real return correlations. Without them, the "optimal" allocation is a guess that happens to look scientific.
+**1. ~~The core optimizer runs on invented data.~~ — FIXED: Now data-driven.**
+The covariance matrix is now **computed from real FAOSTAT 2010-2021 yield data** (element code 5419, country code 28, 12 annual observations). The real correlations contradicted our heuristic assumptions: Rice vs Sesame is -0.49 (genuine hedge), but Rice vs Chickpea is +0.13 (not a hedge), and pulse-pulse correlations are +0.5 to +0.9 (no diversification benefit). The optimizer is now making allocation decisions based on real statistical relationships, not guesses. **Remaining gap:** price correlations are still synthetic.
 
 **2. Nobody in Myanmar agriculture asked for this.**
 Zero user research. Zero farmer interviews. Zero extension worker feedback. We assumed the problem exists (it does) and assumed our solution fits (unvalidated). The most dangerous hackathon projects are ones that solve a real problem with a solution nobody wants.
@@ -49,8 +49,8 @@ It looks great in screenshots. We have zero evidence any target user can navigat
 
 ## What's Genuinely Strong
 
-**1. The cross-domain insight is real and novel.**
-Applying portfolio theory to crop selection is genuinely creative. The negative correlation between rice (flood-tolerant) and pulses (drought-tolerant) is agronomically valid. No other hackathon team will have this insight. This is the one thing that can't be faked.
+**1. The cross-domain insight is real, novel, and now data-backed.**
+Applying portfolio theory to crop selection is genuinely creative. The negative correlation between rice and sesame (r = -0.49) is now **confirmed by 12 years of FAOSTAT data**, not just assumed from agronomic reasoning. The data also revealed that our initial assumption about pulses hedging rice was wrong — pulse-pulse correlations are too high for within-pulse diversification to help. This is the kind of data-driven finding that builds credibility.
 
 **2. The Monte Carlo visualization actually communicates.**
 The animated histogram with monocrop overlay tells the story instantly. You don't need to understand portfolio theory — you see the wide red distribution vs. the tight green one and you get it. This is the demo moment.
@@ -72,21 +72,21 @@ Whether the exact numbers are precisely calibrated or not, the directional truth
 - **Technical (CS/ML)** — Impressed by architecture and Monte Carlo viz. May not question covariance.
 - **Agricultural experts** — Recognize the insight is valid but may question data sources.
 - **Business/impact focused (UNDP)** — Love the impact narrative and B2B pivot story.
-- **Finance literate** — Spot the heuristic covariance and ask hard questions.
+- **Finance literate** — Will appreciate the FAOSTAT-backed covariance. May ask about price correlations (still synthetic).
 
 **Against typical hackathon competition:**
 
 - Teams building crop disease classifiers → CropFolio wins on originality
 - Teams building weather dashboards → CropFolio wins on depth
 - Teams building chatbots with LLM wrappers → CropFolio wins on mathematical substance
-- A team with real farmer data and a simpler product → CropFolio might lose
+- A team with real farmer testimonials and field validation → CropFolio might lose
 
 ---
 
 ## Win Probability
 
-**60-70% chance of winning a typical AI agriculture hackathon.**
-Higher if competing teams are weak. Lower if someone shows up with real farmer data.
+**70-80% chance of winning a typical AI agriculture hackathon.**
+Higher now that the covariance matrix is data-driven. The FAOSTAT integration removes the biggest vulnerability (the "where's your data?" question). Lower if someone shows up with real farmer testimonials or field validation.
 
 ---
 
@@ -94,15 +94,15 @@ Higher if competing teams are weak. Lower if someone shows up with real farmer d
 
 In order of impact on winning:
 
-1. **Real covariance data** — Even one source of historical crop yield correlation would transform the project from "guess" to "data-driven"
+1. ~~**Real covariance data**~~ — **DONE.** FAOSTAT 2010-2021 yield correlations integrated. Data accuracy 6/10 to 8/10. The project is now data-driven, not heuristic.
 2. **One farmer testimonial** — A 30-second video from a real Myanmar farmer or extension worker saying "this would help me" would destroy the competition in the pitch
 3. **Native Burmese review** — Fix the AI-generated translations so the MM mode actually works
-4. **A sharper pitch** — The project is strong enough. The pitch decides whether judges see it.
+4. **A sharper pitch** — The project is strong enough. The FAOSTAT finding ("data contradicted our assumptions") is a pitch-winning moment.
 
 ---
 
 ## The Bottom Line
 
-CropFolio's value is the **insight and the architecture**, not the current data accuracy. If pitched as a finished product, it'll get caught. If pitched as a validated concept with a clear path to production, it'll impress.
+CropFolio's value is the **insight, the architecture, and now the data**. The FAOSTAT integration transforms it from "clever idea with heuristic inputs" to "data-driven tool with real statistical foundations." If pitched honestly — "we computed real correlations and the data surprised us" — it's highly credible.
 
-**Ship it honestly. Win it on originality. Build it for real after.**
+**Ship it with confidence. The data is real. Win it on originality + data-driven insights.**

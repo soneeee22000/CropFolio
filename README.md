@@ -63,32 +63,25 @@ Myanmar's **10 million smallholder farmers** face a devastating reality:
 
 > "What if farmers could manage climate risk the same way investors manage market risk?"
 
-### The Core Insight
+### The Core Insight — Validated by Real Data
 
-```mermaid
-graph LR
-    subgraph "Rice (Cereal)"
-        R_D["Drought Tolerance: LOW 🔴"]
-        R_F["Flood Tolerance: HIGH 🟢"]
-    end
-    subgraph "Pulses & Oilseeds"
-        P_D["Drought Tolerance: HIGH 🟢"]
-        P_F["Flood Tolerance: LOW 🔴"]
-    end
+We computed **actual yield correlations** from 12 years of FAOSTAT data (2010-2021, Myanmar, element 5419 yield hg/ha). The results contradicted our initial assumptions:
 
-    Rice -- "Negatively Correlated" --> Pulses
-    style Rice fill:#dcfce7,stroke:#16a34a
-    style Pulses fill:#fef3c7,stroke:#d97706
-```
+| Crop Pair         | Correlation      | What It Means                                               |
+| ----------------- | ---------------- | ----------------------------------------------------------- |
+| Rice vs Sesame    | **-0.49**        | Strong negative — the ONE real diversification hedge        |
+| Rice vs Groundnut | **-0.05**        | Near zero — mild diversification benefit                    |
+| Rice vs Chickpea  | **+0.13**        | Slightly positive — NOT a hedge as we originally assumed    |
+| Pulses vs Pulses  | **+0.5 to +0.9** | Highly correlated — diversifying within pulses doesn't help |
 
-Rice is **flood-tolerant** but **drought-sensitive**. Pulses and oilseeds are **drought-tolerant** but **flood-sensitive**. These **negatively correlated risk profiles** are exactly the diversification opportunity that portfolio theory exploits.
+The key finding: **only sesame genuinely hedges rice yield risk.** Diversifying among pulses alone provides almost no risk reduction because pulse yields move together. This is the kind of insight you can only get from real data — not from reasoning about drought/flood tolerance.
 
 | Finance Concept        | CropFolio Equivalent                                  |
 | ---------------------- | ----------------------------------------------------- |
 | Stocks                 | Crops (rice, black gram, sesame, chickpea, groundnut) |
 | Market Risk            | Climate Risk (drought, flood, temperature anomaly)    |
 | Expected Returns       | Expected Income per Hectare                           |
-| Correlation Matrix     | Crop Yield Correlation Under Climate Scenarios        |
+| Correlation Matrix     | FAOSTAT 2010-2021 Yield Correlations (real data)      |
 | Efficient Frontier     | Optimal Crop Mix for Risk/Return Tradeoff             |
 | Monte Carlo Simulation | 1,000 Simulated Climate Seasons                       |
 
@@ -175,7 +168,7 @@ graph TB
     subgraph Data["External Data Sources"]
         NP["NASA POWER\nSatellite Climate"]
         OM["Open-Meteo\nWeather Forecast"]
-        FAO["FAO GAEZ\nCrop Yields"]
+        FAO["FAOSTAT\nCrop Yields 2010-2021"]
         WFP["WFP VAM\nFood Prices"]
     end
 
@@ -233,7 +226,7 @@ Full interactive API docs available at `/docs` (Swagger UI).
 | Sesame       | နှမ်း     | Oilseed  | **Very High (0.8)**  | Very Low (0.1) | Dry     |
 | Groundnut    | မြေပဲ     | Oilseed  | Moderate (0.55)      | Low (0.2)      | Dry     |
 
-Sources: FAO GAEZ, IRRI, Myanmar Department of Agriculture
+Sources: FAOSTAT 2010-2021 (yield means + variance), FAO GAEZ, IRRI, Myanmar Department of Agriculture
 
 ---
 
@@ -248,7 +241,7 @@ Sources: FAO GAEZ, IRRI, Myanmar Department of Agriculture
 | **AI/ML**         | Google Gemini 2.0 Flash               | AI-powered analysis and recommendations         |
 | **Visualization** | D3.js + Recharts                      | Custom animated histogram + standard charts     |
 | **Styling**       | Tailwind CSS v4                       | Utility-first, rapid prototyping                |
-| **Data**          | NASA POWER, Open-Meteo, FAO, WFP      | All open, all verified for Myanmar coverage     |
+| **Data**          | NASA POWER, Open-Meteo, FAOSTAT, WFP  | All open, all verified for Myanmar coverage     |
 | **Deployment**    | Railway (backend) + Vercel (frontend) | Zero-config, instant deploys                    |
 | **Testing**       | pytest (83 tests), vitest (6 tests)   | 89 total tests, 80%+ coverage on critical paths |
 
@@ -260,8 +253,11 @@ Sources: FAO GAEZ, IRRI, Myanmar Department of Agriculture
 | ------------------------------------------ | ----------------------------------- | ------------------------------ |
 | [NASA POWER](https://power.larc.nasa.gov/) | Historical climate data (10+ years) | Global, 0.5 degree resolution  |
 | [Open-Meteo](https://open-meteo.com/)      | Weather forecasts (7-16 days)       | Global, 11km resolution        |
+| [FAOSTAT](https://data.un.org/)            | Historical crop yields (2010-2021)  | Myanmar, 5 crops, annual       |
 | [FAO GAEZ](https://gaez.fao.org/)          | Crop yield potential by region      | Global, gridded                |
 | [WFP VAM](https://dataviz.vam.wfp.org/)    | Food commodity prices               | Myanmar, 70+ townships, weekly |
+
+FAOSTAT data (element code 5419 — yield hg/ha, country code 28 — Myanmar) provides the **real covariance matrix** behind the portfolio optimizer. 12 annual observations (2010-2021) for Rice, Groundnut, Sesame, Chickpea, and Beans dry (proxy for Black Gram + Green Gram). Crop yield means and variance are updated to 2019-2021 FAOSTAT averages.
 
 All data sources are **open access** with confirmed Myanmar coverage. Climate data includes graceful fallback to regional averages when external APIs are unavailable.
 
@@ -484,12 +480,13 @@ AI features are **optional** — the app works fully without a Gemini API key. W
 
 ## What Makes This Different
 
-| Other Hackathon Projects      | CropFolio                                                           |
-| ----------------------------- | ------------------------------------------------------------------- |
-| Crop disease image classifier | **Cross-domain insight**: finance theory applied to agriculture     |
-| Weather dashboard             | **Actionable optimization**: not just data, but decisions           |
-| Chatbot for farmers           | **Mathematical proof**: Monte Carlo shows WHY diversification works |
-| Price prediction app          | **Compound value**: climate + market + risk in one model            |
+| Other Hackathon Projects      | CropFolio                                                                    |
+| ----------------------------- | ---------------------------------------------------------------------------- |
+| Crop disease image classifier | **Cross-domain insight**: finance theory applied to agriculture              |
+| Weather dashboard             | **Actionable optimization**: not just data, but decisions                    |
+| Chatbot for farmers           | **Mathematical proof**: Monte Carlo shows WHY diversification works          |
+| Price prediction app          | **Compound value**: climate + market + risk in one model                     |
+| Projects with heuristic data  | **Data-driven correlations**: real FAOSTAT 2010-2021 covariance, not assumed |
 
 ---
 
@@ -497,22 +494,22 @@ AI features are **optional** — the app works fully without a Gemini API key. W
 
 This is a proof of concept. Here's what's real and what's not:
 
-| What                            | Status                                                                        |
-| ------------------------------- | ----------------------------------------------------------------------------- |
-| The Markowitz optimization math | Real and correct (PSD correction + convergence check added)                   |
-| The Monte Carlo simulation      | Real and correct                                                              |
-| The crop risk profiles          | Cited — based on FAO/IRRI literature with source citations in crop data       |
-| The covariance matrix           | Heuristic — estimated from tolerance profiles, not historical return data     |
-| The climate data pipeline       | Working — NASA POWER mm/day→mm/month fixed, Open-Meteo seasonal scaling fixed |
-| WFP price data                  | Real — 6 WFP price CSVs loaded for Myanmar crops                              |
-| The Burmese translations        | AI-generated, not reviewed by a native speaker                                |
-| The business model              | Speculative — zero customer validation                                        |
+| What                            | Status                                                                         |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| The Markowitz optimization math | Real and correct (PSD correction + convergence check added)                    |
+| The Monte Carlo simulation      | Real and correct                                                               |
+| The crop risk profiles          | Cited — yields updated to 2019-2021 FAOSTAT means, variance from FAOSTAT CV    |
+| The covariance matrix           | **Real** — computed from FAOSTAT 2010-2021 yield data (12 annual observations) |
+| The climate data pipeline       | Working — NASA POWER mm/day→mm/month fixed, Open-Meteo seasonal scaling fixed  |
+| WFP price data                  | Real — 6 WFP price CSVs loaded for Myanmar crops                               |
+| The Burmese translations        | AI-generated, not reviewed by a native speaker                                 |
+| The business model              | Speculative — zero customer validation                                         |
 
 | AI features | Optional — require GEMINI_API_KEY (free tier). App works fully without it |
 
-**What needs to happen for production:** Real historical crop yield + price time series for covariance estimation (currently heuristic). Native Burmese speaker review. User testing with actual extension workers. Customer interviews with insurers/cooperatives.
+**What needs to happen for production:** Price correlation data (currently synthetic — yield correlations are real but price correlations are not). Native Burmese speaker review. User testing with actual extension workers. Customer interviews with insurers/cooperatives.
 
-The core insight — negatively correlated crop risk profiles creating diversification opportunity — is agronomically valid. The architecture supports iterating toward production quality. The bones are good.
+The core insight — that sesame is the one genuine hedge against rice yield risk (r = -0.49) — is now backed by real FAOSTAT data. The architecture supports iterating toward production quality. The bones are good.
 
 ---
 

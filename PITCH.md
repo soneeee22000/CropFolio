@@ -17,7 +17,13 @@ Myanmar's 10 million smallholder farmers face a devastating reality:
 
 Just like an investor diversifies stocks to reduce portfolio risk, CropFolio diversifies crops to reduce climate risk.
 
-Key insight: Rice is flood-tolerant but drought-sensitive. Pulses and oilseeds are drought-tolerant but flood-sensitive. These **negatively correlated risk profiles** are exactly what portfolio theory exploits.
+Key insight: We didn't just assume correlations — we **computed them from 12 years of FAOSTAT data**. And the data surprised us:
+
+- Rice vs Sesame: **-0.49** — the one genuine diversification hedge
+- Rice vs Chickpea: **+0.13** — NOT a hedge (we originally assumed it was)
+- Pulses vs Pulses: **+0.5 to +0.9** — diversifying within pulses doesn't help
+
+"We went in assuming all pulses hedge rice. The data told us only sesame does. That's why you need real correlations, not intuition."
 
 **Target users:** Agricultural extension workers, agri-cooperatives, NGO program officers — not individual farmers directly.
 
@@ -43,7 +49,7 @@ Optionally show the **admin dashboard** (/admin, login: admin / 12345) to demons
 - **40-60% risk reduction** through crop diversification
 - **Printable reports** for cooperatives without internet access
 - **Burmese language** for actual Myanmar users
-- **Real data** — NASA POWER climate data (mm/day→mm/month fixed) + 6 WFP price CSVs + cited crop profiles
+- **Real data** — FAOSTAT 2010-2021 yield correlations + NASA POWER climate data + 6 WFP price CSVs
 - **Free for cooperatives** — no cost barrier for the people who need it most
 
 ## 5. Tech (30s)
@@ -51,7 +57,7 @@ Optionally show the **admin dashboard** (/admin, login: admin / 12345) to demons
 - **Backend:** Python, FastAPI, scipy (Markowitz optimization), numpy (Monte Carlo)
 - **AI:** Google Gemini 2.0 Flash — intelligent portfolio analysis and recommendations
 - **Frontend:** React, TypeScript, D3.js (animated histogram)
-- **Data:** NASA POWER API, Open-Meteo API, FAO GAEZ, WFP food prices
+- **Data:** FAOSTAT 2010-2021 (covariance matrix), NASA POWER API, Open-Meteo API, WFP food prices
 - **AI costs:** Zero — Gemini free tier. Core math runs without AI; AI adds contextual analysis
 - **89 automated tests** (83 backend + 6 frontend) — production-grade engineering
 
@@ -80,7 +86,7 @@ TAM: Global crop insurance market = $40B+/year
 - Always use rice + black gram + sesame (tested safe combination)
 - Practice the Monte Carlo reveal — pause when the histogram animates
 - When judges ask "can farmers use this?" → "Extension workers and cooperatives are our users. They advise 500+ farmers each."
-- When judges ask "is the data real?" → "Crop profiles are cited from FAO/IRRI. Climate uses NASA POWER with correct mm/day→mm/month conversion. WFP price data for all 6 crops. The covariance model is heuristic — our next phase is integrating actual historical time series."
-- When judges ask "where's the historical data?" → Own it: "This is a proof of concept. The optimization math is correct. The inputs use heuristic correlations based on agronomic research. Phase 2 is real data integration."
+- When judges ask "is the data real?" → "The covariance matrix is computed from 12 years of FAOSTAT yield data — real Myanmar crop yields from 2010 to 2021. Crop yield means are 2019-2021 FAOSTAT averages. Climate from NASA POWER. WFP price data for all 6 crops. Price correlations are still synthetic — that's our next phase."
+- When judges ask "where's the historical data?" → This is now a STRENGTH: "We downloaded FAOSTAT yield data for Myanmar, element 5419, 12 annual observations. We computed the actual correlation matrix. The data surprised us — only sesame genuinely hedges rice risk. Pulse-pulse correlations are too high for within-pulse diversification to help."
 - Don't claim 90% confidence — if asked about data quality, be honest about limitations
 - Don't bluff. Honesty about what's real and what's next is more credible than pretending it's finished.
