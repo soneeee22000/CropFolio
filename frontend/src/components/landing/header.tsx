@@ -73,6 +73,12 @@ export function Header() {
             The Science
           </a>
           <a
+            href="#research"
+            className="text-sm text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body"
+          >
+            Research
+          </a>
+          <a
             href="#how-it-works"
             className="text-sm text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body"
           >
@@ -117,6 +123,13 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               The Science
+            </a>
+            <a
+              href="#research"
+              className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors font-body py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Research
             </a>
             <a
               href="#how-it-works"
