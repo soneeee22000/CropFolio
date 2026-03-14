@@ -75,12 +75,19 @@ class TestCovarianceMatrix:
         for i in range(3):
             assert cov[i][i] > 0
 
-    def test_rice_sesame_negative_correlation(
+    def test_rice_sesame_low_correlation(
         self, rice: CropProfile, sesame: CropProfile
     ) -> None:
-        """Rice and sesame have negative yield correlation per FAOSTAT data."""
+        """Rice-sesame combined correlation is near-zero.
+
+        FAOSTAT yield correlation is -0.49, but WFP price correlation
+        is +0.74 (inflation-driven). Combined (0.6*yield + 0.4*price)
+        yields ~0.0, meaning good diversification benefit.
+        """
         cov = compute_covariance_matrix([rice, sesame])
-        assert cov[0][1] < 0, "Rice-sesame covariance should be negative (FAOSTAT r=-0.49)"
+        # Off-diagonal should be small relative to diagonals
+        max_diag = max(cov[0][0], cov[1][1])
+        assert abs(cov[0][1]) < max_diag * 0.5
 
 
 class TestOptimizePortfolio:

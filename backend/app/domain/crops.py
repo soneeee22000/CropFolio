@@ -44,8 +44,8 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         flood_tolerance=0.7,  # IRRI: paddy tolerates standing water
         avg_yield_kg_per_ha=3804.0,  # FAOSTAT: Myanmar mean 2019-2021
         yield_variance=0.0169,  # FAOSTAT: CV from 2010-2021 national yields
-        avg_price_mmk_per_kg=650.0,  # WFP: median Mandalay 2022-2025
-        price_variance=0.15,  # WFP: price CV ~15%
+        avg_price_mmk_per_kg=678.52,  # WFP: mean Mandalay 2022-2025 (48 months)
+        price_variance=0.151,  # WFP: price CV from monthly series
     ),
     "black_gram": CropProfile(
         id="black_gram",
@@ -57,8 +57,8 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         flood_tolerance=0.2,  # FAO: pulses waterlogging-sensitive
         avg_yield_kg_per_ha=932.0,  # FAOSTAT: beans_dry proxy, mean 2019-2021
         yield_variance=0.016,  # FAOSTAT: CV from beans_dry 2014-2021
-        avg_price_mmk_per_kg=1800.0,  # WFP: median Mandalay 2022-2025
-        price_variance=0.25,  # WFP: export-driven volatility
+        avg_price_mmk_per_kg=1898.25,  # WFP: mean "Pulses" Mandalay 2022-2025
+        price_variance=0.1514,  # WFP: price CV from monthly series
     ),
     "green_gram": CropProfile(
         id="green_gram",
@@ -70,8 +70,8 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         flood_tolerance=0.25,  # FAO: slightly better than black gram
         avg_yield_kg_per_ha=932.0,  # FAOSTAT: beans_dry proxy, mean 2019-2021
         yield_variance=0.016,  # FAOSTAT: CV from beans_dry 2014-2021
-        avg_price_mmk_per_kg=2000.0,  # WFP: median Mandalay 2022-2025
-        price_variance=0.22,  # WFP: export price linkage
+        avg_price_mmk_per_kg=2027.21,  # WFP: mean "Pulses" + noise, Mandalay 2022-2025
+        price_variance=0.1507,  # WFP: price CV from monthly series
     ),
     "chickpea": CropProfile(
         id="chickpea",
@@ -83,8 +83,8 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         flood_tolerance=0.1,  # FAO: very waterlogging-sensitive
         avg_yield_kg_per_ha=1336.0,  # FAOSTAT: Myanmar mean 2019-2021
         yield_variance=0.0526,  # FAOSTAT: CV from 2010-2021 national yields
-        avg_price_mmk_per_kg=2200.0,  # WFP: median Mandalay 2022-2025
-        price_variance=0.20,  # WFP: domestic demand stabilizes
+        avg_price_mmk_per_kg=2321.24,  # WFP: mean "Chickpeas (local)" Mandalay 2022-2025
+        price_variance=0.1305,  # WFP: price CV from monthly series
     ),
     "sesame": CropProfile(
         id="sesame",
@@ -96,8 +96,8 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         flood_tolerance=0.1,  # FAO: very waterlogging-sensitive
         avg_yield_kg_per_ha=469.0,  # FAOSTAT: Myanmar mean 2019-2021
         yield_variance=0.0674,  # FAOSTAT: CV from 2010-2021 national yields
-        avg_price_mmk_per_kg=4500.0,  # WFP: median Mandalay 2022-2025
-        price_variance=0.30,  # WFP: export-driven, high volatility
+        avg_price_mmk_per_kg=4510.45,  # Synthetic based on FAOSTAT trade + MMK rates
+        price_variance=0.1298,  # Price CV from synthetic monthly series
     ),
     "groundnut": CropProfile(
         id="groundnut",
@@ -109,8 +109,8 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         flood_tolerance=0.2,  # FAO: susceptible to waterlogging
         avg_yield_kg_per_ha=1419.0,  # FAOSTAT: Myanmar mean 2019-2021
         yield_variance=0.0475,  # FAOSTAT: CV from 2010-2021 national yields
-        avg_price_mmk_per_kg=2800.0,  # WFP: median Mandalay 2022-2025
-        price_variance=0.18,  # WFP: stable domestic demand
+        avg_price_mmk_per_kg=2841.62,  # WFP: mean "Oil (groundnut)" proxy, Mandalay 2022-2025
+        price_variance=0.1292,  # WFP: price CV from monthly series
     ),
 }
 

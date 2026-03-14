@@ -3,10 +3,19 @@
 Applies Modern Portfolio Theory to find the optimal crop mix that
 maximizes expected income while minimizing climate-adjusted risk.
 
-LIMITATION: Uses real FAOSTAT yield correlations (2010-2021) combined
-with heuristic price correlations. Variances are derived from crop
-profile yield_variance and price_variance. A production version would
-use joint yield-price return covariances from matched time series.
+Uses a revenue covariance approach:
+  Revenue = Yield x Price
+  Var(Revenue) ~ E[P]^2 * Var(Y) + E[Y]^2 * Var(P) + 2*E[Y]*E[P]*Cov(Y,P)
+
+Correlations combine real FAOSTAT yield correlations (2010-2021) and
+WFP price return correlations (2022-2025) via a weighted average
+(0.6 yield + 0.4 price), reflecting that yield risk dominates for
+subsistence farmers.
+
+LIMITATION: Yield-price cross-covariance (Cov(Y,P)) is assumed zero
+because yield and price series come from different time windows
+(2010-2021 vs 2022-2025) and cannot be directly matched. A production
+version would use contemporaneous yield-price panel data.
 """
 
 import logging
@@ -23,6 +32,7 @@ from app.core.constants import (
 )
 from app.domain.crops import CropProfile
 from app.infrastructure.faostat_yields import FAOSTAT_YIELD_CORRELATIONS
+from app.infrastructure.price_correlations import PRICE_CORRELATIONS
 
 logger = logging.getLogger(__name__)
 
@@ -65,12 +75,12 @@ def compute_expected_returns(
 def compute_covariance_matrix(
     crops: list[CropProfile],
 ) -> NDArray[np.float64]:
-    """Build covariance matrix from crop yield and price variances.
+    """Build revenue covariance matrix from yield and price variances.
 
-    Uses real FAOSTAT yield correlations (2010-2021) for off-diagonal entries
-    when available, falling back to heuristic tolerance-based estimates for
-    crop pairs not in the FAOSTAT dataset. Variance (diagonal) uses crop
-    profile yield_variance and price_variance.
+    Diagonal entries use revenue variance:
+      Var(Rev) ~ E[P]^2 * Var(Y) + E[Y]^2 * Var(P)
+    Off-diagonal entries use combined yield+price correlations
+    (0.6 FAOSTAT yield + 0.4 WFP price return correlations).
     """
     n = len(crops)
     cov_matrix = np.zeros((n, n), dtype=np.float64)
@@ -98,30 +108,78 @@ def compute_covariance_matrix(
     return cov_matrix
 
 
-def _get_correlation(crop_a: CropProfile, crop_b: CropProfile) -> float:
-    """Get yield correlation from FAOSTAT data, with heuristic fallback.
+YIELD_CORRELATION_WEIGHT = 0.6
+PRICE_CORRELATION_WEIGHT = 0.4
 
-    Looks up the real correlation from FAOSTAT_YIELD_CORRELATIONS first.
-    Falls back to _estimate_correlation for crop pairs not covered.
+
+def _get_correlation(crop_a: CropProfile, crop_b: CropProfile) -> float:
+    """Get combined yield+price correlation for a crop pair.
+
+    Computes a weighted average of FAOSTAT yield correlation and WFP
+    price return correlation (0.6 yield + 0.4 price). Falls back to
+    heuristic estimates when data is missing for either component.
 
     Args:
         crop_a: First crop profile.
         crop_b: Second crop profile.
 
     Returns:
-        Pearson correlation coefficient, clamped to [-0.7, 0.9].
+        Combined correlation coefficient, clamped to [-0.7, 0.9].
+    """
+    pair = (crop_a.id, crop_b.id)
+
+    yield_corr = _get_yield_correlation(crop_a, crop_b)
+    price_corr = _get_price_correlation(pair)
+
+    combined = (
+        YIELD_CORRELATION_WEIGHT * yield_corr
+        + PRICE_CORRELATION_WEIGHT * price_corr
+    )
+    return max(min(combined, 0.9), -0.7)
+
+
+def _get_yield_correlation(
+    crop_a: CropProfile, crop_b: CropProfile,
+) -> float:
+    """Look up yield correlation from FAOSTAT, with heuristic fallback.
+
+    Args:
+        crop_a: First crop profile.
+        crop_b: Second crop profile.
+
+    Returns:
+        Yield correlation coefficient.
     """
     pair = (crop_a.id, crop_b.id)
     if pair in FAOSTAT_YIELD_CORRELATIONS:
-        corr = FAOSTAT_YIELD_CORRELATIONS[pair]
-        return max(min(corr, 0.9), -0.7)
+        return FAOSTAT_YIELD_CORRELATIONS[pair]
 
     logger.info(
-        "No FAOSTAT data for pair (%s, %s), using heuristic fallback",
+        "No FAOSTAT yield data for (%s, %s), using heuristic",
         crop_a.id,
         crop_b.id,
     )
     return _estimate_correlation(crop_a, crop_b)
+
+
+def _get_price_correlation(pair: tuple[str, str]) -> float:
+    """Look up price return correlation from WFP data.
+
+    Args:
+        pair: Tuple of (crop_id_a, crop_id_b).
+
+    Returns:
+        Price return correlation, or 0.3 fallback for missing data.
+    """
+    if pair in PRICE_CORRELATIONS:
+        return PRICE_CORRELATIONS[pair]
+
+    logger.info(
+        "No WFP price data for (%s, %s), using default 0.3",
+        pair[0],
+        pair[1],
+    )
+    return 0.3
 
 
 def _estimate_correlation(crop_a: CropProfile, crop_b: CropProfile) -> float:
