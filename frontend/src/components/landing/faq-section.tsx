@@ -8,9 +8,9 @@ interface FaqItem {
 
 const faqs: FaqItem[] = [
   {
-    question: "How does Myanmar's post-2021 inflation affect the simulation?",
+    question: "How does Myanmar's post-2021 situation affect the simulation?",
     answer:
-      "It's the biggest data challenge we face honestly. The MMK has lost ~60% of its value since 2021, meaning our WFP price data (2022-2025) reflects a fundamentally different economic regime than pre-coup prices. Our price correlations capture this inflationary period — all crop prices move together (+0.67 to +0.97 correlation) largely because of currency-driven inflation, not agricultural fundamentals. The yield data (FAOSTAT 2010-2021) is more stable because yields are measured in kg/ha, not currency. The optimizer's diversification benefit comes primarily from yield hedging (-0.49 rice-sesame), which is inflation-independent.",
+      "This is our biggest limitation, honestly. Our yield correlations come from FAOSTAT 2010-2021 — essentially pre-coup data. Post-2021 Myanmar has a fundamentally different agricultural economy: 60% currency devaluation, banking collapse, supply chain disruption, fertilizer cost spikes, and active conflict in some regions. CropFolio models CLIMATE risk well (drought, flood, yield correlation), but it does NOT model political risk, economic disruption, input cost inflation, or supply chain breakdowns — which for farmers in 2026 may be bigger threats than weather. The yield hedging insight (rice-sesame = -0.49) remains physically valid regardless of politics, but the price and income projections should be treated as directional, not precise.",
   },
   {
     question: "Is the data actually real?",

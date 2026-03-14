@@ -508,8 +508,21 @@ This is a proof of concept. Here's what's real and what's not:
 | Revenue covariance matrix       | **Real** — dual yield (0.6) + price (0.4) weighted covariance                  |
 | The Burmese translations        | AI-generated, not reviewed by a native speaker                                 |
 | The business model              | Speculative — zero customer validation                                         |
+| AI features                     | Optional — require GEMINI_API_KEY (free tier). App works fully without it      |
+| **Post-2021 economic crisis**   | **NOT modeled** — see below                                                    |
 
-| AI features | Optional — require GEMINI_API_KEY (free tier). App works fully without it |
+### What We Don't Model (Post-2021 Myanmar)
+
+CropFolio optimizes for **climate risk**. It does NOT model the political and economic disruptions following Myanmar's 2021 military coup:
+
+- **Currency devaluation** (~60% MMK decline) — our prices are in nominal MMK
+- **Supply chain collapse** — fertilizer, fuel, transport disruptions
+- **Banking system failure** — farmers can't access credit for inputs
+- **Conflict zones** — some townships have active fighting during planting season
+- **Export restrictions** — government controls on pulse/sesame trade
+- **Input cost inflation** — fertilizer and fuel costs have tripled
+
+The FAOSTAT yield data (2010-2021) is essentially pre-coup. The yield correlations remain physically valid (drought still affects rice more than sesame), but the economic context has fundamentally changed. Income projections should be treated as directional, not precise.
 
 **What needs to happen for production:** Native Burmese speaker review. User testing with actual extension workers. Customer interviews with insurers/cooperatives.
 
