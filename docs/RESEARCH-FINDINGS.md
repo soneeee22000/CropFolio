@@ -187,6 +187,25 @@ All crops have similar coefficient of variation (12.9% to 15.1%), meaning **pric
 
 ---
 
+## A Note on Computational Complexity
+
+CropFolio's Monte Carlo simulation completes in ~50 milliseconds. This is not a weakness — it's the nature of the math.
+
+**Why it's fast:** Sampling 1,000 scenarios from a 6-crop multivariate normal distribution is a single `(1000, 6)` matrix operation. The Markowitz optimizer converges in milliseconds because it's a convex optimization with 6 variables. Neither of these is machine learning — there are no training loops, no gradient descent, no epochs.
+
+**Why that's fine:** The value of Monte Carlo is not in compute time but in statistical insight. We stress-test crop portfolios across 1,000 possible climate seasons and measure the probability of catastrophic outcomes. The math is sound; it just happens to be fast. A simulation that takes 3 hours but produces the same distribution is not more valuable — it's just slower.
+
+**What would make it slower (and potentially more accurate):**
+
+- Per-township climate scenario sampling instead of national averages
+- Seasonal sub-period simulation (monthly, not annual)
+- Correlated climate event chains (drought → pest outbreak → price spike)
+- Copula-based joint distributions instead of multivariate normal
+
+These are future enhancements that would add genuine computational depth — not artificial delays to look impressive.
+
+---
+
 ## Implications for the Optimizer
 
 1. **Sesame is the key diversifier.** It is the only crop with a meaningfully negative yield correlation against rice (-0.49). The optimizer should allocate significant sesame weight for rice-heavy portfolios.

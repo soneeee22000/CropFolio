@@ -430,6 +430,8 @@ portfolio_income = scenarios @ weights
 
 1,000 scenarios generate the income distribution, from which we compute VaR, catastrophic loss probability, and percentile ranges.
 
+**Why is it fast?** Monte Carlo simulation completes in ~50ms because sampling 1,000 scenarios from a 6-crop multivariate normal distribution is a single `(1000, 6)` matrix operation — trivial for numpy. This is not machine learning. There are no training loops, no gradient descent, no parameter optimization across epochs. The computational value is in the **statistical insight** (stress-testing portfolios across 1,000 climate scenarios), not in compute time. The Markowitz optimizer (scipy SLSQP) also converges in milliseconds because it's a convex optimization with 6 variables — not a neural network with millions of parameters.
+
 ---
 
 ## Testing
