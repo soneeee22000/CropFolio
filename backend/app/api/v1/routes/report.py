@@ -15,6 +15,24 @@ from app.services.report_service import generate_report_pdf
 router = APIRouter(prefix="/report", tags=["report"])
 
 
+@router.get("/debug-models")
+async def debug_models() -> dict:
+    """Temporary: list available Gemini models."""
+    from app.core.config import settings
+
+    key = settings.gemini_api_key.strip()
+    if not key:
+        return {"error": "No API key", "key_length": 0}
+    try:
+        from google import genai
+
+        client = genai.Client(api_key=key)
+        models = [m.name for m in client.models.list() if "flash" in m.name.lower()]
+        return {"key_length": len(key), "models": models}
+    except Exception as e:
+        return {"error": str(e), "key_length": len(key)}
+
+
 @router.post("/pdf")
 @limiter.limit("10/minute")
 async def generate_pdf_report(
