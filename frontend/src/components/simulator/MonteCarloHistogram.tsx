@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import type { HistogramBin, SimulationStats } from "@/types/simulator";
 import { formatMMKCompact } from "@/utils/formatters";
 import { ANIMATION_DURATION_MS, STAGGER_DELAY_MS } from "@/constants";
+import { useResizeObserver } from "@/hooks/useResizeObserver";
 
 interface MonteCarloHistogramProps {
   histogram: HistogramBin[];
@@ -25,12 +26,10 @@ export function MonteCarloHistogram({
   comparisonHistogram,
 }: MonteCarloHistogramProps) {
   const svgRef = useRef<SVGSVGElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const { ref: containerRef, width } = useResizeObserver();
 
   useEffect(() => {
-    if (!svgRef.current || !containerRef.current) return;
-
-    const width = containerRef.current.clientWidth;
+    if (!svgRef.current || !width) return;
     const height = 420;
     const innerW = width - MARGIN.left - MARGIN.right;
     const innerH = height - MARGIN.top - MARGIN.bottom;
@@ -314,7 +313,7 @@ export function MonteCarloHistogram({
         .style("fill", TEXT_TERTIARY)
         .text("Monocrop (Rice)");
     }
-  }, [histogram, stats, comparisonHistogram]);
+  }, [histogram, stats, comparisonHistogram, width]);
 
   return (
     <div ref={containerRef} className="w-full">

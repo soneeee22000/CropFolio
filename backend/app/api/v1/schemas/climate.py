@@ -17,5 +17,5 @@ class ClimateRiskResponse(BaseModel):
     rainfall_forecast_mm: float
     rainfall_historical_avg_mm: float
     risk_level: str
-    confidence: float
+    data_quality_score: float
     data_source: str

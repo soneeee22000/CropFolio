@@ -22,7 +22,7 @@ class ClimateRiskProfile:
     rainfall_forecast_mm: float
     rainfall_historical_avg_mm: float
     risk_level: str
-    confidence: float
+    data_quality_score: float
 
 
 def assess_climate_risk(
@@ -71,7 +71,7 @@ def assess_climate_risk(
         drought_prob = min(drought_prob * 1.2, 0.95)
 
     risk_level = _classify_risk_level(drought_prob, flood_prob)
-    confidence = min(0.5 + n * 0.02, 0.9)
+    data_quality_score = min(0.3 + n * 0.035, 0.85)
 
     return ClimateRiskProfile(
         township_id=township_id,
@@ -83,7 +83,7 @@ def assess_climate_risk(
         rainfall_forecast_mm=round(forecast_rainfall_mm, 1),
         rainfall_historical_avg_mm=round(historical_avg, 1),
         risk_level=risk_level,
-        confidence=round(confidence, 2),
+        data_quality_score=round(data_quality_score, 2),
     )
 
 
@@ -156,5 +156,5 @@ def _default_risk_profile(
         rainfall_forecast_mm=0.0,
         rainfall_historical_avg_mm=0.0,
         risk_level="moderate",
-        confidence=0.3,
+        data_quality_score=0.2,
     )

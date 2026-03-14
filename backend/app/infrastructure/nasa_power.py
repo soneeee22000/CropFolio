@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import calendar
 import logging
+from functools import lru_cache
 from typing import Any
 
 import httpx
@@ -86,12 +87,7 @@ def _extract_annual_rainfall(data: dict[str, Any]) -> list[float]:
     return list(annual_totals.values())
 
 
-_client: NasaPowerClient | None = None
-
-
+@lru_cache(maxsize=1)
 def get_nasa_power_client() -> NasaPowerClient:
     """Return singleton NasaPowerClient instance."""
-    global _client
-    if _client is None:
-        _client = NasaPowerClient()
-    return _client
+    return NasaPowerClient()

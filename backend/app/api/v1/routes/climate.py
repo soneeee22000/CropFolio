@@ -36,6 +36,6 @@ async def get_climate_risk(
         rainfall_forecast_mm=profile.rainfall_forecast_mm,
         rainfall_historical_avg_mm=profile.rainfall_historical_avg_mm,
         risk_level=profile.risk_level,
-        confidence=profile.confidence,
+        data_quality_score=profile.data_quality_score,
         data_source=data_source,
     )

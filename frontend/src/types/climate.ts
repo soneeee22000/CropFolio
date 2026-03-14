@@ -9,6 +9,6 @@ export interface ClimateRiskResponse {
   rainfall_forecast_mm: number;
   rainfall_historical_avg_mm: number;
   risk_level: string;
-  confidence: number;
+  data_quality_score: number;
   data_source: string;
 }

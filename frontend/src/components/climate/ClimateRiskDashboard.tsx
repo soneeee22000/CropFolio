@@ -70,7 +70,7 @@ export function ClimateRiskDashboard({
             ? "NASA POWER + Open-Meteo"
             : "Regional averages (fallback)"}
           {" \u00B7 "}
-          Confidence: {formatPercent(climateRisk.confidence)}
+          Data Quality: {formatPercent(climateRisk.data_quality_score)}
         </p>
       </Card>
 

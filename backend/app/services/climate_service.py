@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from functools import lru_cache
 
 from app.core.constants import (
     DEFAULT_FORECAST_DAYS,
@@ -147,12 +148,7 @@ class ClimateService:
         }
 
 
-_service: ClimateService | None = None
-
-
+@lru_cache(maxsize=1)
 def get_climate_service() -> ClimateService:
     """Return singleton ClimateService instance."""
-    global _service
-    if _service is None:
-        _service = ClimateService()
-    return _service
+    return ClimateService()

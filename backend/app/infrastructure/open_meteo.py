@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from functools import lru_cache
 from typing import Any
 
 import httpx
@@ -82,12 +83,7 @@ def _extract_forecast_summary(data: dict[str, Any]) -> dict[str, float]:
     }
 
 
-_client: OpenMeteoClient | None = None
-
-
+@lru_cache(maxsize=1)
 def get_open_meteo_client() -> OpenMeteoClient:
     """Return singleton OpenMeteoClient instance."""
-    global _client
-    if _client is None:
-        _client = OpenMeteoClient()
-    return _client
+    return OpenMeteoClient()

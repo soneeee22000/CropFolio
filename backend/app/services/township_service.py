@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -30,13 +31,7 @@ class TownshipService:
         return len(self._townships)
 
 
-# Module-level singleton loaded once at import time
-_service: TownshipService | None = None
-
-
+@lru_cache(maxsize=1)
 def get_township_service() -> TownshipService:
     """Return the singleton TownshipService instance."""
-    global _service
-    if _service is None:
-        _service = TownshipService()
-    return _service
+    return TownshipService()

@@ -71,7 +71,7 @@ class TestGetClimateRisk:
         data = response.json()
         assert 0.0 <= data["drought_probability"] <= 1.0
         assert 0.0 <= data["flood_probability"] <= 1.0
-        assert 0.0 <= data["confidence"] <= 1.0
+        assert 0.0 <= data["data_quality_score"] <= 1.0
 
     def test_invalid_township_returns_404(self) -> None:
         """Should return 404 for unknown township."""

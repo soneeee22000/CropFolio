@@ -76,7 +76,7 @@ class TestClimateRiskAssessment:
             forecast_rainfall_mm=200.0,
             forecast_temp_anomaly=0.0,
         )
-        assert result.confidence == 0.3
+        assert result.data_quality_score == 0.2
         assert result.risk_level == "moderate"
 
     def test_result_type(self) -> None:
@@ -103,7 +103,7 @@ class TestClimateRiskAssessment:
         )
         assert 0.0 <= result.drought_probability <= 1.0
         assert 0.0 <= result.flood_probability <= 1.0
-        assert 0.0 <= result.confidence <= 1.0
+        assert 0.0 <= result.data_quality_score <= 1.0
 
     def test_risk_level_classification(self) -> None:
         """Critical risk level for extreme conditions."""

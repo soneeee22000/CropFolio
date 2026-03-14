@@ -25,7 +25,7 @@ def _mock_climate_risk():  # type: ignore[no-untyped-def]
         rainfall_forecast_mm=750.0,
         rainfall_historical_avg_mm=800.0,
         risk_level="moderate",
-        confidence=0.7,
+        data_quality_score=0.7,
     )
     return profile, "mock"
 

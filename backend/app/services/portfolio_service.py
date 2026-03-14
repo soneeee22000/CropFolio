@@ -4,22 +4,21 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from functools import lru_cache
 
 import numpy as np
 
-from app.api.v1.schemas.optimizer import (
-    ClimateRiskSummary,
-    CropWeight,
-    OptimizeResponse,
-    PortfolioMetrics,
-)
-from app.api.v1.schemas.simulator import (
-    HistogramBin,
-    SimulateResponse,
-    SimulationStats,
-)
 from app.domain.crops import CropProfile, get_crop_by_id
 from app.domain.optimizer import compute_expected_returns, optimize_portfolio
+from app.domain.results import (
+    ClimateRiskSummaryResult,
+    CropWeightResult,
+    HistogramBinResult,
+    PortfolioMetricsResult,
+    PortfolioResult,
+    SimStatsResult,
+    SimulationServiceResult,
+)
 from app.domain.simulator import run_monte_carlo
 from app.services.climate_service import ClimateService, get_climate_service
 from app.services.township_service import TownshipService, get_township_service
@@ -47,7 +46,7 @@ class PortfolioService:
         township_id: str,
         risk_tolerance: float,
         season: str,
-    ) -> OptimizeResponse | None:
+    ) -> PortfolioResult | None:
         """Run portfolio optimization for given crops and township.
 
         Returns None if township not found.
@@ -78,7 +77,7 @@ class PortfolioService:
         )
 
         crop_weights = [
-            CropWeight(
+            CropWeightResult(
                 crop_id=crop.id,
                 crop_name=crop.name_en,
                 crop_name_mm=crop.name_mm,
@@ -90,18 +89,18 @@ class PortfolioService:
             for i, crop in enumerate(crops)
         ]
 
-        return OptimizeResponse(
+        return PortfolioResult(
             township_id=township_id,
             township_name=township["name"],
             season=season,
-            weights=crop_weights,
-            metrics=PortfolioMetrics(
+            crop_weights=crop_weights,
+            metrics=PortfolioMetricsResult(
                 expected_income_per_ha=result.expected_income_per_ha,
                 income_std_dev=result.income_std_dev,
                 sharpe_ratio=result.sharpe_ratio,
                 risk_reduction_pct=result.risk_reduction_pct,
             ),
-            climate_risk=ClimateRiskSummary(
+            climate_risk=ClimateRiskSummaryResult(
                 drought_probability=risk_profile.drought_probability,
                 flood_probability=risk_profile.flood_probability,
                 risk_level=risk_profile.risk_level,
@@ -116,7 +115,7 @@ class PortfolioService:
         township_id: str,
         num_simulations: int,
         season: str,
-    ) -> SimulateResponse | None:
+    ) -> SimulationServiceResult | None:
         """Run Monte Carlo simulation for a crop portfolio.
 
         Returns None if township not found.
@@ -143,12 +142,12 @@ class PortfolioService:
 
         histogram = _build_histogram(result.incomes, HISTOGRAM_NUM_BINS)
 
-        return SimulateResponse(
+        return SimulationServiceResult(
             township_id=township_id,
             township_name=township["name"],
             season=season,
             num_simulations=num_simulations,
-            stats=SimulationStats(
+            stats=SimStatsResult(
                 mean_income=result.mean_income,
                 median_income=result.median_income,
                 std_dev=result.std_dev,
@@ -174,14 +173,14 @@ class PortfolioService:
 
 def _build_histogram(
     incomes: list[float], num_bins: int
-) -> list[HistogramBin]:
+) -> list[HistogramBinResult]:
     """Bin income values into a histogram for chart rendering."""
     arr = np.array(incomes)
     counts, bin_edges = np.histogram(arr, bins=num_bins)
     total = len(incomes)
 
     return [
-        HistogramBin(
+        HistogramBinResult(
             bin_start=round(float(bin_edges[i]), 2),
             bin_end=round(float(bin_edges[i + 1]), 2),
             count=int(counts[i]),
@@ -191,12 +190,7 @@ def _build_histogram(
     ]
 
 
-_service: PortfolioService | None = None
-
-
+@lru_cache(maxsize=1)
 def get_portfolio_service() -> PortfolioService:
     """Return singleton PortfolioService instance."""
-    global _service
-    if _service is None:
-        _service = PortfolioService()
-    return _service
+    return PortfolioService()
