@@ -45,7 +45,11 @@ export function ResearchSection() {
   const { ref, isInView } = useInView<HTMLElement>({ threshold: 0.1 });
 
   return (
-    <section id="research" ref={ref} className="bg-surface py-12 sm:py-16 px-6">
+    <section
+      id="research"
+      ref={ref}
+      className="bg-[#1A1A18] text-[#FAFAF8] py-12 sm:py-16 px-6"
+    >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div
@@ -53,10 +57,10 @@ export function ResearchSection() {
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-[11px] uppercase tracking-[0.25em] text-text-tertiary mb-4 font-body">
+          <p className="text-[11px] uppercase tracking-[0.25em] text-[#A3A29D] mb-4 font-body">
             Research &amp; Findings
           </p>
-          <h2 className="font-display text-4xl sm:text-5xl text-text-primary leading-tight text-balance">
+          <h2 className="font-display text-4xl sm:text-5xl text-[#FAFAF8] leading-tight text-balance">
             Built on 12 Years of Data, Not Assumptions
           </h2>
         </div>
@@ -66,7 +70,7 @@ export function ResearchSection() {
           {findings.map((card, index) => (
             <div
               key={card.title}
-              className={`bg-surface-elevated border border-border rounded-xl p-6 transition-all duration-700 ${
+              className={`bg-[#242422] border border-[#333330] rounded-xl p-6 transition-all duration-700 ${
                 isInView
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"
@@ -74,18 +78,18 @@ export function ResearchSection() {
               style={{ transitionDelay: `${index * 150 + 200}ms` }}
             >
               {/* Big stat */}
-              <p className="font-data text-5xl sm:text-6xl text-text-primary tracking-tight leading-none mb-1">
+              <p className="font-data text-5xl sm:text-6xl text-[#FAFAF8] tracking-tight leading-none mb-1">
                 {card.stat}
               </p>
-              <p className="text-xs text-text-tertiary font-body mb-4">
+              <p className="text-xs text-[#A3A29D] font-body mb-4">
                 {card.label}
               </p>
 
               {/* Title + body */}
-              <h3 className="font-display text-lg text-text-primary mb-2">
+              <h3 className="font-display text-lg text-[#FAFAF8] mb-2">
                 {card.title}
               </h3>
-              <p className="font-body text-sm text-text-secondary leading-relaxed">
+              <p className="font-body text-sm text-[#FAFAF8]/70 leading-relaxed">
                 {card.body}
               </p>
             </div>
@@ -94,7 +98,7 @@ export function ResearchSection() {
 
         {/* Citation line */}
         <p
-          className={`text-center text-xs text-text-tertiary font-body transition-all duration-700 delay-700 ${
+          className={`text-center text-xs text-[#A3A29D] font-body transition-all duration-700 delay-700 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >

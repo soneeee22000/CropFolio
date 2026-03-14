@@ -63,8 +63,8 @@ export function VolatilityVisualization({
             <path
               d="M 30 0 L 0 0 0 20"
               fill="none"
-              stroke="#1A1A18"
-              strokeOpacity="0.1"
+              stroke="#FAFAF8"
+              strokeOpacity="0.05"
               strokeWidth="0.5"
             />
           </pattern>
@@ -94,7 +94,7 @@ export function VolatilityVisualization({
             x="130"
             y={80 - monoHeight - 8}
             textAnchor="middle"
-            className="text-[11px] font-body font-medium fill-[#1A1A18]"
+            className="text-[11px] font-body font-medium fill-[#FAFAF8]"
           >
             Rice: High Volatility
           </text>
@@ -156,7 +156,7 @@ export function VolatilityVisualization({
       <div className="absolute top-10 right-4 flex flex-col items-end gap-1">
         <div className="flex items-center gap-2">
           <span className="text-xs text-[#A3A29D] font-body">Volatility</span>
-          <div className="w-16 h-2 bg-[#E8E6E1] rounded-full overflow-hidden">
+          <div className="w-16 h-2 bg-[#333330] rounded-full overflow-hidden">
             <div
               className="h-full bg-[#c43b3b] transition-all duration-100"
               style={{
