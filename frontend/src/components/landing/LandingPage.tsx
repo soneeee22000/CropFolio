@@ -7,6 +7,7 @@ import { ResearchSection } from "./research-section";
 import { HowItWorksSection } from "./how-it-works-section";
 import { MetricsSection } from "./metrics-section";
 import { TechSection } from "./tech-section";
+import { FaqSection } from "./faq-section";
 import { CTAFooter } from "./cta-footer";
 
 /**
@@ -25,6 +26,7 @@ export function LandingPage() {
       <HowItWorksSection />
       <MetricsSection />
       <TechSection />
+      <FaqSection />
       <CTAFooter />
     </main>
   );
