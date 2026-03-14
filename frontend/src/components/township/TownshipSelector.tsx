@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { useTownships } from "@/hooks/useTownships";
-import { Card } from "@/components/common/Card";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import type { Township } from "@/types/township";
 
@@ -8,7 +7,7 @@ interface TownshipSelectorProps {
   onSelect: (townshipId: string, season: "monsoon" | "dry") => void;
 }
 
-/** Searchable township selector grouped by region. */
+/** Premium township selector with hero typography and refined list. */
 export function TownshipSelector({ onSelect }: TownshipSelectorProps) {
   const { townships, isLoading } = useTownships();
   const [search, setSearch] = useState("");
@@ -24,69 +23,80 @@ export function TownshipSelector({ onSelect }: TownshipSelectorProps) {
   if (isLoading) return <LoadingSpinner message="Loading townships..." />;
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900">Select a Township</h2>
-        <p className="text-gray-500 mt-1">
-          Choose an agricultural township in Myanmar to analyze
+    <div className="max-w-2xl mx-auto pt-8">
+      <div className="text-center mb-12">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-text-tertiary mb-3">
+          Township
+        </p>
+        <h2 className="font-display text-4xl text-text-primary">
+          Choose Your Region
+        </h2>
+        <p className="text-text-secondary mt-3">
+          Select an agricultural township in Myanmar to analyze
         </p>
       </div>
 
-      <div className="flex gap-3 justify-center">
-        <button
-          onClick={() => setSeason("monsoon")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            season === "monsoon"
-              ? "bg-primary text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-          }`}
-        >
-          Monsoon Season
-        </button>
-        <button
-          onClick={() => setSeason("dry")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            season === "dry"
-              ? "bg-primary text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-          }`}
-        >
-          Dry Season
-        </button>
+      <div className="flex justify-center mb-10">
+        <div className="inline-flex bg-surface-subtle rounded-full p-1">
+          <button
+            onClick={() => setSeason("monsoon")}
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              season === "monsoon"
+                ? "bg-primary text-white"
+                : "text-text-secondary hover:text-text-primary"
+            }`}
+          >
+            Monsoon Season
+          </button>
+          <button
+            onClick={() => setSeason("dry")}
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              season === "dry"
+                ? "bg-primary text-white"
+                : "text-text-secondary hover:text-text-primary"
+            }`}
+          >
+            Dry Season
+          </button>
+        </div>
       </div>
 
-      <input
-        type="text"
-        placeholder="Search townships..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
-      />
+      <div className="mb-8">
+        <input
+          type="text"
+          placeholder="Search townships..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full bg-transparent text-lg text-text-primary placeholder:text-text-tertiary border-b-2 border-border focus:border-primary pb-3 outline-none transition-colors duration-300"
+        />
+      </div>
 
-      <div className="space-y-4 max-h-96 overflow-y-auto">
+      <div className="space-y-6 max-h-[32rem] overflow-y-auto pr-2">
         {Object.entries(grouped).map(([region, regionTownships]) => (
-          <Card key={region} className="p-4">
-            <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+          <div key={region} className="animate-fade-in-up">
+            <h4 className="text-[11px] uppercase tracking-[0.2em] text-text-tertiary mb-4">
               {region}
-              <span className="ml-2 text-gray-400 font-normal">
+              <span className="ml-2 text-text-tertiary/60">
                 ({regionTownships.length})
               </span>
             </h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1">
               {regionTownships.map((t) => (
                 <button
                   key={t.id}
                   onClick={() => onSelect(t.id, season)}
-                  className="text-left px-3 py-2 rounded-md hover:bg-green-50 hover:text-green-700 transition-colors text-sm"
+                  className="text-left px-4 py-3 rounded-lg hover:bg-surface-subtle hover:border-l-2 hover:border-primary transition-all duration-200 group"
                 >
-                  <span className="font-medium">{t.name}</span>
-                  <span className="font-myanmar text-xs text-gray-400 ml-1">
+                  <span className="font-medium text-sm text-text-primary group-hover:text-primary transition-colors">
+                    {t.name}
+                  </span>
+                  <span className="font-myanmar text-xs text-text-tertiary block mt-0.5">
                     {t.name_mm}
                   </span>
                 </button>
               ))}
             </div>
-          </Card>
+          </div>
         ))}
       </div>
     </div>

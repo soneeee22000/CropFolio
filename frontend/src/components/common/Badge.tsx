@@ -3,18 +3,17 @@ import { RISK_LEVEL_BG } from "@/constants";
 interface BadgeProps {
   label: string;
   variant?: "success" | "warning" | "danger" | "info";
-  /** Use risk level string to auto-select variant. */
   riskLevel?: string;
 }
 
 const VARIANT_CLASSES: Record<string, string> = {
-  success: "bg-green-100 text-green-800",
-  warning: "bg-yellow-100 text-yellow-800",
-  danger: "bg-red-100 text-red-800",
-  info: "bg-blue-100 text-blue-800",
+  success: "border-primary/30 text-primary",
+  warning: "border-warning/30 text-warning",
+  danger: "border-danger/30 text-danger",
+  info: "border-border text-text-secondary",
 };
 
-/** Small colored tag for status labels. */
+/** Minimal badge with border-only default style. */
 export function Badge({ label, variant, riskLevel }: BadgeProps) {
   const classes = riskLevel
     ? (RISK_LEVEL_BG[riskLevel] ?? VARIANT_CLASSES.info)
@@ -22,7 +21,7 @@ export function Badge({ label, variant, riskLevel }: BadgeProps) {
 
   return (
     <span
-      className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${classes}`}
+      className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-medium border ${classes}`}
     >
       {label}
     </span>

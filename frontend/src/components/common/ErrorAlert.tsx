@@ -3,15 +3,15 @@ interface ErrorAlertProps {
   onRetry?: () => void;
 }
 
-/** Error alert box with optional retry button. */
+/** Left-accented error alert. */
 export function ErrorAlert({ message, onRetry }: ErrorAlertProps) {
   return (
-    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-      <p className="text-sm text-red-700">{message}</p>
+    <div className="bg-danger-subtle border-l-4 border-danger rounded-r-lg p-4">
+      <p className="text-sm text-danger">{message}</p>
       {onRetry && (
         <button
           onClick={onRetry}
-          className="mt-2 text-sm text-red-600 underline hover:text-red-800"
+          className="mt-2 text-sm text-danger underline hover:text-danger/80 transition-colors"
         >
           Try again
         </button>

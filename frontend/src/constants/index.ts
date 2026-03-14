@@ -1,32 +1,32 @@
-/** Crop-specific colors for charts. */
+/** Crop-specific colors — muted, same saturation band. */
 export const CROP_COLORS: Record<string, string> = {
-  rice: "#22c55e",
-  black_gram: "#f59e0b",
-  green_gram: "#06b6d4",
-  chickpea: "#8b5cf6",
-  sesame: "#ef4444",
-  groundnut: "#ec4899",
+  rice: "#3A8F5C",
+  black_gram: "#C4923A",
+  green_gram: "#4A8B9E",
+  chickpea: "#7B6BA5",
+  sesame: "#B85A5A",
+  groundnut: "#A67B5B",
 };
 
 /** Risk level color mapping. */
 export const RISK_LEVEL_COLORS: Record<string, string> = {
-  low: "#22c55e",
-  moderate: "#f59e0b",
-  high: "#ef4444",
-  critical: "#991b1b",
+  low: "#1B7A4A",
+  moderate: "#D4940A",
+  high: "#C43B3B",
+  critical: "#8B1A1A",
 };
 
 /** Risk level background colors for badges. */
 export const RISK_LEVEL_BG: Record<string, string> = {
-  low: "bg-green-100 text-green-800",
-  moderate: "bg-yellow-100 text-yellow-800",
-  high: "bg-red-100 text-red-800",
-  critical: "bg-red-200 text-red-900",
+  low: "bg-primary-subtle text-primary-dark",
+  moderate: "bg-amber-50 text-amber-800",
+  high: "bg-danger-subtle text-danger",
+  critical: "bg-red-100 text-red-900",
 };
 
 /** Chart animation durations in milliseconds. */
-export const ANIMATION_DURATION_MS = 800;
-export const STAGGER_DELAY_MS = 20;
+export const ANIMATION_DURATION_MS = 1000;
+export const STAGGER_DELAY_MS = 30;
 
 /** Monte Carlo defaults. */
 export const DEFAULT_NUM_SIMULATIONS = 1000;
@@ -42,8 +42,8 @@ export const HISTOGRAM_NUM_BINS = 25;
 
 /** Step labels for the wizard. */
 export const STEP_LABELS = [
-  "Select Township",
+  "Township",
   "Climate Risk",
-  "Optimize Portfolio",
-  "Monte Carlo",
+  "Portfolio",
+  "Simulation",
 ] as const;

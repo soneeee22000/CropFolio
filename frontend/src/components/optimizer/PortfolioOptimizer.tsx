@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Label } from "recharts";
 import { useCrops } from "@/hooks/useCrops";
 import { useOptimize } from "@/hooks/useOptimize";
 import { Card } from "@/components/common/Card";
 import { MetricCard } from "@/components/common/MetricCard";
-import { Badge } from "@/components/common/Badge";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
 import { formatMMKCompact } from "@/utils/formatters";
@@ -22,7 +21,7 @@ interface PortfolioOptimizerProps {
   onComplete: (result: OptimizeResponse) => void;
 }
 
-/** Portfolio optimization view with crop selection and results. */
+/** Premium portfolio optimization view. */
 export function PortfolioOptimizer({
   townshipId,
   season,
@@ -54,53 +53,80 @@ export function PortfolioOptimizer({
   if (cropsLoading) return <LoadingSpinner message="Loading crops..." />;
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
-      <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900">
-          Optimize Crop Portfolio
-        </h2>
-        <p className="text-gray-500 mt-1">
-          Select crops and risk tolerance, then optimize
+    <div className="max-w-6xl mx-auto">
+      <div className="text-center mb-12">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-text-tertiary mb-3">
+          Portfolio
         </p>
+        <h2 className="font-display text-4xl text-text-primary">
+          Optimize Crop Allocation
+        </h2>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Left: Controls */}
-        <div className="space-y-4">
-          <Card title="Select Crops (min. 2)">
-            <div className="grid grid-cols-2 gap-2">
-              {crops.map((crop) => (
-                <button
-                  key={crop.id}
-                  onClick={() => toggleCrop(crop.id)}
-                  className={`text-left p-3 rounded-lg border-2 transition-colors ${
-                    selectedCrops.includes(crop.id)
-                      ? "border-primary bg-green-50"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: CROP_COLORS[crop.id] }}
-                    />
-                    <span className="font-medium text-sm">{crop.name_en}</span>
-                  </div>
-                  <div className="flex items-center gap-1 mt-1">
-                    <Badge label={crop.category} variant="info" />
-                    <span className="font-myanmar text-xs text-gray-400">
+      <div className="grid lg:grid-cols-2 gap-8">
+        <div className="space-y-6">
+          <Card title="Select Crops">
+            <p className="text-sm text-text-tertiary mb-4">
+              Choose at least 2 crops to diversify
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              {crops.map((crop) => {
+                const selected = selectedCrops.includes(crop.id);
+                return (
+                  <button
+                    key={crop.id}
+                    onClick={() => toggleCrop(crop.id)}
+                    className={`text-left p-4 rounded-xl border transition-all duration-200 relative ${
+                      selected
+                        ? "border-primary bg-primary-subtle"
+                        : "border-border hover:border-text-tertiary"
+                    }`}
+                  >
+                    {selected && (
+                      <div className="absolute top-3 right-3 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                        <svg
+                          width="10"
+                          height="8"
+                          viewBox="0 0 10 8"
+                          fill="none"
+                        >
+                          <path
+                            d="M1 4L3.5 6.5L9 1"
+                            stroke="white"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2.5 mb-1">
+                      <div
+                        className={`w-4 h-4 rounded-full transition-shadow ${selected ? "ring-2 ring-primary/30" : ""}`}
+                        style={{ backgroundColor: CROP_COLORS[crop.id] }}
+                      />
+                      <span className="font-medium text-sm text-text-primary">
+                        {crop.name_en}
+                      </span>
+                    </div>
+                    <span className="font-myanmar text-xs text-text-tertiary block mb-2">
                       {crop.name_mm}
                     </span>
-                  </div>
-                  <div className="mt-2 space-y-1">
-                    <ToleranceBar
-                      label="Drought"
-                      value={crop.drought_tolerance}
-                    />
-                    <ToleranceBar label="Flood" value={crop.flood_tolerance} />
-                  </div>
-                </button>
-              ))}
+                    <div className="space-y-1.5">
+                      <ToleranceBar
+                        label="Drought"
+                        value={crop.drought_tolerance}
+                        color="var(--color-warning)"
+                      />
+                      <ToleranceBar
+                        label="Flood"
+                        value={crop.flood_tolerance}
+                        color="#4A8B9E"
+                      />
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </Card>
 
@@ -112,9 +138,8 @@ export function PortfolioOptimizer({
               step="0.1"
               value={riskTolerance}
               onChange={(e) => setRiskTolerance(Number(e.target.value))}
-              className="w-full accent-primary"
             />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="flex justify-between text-[11px] uppercase tracking-wide text-text-tertiary mt-2">
               <span>Conservative</span>
               <span>Balanced</span>
               <span>Aggressive</span>
@@ -126,7 +151,7 @@ export function PortfolioOptimizer({
             disabled={
               selectedCrops.length < MIN_CROPS_FOR_OPTIMIZATION || isLoading
             }
-            className="w-full py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-4 bg-primary text-white rounded-lg text-sm uppercase tracking-wide font-medium hover:bg-primary-dark transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {isLoading ? "Optimizing..." : "Optimize Portfolio"}
           </button>
@@ -134,12 +159,11 @@ export function PortfolioOptimizer({
           {error && <ErrorAlert message={error} />}
         </div>
 
-        {/* Right: Results */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           {result ? (
             <OptimizationResults result={result} />
           ) : (
-            <Card className="flex items-center justify-center h-64 text-gray-400 text-sm">
+            <Card className="flex items-center justify-center h-72 text-text-tertiary text-sm">
               Select crops and click Optimize to see results
             </Card>
           )}
@@ -149,7 +173,7 @@ export function PortfolioOptimizer({
   );
 }
 
-/** Display optimization results with pie charts and metrics. */
+/** Optimization results with donut charts and metrics. */
 function OptimizationResults({ result }: { result: OptimizeResponse }) {
   const monocropData = [{ name: "Rice (100%)", value: 1, id: "rice" }];
   const optimizedData = result.weights
@@ -157,20 +181,29 @@ function OptimizationResults({ result }: { result: OptimizeResponse }) {
     .map((w) => ({ name: w.crop_name, value: w.weight, id: w.crop_id }));
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
-        <Card title="Monocrop (Rice Only)">
-          <PieChartView data={monocropData} />
+    <div className="space-y-6">
+      <div className="grid grid-cols-2 gap-6">
+        <Card>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-text-tertiary mb-2">
+            Monocrop
+          </p>
+          <DonutChart data={monocropData} centerLabel="1 crop" />
         </Card>
-        <Card title="Optimized Portfolio">
-          <PieChartView data={optimizedData} />
+        <Card>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-text-tertiary mb-2">
+            Optimized
+          </p>
+          <DonutChart
+            data={optimizedData}
+            centerLabel={`${optimizedData.length} crops`}
+          />
         </Card>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <MetricCard
           value={formatMMKCompact(result.metrics.expected_income_per_ha)}
-          label="Expected Income/ha"
+          label="Expected Income"
         />
         <MetricCard
           value={formatMMKCompact(result.metrics.income_std_dev)}
@@ -188,56 +221,87 @@ function OptimizationResults({ result }: { result: OptimizeResponse }) {
       </div>
 
       <Card className="text-center">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-text-secondary">
           Diversification reduces risk by{" "}
-          <span className="font-bold text-green-700">
+          <span className="font-data font-medium text-accent">
             {result.metrics.risk_reduction_pct.toFixed(1)}%
           </span>{" "}
-          compared to monocrop rice farming.
+          compared to monocrop farming.
         </p>
       </Card>
     </div>
   );
 }
 
-/** Recharts pie chart for crop allocation. */
-function PieChartView({
+/** Donut chart with centered label. */
+function DonutChart({
   data,
+  centerLabel,
 }: {
   data: { name: string; value: number; id: string }[];
+  centerLabel: string;
 }) {
   return (
-    <ResponsiveContainer width="100%" height={180}>
-      <PieChart>
-        <Pie
-          data={data}
-          cx="50%"
-          cy="50%"
-          outerRadius={70}
-          dataKey="value"
-          label={({ name, value }) => `${name} ${Math.round(value * 100)}%`}
-          labelLine={false}
-          animationDuration={800}
-        >
-          {data.map((entry) => (
-            <Cell key={entry.id} fill={getCropColor(entry.id)} />
-          ))}
-        </Pie>
-        <Tooltip formatter={(val) => `${(Number(val) * 100).toFixed(1)}%`} />
-      </PieChart>
-    </ResponsiveContainer>
+    <div>
+      <ResponsiveContainer width="100%" height={200}>
+        <PieChart>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            outerRadius={85}
+            innerRadius={55}
+            dataKey="value"
+            animationDuration={800}
+            stroke="none"
+          >
+            {data.map((entry) => (
+              <Cell key={entry.id} fill={getCropColor(entry.id)} />
+            ))}
+            <Label
+              value={centerLabel}
+              position="center"
+              className="font-display text-lg"
+              fill="var(--color-text-primary)"
+            />
+          </Pie>
+        </PieChart>
+      </ResponsiveContainer>
+      <div className="space-y-1 mt-2">
+        {data.map((entry) => (
+          <div key={entry.id} className="flex items-center gap-2 text-xs">
+            <div
+              className="w-2.5 h-2.5 rounded-full"
+              style={{ backgroundColor: getCropColor(entry.id) }}
+            />
+            <span className="text-text-secondary">{entry.name}</span>
+            <span className="font-data text-text-tertiary ml-auto">
+              {Math.round(entry.value * 100)}%
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
-/** Tiny horizontal bar showing tolerance level. */
-function ToleranceBar({ label, value }: { label: string; value: number }) {
+/** Tolerance bar with custom color. */
+function ToleranceBar({
+  label,
+  value,
+  color,
+}: {
+  label: string;
+  value: number;
+  color: string;
+}) {
   return (
-    <div className="flex items-center gap-1.5">
-      <span className="text-xs text-gray-400 w-12">{label}</span>
-      <div className="flex-1 bg-gray-200 rounded-full h-1.5">
+    <div className="flex items-center gap-2">
+      <span className="text-[11px] text-text-tertiary w-12">{label}</span>
+      <div className="flex-1 bg-border rounded-full h-2">
         <div
-          className="h-1.5 rounded-full bg-primary"
-          style={{ width: `${value * 100}%` }}
+          className="h-2 rounded-full transition-all duration-500"
+          style={{ width: `${value * 100}%`, backgroundColor: color }}
         />
       </div>
     </div>

@@ -6,14 +6,16 @@ interface CardProps {
   className?: string;
 }
 
-/** Reusable card container with optional title. */
+/** Premium card container with warm border and generous padding. */
 export function Card({ title, children, className = "" }: CardProps) {
   return (
     <div
-      className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 ${className}`}
+      className={`bg-surface-elevated rounded-xl border border-border p-8 animate-fade-in-up ${className}`}
     >
       {title && (
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+        <h3 className="font-display text-[22px] text-text-primary mb-6">
+          {title}
+        </h3>
       )}
       {children}
     </div>

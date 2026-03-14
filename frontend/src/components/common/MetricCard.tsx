@@ -5,7 +5,7 @@ interface MetricCardProps {
   highlight?: boolean;
 }
 
-/** Large number display with label underneath. */
+/** Premium metric display with monospace numbers. */
 export function MetricCard({
   value,
   label,
@@ -14,16 +14,24 @@ export function MetricCard({
 }: MetricCardProps) {
   return (
     <div
-      className={`text-center p-4 rounded-lg ${highlight ? "bg-green-50 border border-green-200" : "bg-gray-50"}`}
+      className={`text-center p-6 rounded-xl transition-colors ${
+        highlight ? "bg-accent/5 border border-accent/20" : "bg-surface-subtle"
+      }`}
     >
       <div
-        className={`text-2xl font-bold ${highlight ? "text-green-700" : "text-gray-900"}`}
+        className={`font-data text-3xl font-medium ${
+          highlight ? "text-accent" : "text-text-primary"
+        }`}
       >
         {value}
       </div>
-      <div className="text-sm text-gray-600 mt-1">{label}</div>
+      <div className="text-[11px] uppercase tracking-[0.1em] text-text-tertiary mt-2">
+        {label}
+      </div>
       {sublabel && (
-        <div className="text-xs text-gray-400 mt-0.5">{sublabel}</div>
+        <div className="text-xs text-text-tertiary mt-2 pt-2 border-t border-border-subtle">
+          {sublabel}
+        </div>
       )}
     </div>
   );
