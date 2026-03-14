@@ -19,4 +19,4 @@ TEMP_ANOMALY_WARNING_CELSIUS = 1.5
 # Data constraints
 MIN_CROPS_FOR_OPTIMIZATION = 2
 MAX_CROPS_FOR_OPTIMIZATION = 10
-STANDARD_DEVIATION_CAP = 3.0  # Cap Monte Carlo outliers at ±3σ
+STANDARD_DEVIATION_CAP = 3.0  # Cap Monte Carlo outliers at 3 std devs

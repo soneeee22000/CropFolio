@@ -16,7 +16,7 @@ router = APIRouter(prefix="/climate-risk", tags=["climate"])
 async def get_climate_risk(
     township_id: str,
     season: Literal["monsoon", "dry"] = "monsoon",
-    service: ClimateService = Depends(get_climate_service),
+    service: ClimateService = Depends(get_climate_service),  # noqa: B008
 ) -> ClimateRiskResponse:
     """Get climate risk assessment for a township."""
     result = await service.assess_risk(township_id, season)

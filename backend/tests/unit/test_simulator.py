@@ -1,6 +1,5 @@
 """Tests for Monte Carlo simulation engine."""
 
-import pytest
 
 from app.domain.crops import CropProfile
 from app.domain.simulator import SimulationResult, run_monte_carlo
@@ -38,8 +37,9 @@ class TestMonteCarlo:
             three_crops, weights, drought_prob=0.2, flood_prob=0.1,
             num_simulations=5000, seed=42,
         )
-        from app.domain.optimizer import compute_expected_returns
         import numpy as np
+
+        from app.domain.optimizer import compute_expected_returns
 
         expected_returns = compute_expected_returns(
             three_crops, drought_prob=0.2, flood_prob=0.1
@@ -102,7 +102,7 @@ class TestMonteCarlo:
     def test_diversified_lower_catastrophic_risk(
         self, three_crops: list[CropProfile]
     ) -> None:
-        """Diversified portfolio should have lower catastrophic loss risk than monocrop."""
+        """Diversified has lower catastrophic loss than monocrop."""
         monocrop_weights = {"rice": 1.0, "black_gram": 0.0, "sesame": 0.0}
         diversified_weights = {"rice": 0.5, "black_gram": 0.3, "sesame": 0.2}
 

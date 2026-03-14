@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
 
 from app.domain.climate import ClimateRiskProfile, assess_climate_risk
 from app.infrastructure.nasa_power import NasaPowerClient, get_nasa_power_client

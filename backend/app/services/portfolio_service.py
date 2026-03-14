@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import Any
 
 import numpy as np
 
@@ -20,7 +19,7 @@ from app.api.v1.schemas.simulator import (
     SimulationStats,
 )
 from app.domain.crops import CropProfile, get_crop_by_id
-from app.domain.optimizer import optimize_portfolio, compute_expected_returns
+from app.domain.optimizer import compute_expected_returns, optimize_portfolio
 from app.domain.simulator import run_monte_carlo
 from app.services.climate_service import ClimateService, get_climate_service
 from app.services.township_service import TownshipService, get_township_service

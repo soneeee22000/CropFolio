@@ -13,7 +13,7 @@ router = APIRouter(prefix="/simulate", tags=["simulator"])
 @router.post("/", response_model=SimulateResponse)
 async def run_simulation(
     request: SimulateRequest,
-    service: PortfolioService = Depends(get_portfolio_service),
+    service: PortfolioService = Depends(get_portfolio_service),  # noqa: B008
 ) -> SimulateResponse:
     """Run Monte Carlo simulation for a crop portfolio."""
     try:
@@ -25,7 +25,7 @@ async def run_simulation(
             season=request.season,
         )
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e)) from e
 
     if result is None:
         raise HTTPException(

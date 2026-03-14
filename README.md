@@ -455,6 +455,26 @@ Integration Tests (31):
 
 ---
 
+## Limitations (Honest)
+
+This is a proof of concept. Here's what's real and what's not:
+
+| What                            | Status                                                                        |
+| ------------------------------- | ----------------------------------------------------------------------------- |
+| The Markowitz optimization math | Real and correct                                                              |
+| The Monte Carlo simulation      | Real and correct                                                              |
+| The crop risk profiles          | Approximate — based on FAO/IRRI literature, not a specific cited dataset      |
+| The covariance matrix           | Heuristic — estimated from tolerance profiles, not historical return data     |
+| The climate data pipeline       | Uses regional fallback data — live NASA POWER path has unit conversion issues |
+| The Burmese translations        | AI-generated, not reviewed by a native speaker                                |
+| The business model              | Speculative — zero customer validation                                        |
+
+**What needs to happen for production:** Real historical crop yield + price time series for covariance estimation. NASA POWER unit correction (mm/day to mm/month). Native Burmese speaker review. User testing with actual extension workers. Customer interviews with insurers/cooperatives.
+
+The core insight — negatively correlated crop risk profiles creating diversification opportunity — is agronomically valid. The architecture supports iterating toward production quality. The bones are good.
+
+---
+
 ## License
 
 MIT

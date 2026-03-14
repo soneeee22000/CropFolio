@@ -13,7 +13,7 @@ router = APIRouter(prefix="/optimize", tags=["optimizer"])
 @router.post("/", response_model=OptimizeResponse)
 async def optimize_portfolio(
     request: OptimizeRequest,
-    service: PortfolioService = Depends(get_portfolio_service),
+    service: PortfolioService = Depends(get_portfolio_service),  # noqa: B008
 ) -> OptimizeResponse:
     """Run Markowitz portfolio optimization for crop allocation."""
     try:
@@ -24,7 +24,7 @@ async def optimize_portfolio(
             season=request.season,
         )
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e)) from e
 
     if result is None:
         raise HTTPException(

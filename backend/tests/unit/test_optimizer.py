@@ -24,7 +24,7 @@ class TestComputeExpectedReturns:
     def test_drought_reduces_drought_sensitive_crops_more(
         self, rice: CropProfile, sesame: CropProfile
     ) -> None:
-        """Drought should hurt rice (low tolerance) more than sesame (high tolerance)."""
+        """Drought hurts rice more than sesame."""
         no_drought = compute_expected_returns([rice, sesame], 0.0, 0.0)
         high_drought = compute_expected_returns([rice, sesame], 0.6, 0.0)
 
@@ -36,7 +36,7 @@ class TestComputeExpectedReturns:
     def test_flood_reduces_flood_sensitive_crops_more(
         self, rice: CropProfile, black_gram: CropProfile
     ) -> None:
-        """Flood should hurt black gram (low tolerance) more than rice (high tolerance)."""
+        """Flood hurts black gram more than rice."""
         no_flood = compute_expected_returns([rice, black_gram], 0.0, 0.0)
         high_flood = compute_expected_returns([rice, black_gram], 0.0, 0.6)
 

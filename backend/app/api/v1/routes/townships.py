@@ -12,7 +12,7 @@ router = APIRouter(prefix="/townships", tags=["townships"])
 
 @router.get("/", response_model=TownshipListResponse)
 async def list_townships(
-    service: TownshipService = Depends(get_township_service),
+    service: TownshipService = Depends(get_township_service),  # noqa: B008
 ) -> TownshipListResponse:
     """List all Myanmar townships with coordinates."""
     townships = service.get_all()
@@ -25,10 +25,13 @@ async def list_townships(
 @router.get("/{township_id}", response_model=TownshipResponse)
 async def get_township(
     township_id: str,
-    service: TownshipService = Depends(get_township_service),
+    service: TownshipService = Depends(get_township_service),  # noqa: B008
 ) -> TownshipResponse:
     """Get a single township by ID."""
     township = service.get_by_id(township_id)
     if township is None:
-        raise HTTPException(status_code=404, detail=f"Township '{township_id}' not found")
+        raise HTTPException(
+            status_code=404,
+            detail=f"Township '{township_id}' not found",
+        )
     return TownshipResponse(**township)

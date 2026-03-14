@@ -17,7 +17,7 @@ class SimulateRequest(BaseModel):
     season: Literal["monsoon", "dry"] = "monsoon"
 
     @model_validator(mode="after")
-    def validate_weights_sum(self) -> "SimulateRequest":
+    def validate_weights_sum(self) -> SimulateRequest:
         """Ensure weights sum to approximately 1.0."""
         weight_sum = sum(self.weights.values())
         if abs(weight_sum - 1.0) > 0.01:
@@ -26,7 +26,7 @@ class SimulateRequest(BaseModel):
         return self
 
     @model_validator(mode="after")
-    def validate_weights_match_crops(self) -> "SimulateRequest":
+    def validate_weights_match_crops(self) -> SimulateRequest:
         """Ensure all crop_ids have corresponding weights."""
         missing = set(self.crop_ids) - set(self.weights.keys())
         if missing:

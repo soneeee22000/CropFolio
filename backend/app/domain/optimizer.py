@@ -2,8 +2,14 @@
 
 Applies Modern Portfolio Theory to find the optimal crop mix that
 maximizes expected income while minimizing climate-adjusted risk.
+
+LIMITATION: The covariance matrix is estimated from heuristic crop
+tolerance profiles, not actual historical return data. This is a
+proof-of-concept implementation. Production use requires real
+FAO/WFP time series data for correlation estimation.
 """
 
+import logging
 from dataclasses import dataclass
 
 import numpy as np
@@ -11,12 +17,13 @@ from numpy.typing import NDArray
 from scipy.optimize import minimize
 
 from app.core.constants import (
-    MIN_CROP_WEIGHT,
     MAX_CROP_WEIGHT,
+    MIN_CROP_WEIGHT,
     RISK_FREE_RATE,
-    WEIGHT_SUM_TOLERANCE,
 )
 from app.domain.crops import CropProfile
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -59,8 +66,11 @@ def compute_covariance_matrix(
 ) -> NDArray[np.float64]:
     """Build covariance matrix from crop yield and price variances.
 
-    Uses the insight that rice (flood-tolerant) and pulses/oilseeds
-    (drought-tolerant) have negatively correlated climate responses.
+    LIMITATION: This uses heuristic correlations estimated from drought/flood
+    tolerance profiles, NOT actual historical return data. The variance formula
+    assumes yield and price are independent (drops the Var(Y)*Var(P) cross term).
+    Risk estimates are directionally correct but systematically overstated.
+    A production version should use actual FAO/WFP time series data.
     """
     n = len(crops)
     cov_matrix = np.zeros((n, n), dtype=np.float64)
@@ -78,6 +88,11 @@ def compute_covariance_matrix(
             else:
                 correlation = _estimate_correlation(crop_i, crop_j)
                 cov_matrix[i][j] = correlation * np.sqrt(var_i * var_j)
+
+    # Ensure positive semi-definiteness (heuristic correlations can violate this)
+    eigvals = np.linalg.eigvalsh(cov_matrix)
+    if eigvals.min() < 0:
+        cov_matrix += (-eigvals.min() + 1e-8) * np.eye(n)
 
     return cov_matrix
 
@@ -149,6 +164,9 @@ def optimize_portfolio(
         options={"maxiter": 1000, "ftol": 1e-10},
     )
 
+    if not result.success:
+        logger.warning("Optimizer did not converge: %s", result.message)
+
     optimal_weights = result.x
     optimal_weights = np.maximum(optimal_weights, 0)
     optimal_weights /= optimal_weights.sum()
@@ -175,7 +193,7 @@ def optimize_portfolio(
 
     raw_weights = {
         crop.id: round(float(w), 4)
-        for crop, w in zip(crops, optimal_weights)
+        for crop, w in zip(crops, optimal_weights, strict=False)
     }
 
     # Adjust largest weight to ensure exact sum of 1.0 after rounding

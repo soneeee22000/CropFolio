@@ -2,7 +2,7 @@
 
 import pytest
 
-from app.domain.crops import CropProfile, MYANMAR_CROPS
+from app.domain.crops import MYANMAR_CROPS, CropProfile
 
 
 @pytest.fixture

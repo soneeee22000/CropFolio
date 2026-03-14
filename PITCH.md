@@ -72,6 +72,10 @@ TAM: Global crop insurance market = $40B+/year
 
 - Open the app 2 minutes before the pitch to warm up the server
 - Have the Magway township pre-searched in the search box
+- Always use rice + black gram + sesame (tested safe combination)
 - Practice the Monte Carlo reveal — pause when the histogram animates
 - When judges ask "can farmers use this?" → "Extension workers and cooperatives are our users. They advise 500+ farmers each."
-- When judges ask "is the data real?" → "NASA POWER satellite data + WFP market monitoring. All open, all verified for Myanmar."
+- When judges ask "is the data real?" → "Crop profiles are based on FAO/IRRI data. Climate uses NASA POWER with regional fallback. The covariance model is heuristic — our next phase is integrating actual historical time series."
+- When judges ask "where's the historical data?" → Own it: "This is a proof of concept. The optimization math is correct. The inputs use heuristic correlations based on agronomic research. Phase 2 is real data integration."
+- Don't claim 90% confidence — if asked about data quality, be honest about limitations
+- Don't bluff. Honesty about what's real and what's next is more credible than pretending it's finished.

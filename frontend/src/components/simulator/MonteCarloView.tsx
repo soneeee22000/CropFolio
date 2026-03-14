@@ -45,9 +45,13 @@ export function MonteCarloView({
       season,
     });
 
+    // Use the highest-weighted crop as the monocrop baseline
+    const topCrop = optimizeResult.weights.reduce((a, b) =>
+      a.weight > b.weight ? a : b,
+    );
     const monocropWeights: Record<string, number> = {};
     for (const id of cropIds) {
-      monocropWeights[id] = id === "rice" ? 1.0 : 0.0;
+      monocropWeights[id] = id === topCrop.crop_id ? 1.0 : 0.0;
     }
     const mono = await simulateMonocrop({
       crop_ids: cropIds,
