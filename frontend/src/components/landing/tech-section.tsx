@@ -7,14 +7,16 @@ const techStack = [
   { name: "D3.js", category: "Visualization" },
   { name: "scipy", category: "Optimization" },
   { name: "Gemini AI", category: "AI" },
+  { name: "FAOSTAT", category: "Data" },
   { name: "NASA POWER", category: "Data" },
   { name: "Open-Meteo", category: "Data" },
 ];
 
 const stats = [
   { value: "89", label: "Automated Tests" },
-  { value: "88%", label: "Backend Coverage" },
-  { value: "0", label: "External AI Costs" },
+  { value: "12yr", label: "FAOSTAT Yield Data" },
+  { value: "10", label: "API Endpoints" },
+  { value: "$0", label: "AI Costs (Gemini Free)" },
 ];
 
 /**

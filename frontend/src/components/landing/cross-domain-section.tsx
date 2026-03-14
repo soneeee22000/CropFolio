@@ -126,26 +126,62 @@ export function CrossDomainSection() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
-                <span>Rice survives floods; sesame survives drought</span>
+                <span>
+                  Rice &amp; sesame yield correlation:{" "}
+                  <span className="font-data text-primary font-medium">
+                    -0.49
+                  </span>{" "}
+                  (12 years of FAOSTAT data)
+                </span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
                 <span className="text-primary font-medium">
-                  CropFolio applies the same math to crop selection
+                  Real data. Real correlations. Real diversification.
                 </span>
               </li>
             </ul>
           </div>
         </div>
 
+        {/* Data-backed correlation grid */}
+        <div
+          className={`mt-8 grid grid-cols-3 gap-3 max-w-md mx-auto transition-all duration-700 delay-600 ${
+            isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          {[
+            { pair: "Rice × Sesame", corr: "-0.49", color: "text-primary" },
+            {
+              pair: "Rice × Groundnut",
+              corr: "-0.05",
+              color: "text-[#A3A29D]",
+            },
+            { pair: "Rice × Chickpea", corr: "+0.13", color: "text-accent" },
+          ].map((item) => (
+            <div
+              key={item.pair}
+              className="text-center bg-[#242422] border border-[#333330] rounded-xl p-3"
+            >
+              <p className={`font-data text-lg font-medium ${item.color}`}>
+                {item.corr}
+              </p>
+              <p className="text-[10px] text-[#A3A29D] mt-1">{item.pair}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-center text-[10px] text-[#A3A29D]/60 mt-2">
+          Yield correlations from FAOSTAT 2010–2021
+        </p>
+
         {/* Bridge statement */}
         <div
-          className={`text-center mt-8 transition-all duration-700 delay-500 ${
+          className={`text-center mt-6 transition-all duration-700 delay-700 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           <p className="font-display text-xl sm:text-2xl text-accent/90 italic">
-            &ldquo;What if we gave farmers the same tools as hedge funds?&rdquo;
+            &ldquo;Not assumptions. 12 years of data.&rdquo;
           </p>
         </div>
       </div>
