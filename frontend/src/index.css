@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #16a34a;
+  --color-primary-dark: #15803d;
+  --color-secondary: #0f766e;
+  --color-accent: #d97706;
+  --color-danger: #dc2626;
+  --color-warning: #f59e0b;
+  --color-success: #16a34a;
+
+  --font-family-myanmar: "Padauk", "Myanmar Text", sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.font-myanmar {
+  font-family: var(--font-family-myanmar);
+}

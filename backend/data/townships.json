@@ -1,0 +1,202 @@
+[
+  {
+    "id": "mdy_amarapura",
+    "name": "Amarapura",
+    "name_mm": "အမရပူရ",
+    "region": "Mandalay",
+    "latitude": 21.85,
+    "longitude": 96.05
+  },
+  {
+    "id": "mdy_meiktila",
+    "name": "Meiktila",
+    "name_mm": "မိတ္ထီလာ",
+    "region": "Mandalay",
+    "latitude": 20.88,
+    "longitude": 95.86
+  },
+  {
+    "id": "mdy_kyaukse",
+    "name": "Kyaukse",
+    "name_mm": "ကျောက်ဆည်",
+    "region": "Mandalay",
+    "latitude": 21.59,
+    "longitude": 96.13
+  },
+  {
+    "id": "sgn_monywa",
+    "name": "Monywa",
+    "name_mm": "မုံရွာ",
+    "region": "Sagaing",
+    "latitude": 21.91,
+    "longitude": 95.13
+  },
+  {
+    "id": "sgn_shwebo",
+    "name": "Shwebo",
+    "name_mm": "ရွှေဘို",
+    "region": "Sagaing",
+    "latitude": 22.57,
+    "longitude": 95.7
+  },
+  {
+    "id": "sgn_kanbalu",
+    "name": "Kanbalu",
+    "name_mm": "ကန့်ဘလူ",
+    "region": "Sagaing",
+    "latitude": 22.73,
+    "longitude": 95.99
+  },
+  {
+    "id": "mgw_magway",
+    "name": "Magway",
+    "name_mm": "မကွေး",
+    "region": "Magway",
+    "latitude": 20.15,
+    "longitude": 94.93
+  },
+  {
+    "id": "mgw_pakokku",
+    "name": "Pakokku",
+    "name_mm": "ပခုက္ကူ",
+    "region": "Magway",
+    "latitude": 21.33,
+    "longitude": 95.1
+  },
+  {
+    "id": "mgw_yenangyaung",
+    "name": "Yenangyaung",
+    "name_mm": "ရေနံချောင်း",
+    "region": "Magway",
+    "latitude": 20.46,
+    "longitude": 94.87
+  },
+  {
+    "id": "bgo_bago",
+    "name": "Bago",
+    "name_mm": "ပဲခူး",
+    "region": "Bago",
+    "latitude": 17.34,
+    "longitude": 96.48
+  },
+  {
+    "id": "bgo_pyay",
+    "name": "Pyay",
+    "name_mm": "ပြည်",
+    "region": "Bago",
+    "latitude": 18.82,
+    "longitude": 95.22
+  },
+  {
+    "id": "bgo_taungoo",
+    "name": "Taungoo",
+    "name_mm": "တောင်ငူ",
+    "region": "Bago",
+    "latitude": 18.94,
+    "longitude": 96.43
+  },
+  {
+    "id": "ayw_pathein",
+    "name": "Pathein",
+    "name_mm": "ပုသိမ်",
+    "region": "Ayeyarwady",
+    "latitude": 16.78,
+    "longitude": 94.73
+  },
+  {
+    "id": "ayw_myaungmya",
+    "name": "Myaungmya",
+    "name_mm": "မြောင်းမြ",
+    "region": "Ayeyarwady",
+    "latitude": 16.59,
+    "longitude": 95.22
+  },
+  {
+    "id": "ayw_hinthada",
+    "name": "Hinthada",
+    "name_mm": "ဟင်္သာတ",
+    "region": "Ayeyarwady",
+    "latitude": 17.65,
+    "longitude": 95.46
+  },
+  {
+    "id": "ayw_labutta",
+    "name": "Labutta",
+    "name_mm": "လပွတ္တာ",
+    "region": "Ayeyarwady",
+    "latitude": 16.15,
+    "longitude": 94.75
+  },
+  {
+    "id": "ygn_hmawbi",
+    "name": "Hmawbi",
+    "name_mm": "မှော်ဘီ",
+    "region": "Yangon",
+    "latitude": 17.11,
+    "longitude": 96.07
+  },
+  {
+    "id": "ygn_hlegu",
+    "name": "Hlegu",
+    "name_mm": "လှည်းကူး",
+    "region": "Yangon",
+    "latitude": 17.2,
+    "longitude": 96.18
+  },
+  {
+    "id": "npt_pyinmana",
+    "name": "Pyinmana",
+    "name_mm": "ပျဉ်းမနား",
+    "region": "Nay Pyi Taw",
+    "latitude": 19.74,
+    "longitude": 96.21
+  },
+  {
+    "id": "npt_lewe",
+    "name": "Lewe",
+    "name_mm": "လယ်ဝေး",
+    "region": "Nay Pyi Taw",
+    "latitude": 19.63,
+    "longitude": 96.11
+  },
+  {
+    "id": "shn_aungban",
+    "name": "Aungban",
+    "name_mm": "အောင်ပန်း",
+    "region": "Shan",
+    "latitude": 20.67,
+    "longitude": 96.63
+  },
+  {
+    "id": "shn_kalaw",
+    "name": "Kalaw",
+    "name_mm": "ကလော",
+    "region": "Shan",
+    "latitude": 20.63,
+    "longitude": 96.56
+  },
+  {
+    "id": "mdy_myingyan",
+    "name": "Myingyan",
+    "name_mm": "မြင်းခြံ",
+    "region": "Mandalay",
+    "latitude": 21.46,
+    "longitude": 95.39
+  },
+  {
+    "id": "sgn_yinmabin",
+    "name": "Yinmabin",
+    "name_mm": "ယင်းမာပင်",
+    "region": "Sagaing",
+    "latitude": 21.84,
+    "longitude": 95.02
+  },
+  {
+    "id": "mgw_minbu",
+    "name": "Minbu",
+    "name_mm": "မင်းဘူး",
+    "region": "Magway",
+    "latitude": 20.18,
+    "longitude": 94.88
+  }
+]
