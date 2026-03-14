@@ -4,8 +4,9 @@ import { AnimatedCounter } from "./animated-counter";
 import { ArrowRight, ChevronDown } from "./icons";
 
 /**
- * Hero section with animated "40% -> 10%" counter,
- * strikethrough effect, and CTA buttons.
+ * Hero section — warm, welcoming, editorial.
+ * Dark background with subtle grain texture and warm light wash.
+ * The 40% → 10% counter is the centerpiece.
  */
 export function HeroSection() {
   const [showCounter, setShowCounter] = useState(false);
@@ -13,7 +14,6 @@ export function HeroSection() {
   const [showNewStat, setShowNewStat] = useState(false);
 
   useEffect(() => {
-    // Start counter animation after component mounts
     const timer = setTimeout(() => setShowCounter(true), 300);
     return () => clearTimeout(timer);
   }, []);
@@ -24,25 +24,44 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center bg-[#1A1A18] text-[#FAFAF8] px-6 py-20 overflow-hidden">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, #FAFAF8 1px, transparent 1px)`,
-            backgroundSize: "48px 48px",
-          }}
-        />
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden bg-[#1A1A18]">
+      {/* Warm ambient light — soft, diffused, no harsh edges */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 50% at 50% 0%, rgba(27, 122, 74, 0.06) 0%, transparent 60%),
+            radial-gradient(ellipse 60% 40% at 70% 80%, rgba(184, 134, 11, 0.04) 0%, transparent 50%),
+            radial-gradient(ellipse 50% 50% at 20% 60%, rgba(27, 122, 74, 0.03) 0%, transparent 50%)
+          `,
+        }}
+      />
+
+      {/* Subtle grain texture */}
+      <div
+        className="absolute inset-0 opacity-[0.015] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "256px 256px",
+        }}
+      />
+
+      {/* Thin horizontal lines for depth */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute left-0 right-0 h-px bg-[#FAFAF8]"
+            style={{ top: `${15 + i * 14}%` }}
+          />
+        ))}
       </div>
 
-      {/* Ambient glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-
       <div className="relative z-10 max-w-4xl mx-auto text-center">
-        {/* Overline */}
+        {/* Overline with warm fade-in */}
         <p
-          className={`text-[11px] uppercase tracking-[0.25em] text-[#A3A29D] mb-8 font-body transition-all duration-700 ${
+          className={`text-[11px] uppercase tracking-[0.3em] text-[#A3A29D] mb-10 font-body transition-all duration-1000 ${
             showCounter
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-4"
@@ -51,12 +70,12 @@ export function HeroSection() {
           Modern Portfolio Theory for Agriculture
         </p>
 
-        {/* Hero Stat */}
-        <div className="mb-6">
-          <div className="relative inline-block">
+        {/* The Number — the entire pitch */}
+        <div className="mb-8">
+          <div className="relative inline-flex items-baseline gap-2 sm:gap-6">
             <span
-              className={`font-display text-[120px] sm:text-[160px] lg:text-[200px] leading-none font-normal tracking-tight transition-colors duration-500 ${
-                showStrikethrough ? "text-[#A3A29D]/40" : "text-[#FAFAF8]"
+              className={`font-display text-[100px] sm:text-[140px] lg:text-[180px] leading-none tracking-tight transition-all duration-700 ${
+                showStrikethrough ? "text-[#A3A29D]/30" : "text-[#FAFAF8]"
               }`}
             >
               <AnimatedCounter
@@ -68,32 +87,35 @@ export function HeroSection() {
               />
             </span>
 
-            {/* Strikethrough line */}
+            {/* Strikethrough */}
             {showStrikethrough && (
               <div
-                className="absolute left-0 top-1/2 h-1 sm:h-1.5 bg-[#FAFAF8]/50 origin-left"
+                className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] sm:h-[3px] bg-[#FAFAF8]/40 origin-left"
                 style={{
-                  width: "100%",
+                  width: showNewStat ? "45%" : "100%",
                   animation: "strike-through 0.4s ease-out forwards",
                 }}
               />
             )}
-          </div>
 
-          {/* New stat reveal */}
-          {showNewStat && (
-            <span
-              className="font-display text-[60px] sm:text-[80px] lg:text-[100px] leading-none text-accent ml-4 sm:ml-8 animate-fade-in-up inline-block"
-              style={{ animationDuration: "0.6s" }}
-            >
-              10%
-            </span>
-          )}
+            {/* The answer */}
+            {showNewStat && (
+              <span
+                className="font-display text-[60px] sm:text-[80px] lg:text-[100px] leading-none animate-fade-in-up"
+                style={{
+                  color: "#B8860B",
+                  animationDuration: "0.6s",
+                }}
+              >
+                10%
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* Subtext */}
+        {/* Story text */}
         <p
-          className={`text-lg sm:text-xl text-[#FAFAF8]/80 max-w-xl mx-auto mb-4 font-body leading-relaxed transition-all duration-700 delay-200 ${
+          className={`text-lg sm:text-xl text-[#FAFAF8]/60 max-w-lg mx-auto mb-3 font-body leading-relaxed transition-all duration-1000 delay-200 ${
             showCounter
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-4"
@@ -105,36 +127,44 @@ export function HeroSection() {
 
         {showNewStat && (
           <p
-            className="text-lg sm:text-xl text-accent/90 max-w-xl mx-auto mb-12 font-body animate-fade-in-up"
+            className="text-lg sm:text-xl font-body mb-14 animate-fade-in-up"
             style={{
+              color: "rgba(184, 134, 11, 0.85)",
               animationDuration: "0.6s",
               animationDelay: "0.2s",
               animationFillMode: "both",
             }}
           >
-            CropFolio reduces that to 10%.
+            CropFolio reduces that to{" "}
+            <span
+              className="font-data font-medium"
+              style={{ color: "#B8860B" }}
+            >
+              10%
+            </span>
+            .
           </p>
         )}
 
-        {/* CTA Buttons */}
+        {/* CTA — warm, inviting */}
         <div
-          className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-300 ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-5 transition-all duration-1000 delay-500 ${
             showCounter
               ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-4"
+              : "opacity-0 translate-y-6"
           }`}
         >
           <Link
             to="/app"
-            className="px-8 py-4 bg-primary text-white rounded-lg text-lg font-body group inline-flex items-center hover:bg-primary-dark transition-colors"
+            className="group px-8 py-4 bg-primary text-white rounded-xl text-base font-body font-medium inline-flex items-center gap-2 hover:bg-primary-dark transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
           >
             Try CropFolio
-            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
 
           <a
             href="#problem"
-            className="text-[#FAFAF8]/70 hover:text-[#FAFAF8] transition-colors flex items-center gap-2 text-sm font-body"
+            className="text-[#FAFAF8]/40 hover:text-[#FAFAF8]/70 transition-colors duration-300 flex items-center gap-2 text-sm font-body"
           >
             See how it works
             <ChevronDown className="h-4 w-4" />
@@ -142,12 +172,15 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-        <div className="w-6 h-10 rounded-full border-2 border-[#FAFAF8]/30 flex items-start justify-center p-2">
-          <div className="w-1 h-2 bg-[#FAFAF8]/50 rounded-full animate-bounce" />
+      {/* Scroll indicator — minimal, barely there */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-30">
+        <div className="w-5 h-8 rounded-full border border-[#FAFAF8]/30 flex items-start justify-center pt-1.5">
+          <div className="w-0.5 h-1.5 bg-[#FAFAF8]/50 rounded-full animate-bounce" />
         </div>
       </div>
+
+      {/* Bottom edge fade — smooth transition to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#1A1A18] to-transparent pointer-events-none" />
     </section>
   );
 }
