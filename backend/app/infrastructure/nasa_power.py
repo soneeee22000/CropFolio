@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import calendar
 import logging
 from typing import Any
 
@@ -65,15 +66,22 @@ class NasaPowerClient:
 
 
 def _extract_annual_rainfall(data: dict[str, Any]) -> list[float]:
-    """Extract annual rainfall totals from NASA POWER response."""
+    """Extract annual rainfall totals from NASA POWER response.
+
+    NASA POWER PRECTOTCORR monthly endpoint returns mm/day averages.
+    We convert to mm/month by multiplying by days in each month.
+    """
     monthly_data = data["properties"]["parameter"]["PRECTOTCORR"]
     annual_totals: dict[str, float] = {}
 
     for month_key, value in monthly_data.items():
         if value < 0:
             continue
-        year = month_key[:4]
-        annual_totals[year] = annual_totals.get(year, 0.0) + value
+        year_str = month_key[:4]
+        month_str = month_key[4:6]
+        days_in_month = calendar.monthrange(int(year_str), int(month_str))[1]
+        monthly_mm = value * days_in_month
+        annual_totals[year_str] = annual_totals.get(year_str, 0.0) + monthly_mm
 
     return list(annual_totals.values())
 

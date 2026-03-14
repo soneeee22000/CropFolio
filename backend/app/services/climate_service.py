@@ -4,6 +4,11 @@ from __future__ import annotations
 
 import logging
 
+from app.core.constants import (
+    DEFAULT_FORECAST_DAYS,
+    DRY_SEASON_DAYS,
+    MONSOON_SEASON_DAYS,
+)
 from app.domain.climate import ClimateRiskProfile, assess_climate_risk
 from app.infrastructure.nasa_power import NasaPowerClient, get_nasa_power_client
 from app.infrastructure.open_meteo import OpenMeteoClient, get_open_meteo_client
@@ -67,6 +72,13 @@ class ClimateService:
             lat, lon, region, season
         )
 
+        season_days = MONSOON_SEASON_DAYS if season == "monsoon" else DRY_SEASON_DAYS
+        forecast_days = forecast.get("forecast_days", DEFAULT_FORECAST_DAYS)
+        if forecast_days > 0 and forecast_days != season_days:
+            forecast["total_rainfall_mm"] = (
+                forecast["total_rainfall_mm"] * (season_days / forecast_days)
+            )
+
         forecast_rainfall = forecast.get("total_rainfall_mm", 0.0)
         forecast_temp_anomaly = forecast.get("temp_anomaly_celsius", 0.0)
 
@@ -127,9 +139,11 @@ class ClimateService:
             region, DEFAULT_RAINFALL
         ).get(season, DEFAULT_RAINFALL[season])
 
+        season_days = MONSOON_SEASON_DAYS if season == "monsoon" else DRY_SEASON_DAYS
         return {
             "total_rainfall_mm": avg * 0.95,
             "temp_anomaly_celsius": 0.5,
+            "forecast_days": season_days,
         }
 
 

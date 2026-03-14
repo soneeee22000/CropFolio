@@ -17,8 +17,12 @@ def _mock_nasa_rainfall() -> list[float]:
 
 
 def _mock_meteo_forecast() -> dict[str, float]:
-    """Return synthetic weather forecast."""
-    return {"total_rainfall_mm": 750.0, "temp_anomaly_celsius": 0.8}
+    """Return synthetic 14-day weather forecast.
+
+    70mm over 14 days scales to ~765mm over monsoon (153 days),
+    close to original 750mm seasonal expectation.
+    """
+    return {"total_rainfall_mm": 70.0, "temp_anomaly_celsius": 0.8, "forecast_days": 14}
 
 
 class TestGetClimateRisk:

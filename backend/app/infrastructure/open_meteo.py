@@ -78,6 +78,7 @@ def _extract_forecast_summary(data: dict[str, Any]) -> dict[str, float]:
     return {
         "total_rainfall_mm": round(total_rainfall, 1),
         "temp_anomaly_celsius": round(temp_anomaly, 2),
+        "forecast_days": len(valid_precip),
     }
 
 
