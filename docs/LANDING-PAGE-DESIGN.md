@@ -136,7 +136,24 @@ Below: "Based on Magway township, monsoon season, rice + black gram + sesame por
 
 ---
 
-### Section 6: Tech Credibility
+### Section 6: The Science — Monte Carlo Simulation
+
+**Layout:** Full-width. Off-white background.
+
+**Content:** A brief explanation of how Monte Carlo simulation works, with a preview of the animated histogram. This section bridges the "how it works" steps with the credibility section, showing the mathematical rigor behind the tool.
+
+```
+[overline] THE SCIENCE
+[heading] 1,000 Simulated Seasons
+
+Monte Carlo simulation samples from multivariate normal distributions
+to generate 1,000 possible climate outcomes. The result: a complete
+picture of income risk under diversification vs. monocrop strategies.
+```
+
+---
+
+### Section 7: Tech Credibility
 
 **Layout:** Minimal. Logos/icons row.
 
@@ -145,12 +162,12 @@ Below: "Based on Magway township, monsoon season, rice + black gram + sesame por
 [row of tech badges/icons]
 Python · FastAPI · React · D3.js · scipy · NASA POWER · Open-Meteo
 
-63 automated tests · 88% backend coverage · Zero external AI costs
+72 automated tests · Zero external AI costs
 ```
 
 ---
 
-### Section 7: CTA Footer
+### Section 8: CTA Footer
 
 **Layout:** Dark background. Centered.
 

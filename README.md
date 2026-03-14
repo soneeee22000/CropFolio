@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
     <img src="https://img.shields.io/badge/D3.js-7-F9A03C?logo=d3dotjs&logoColor=white" alt="D3.js" />
-    <img src="https://img.shields.io/badge/tests-63%20passing-brightgreen" alt="Tests" />
+    <img src="https://img.shields.io/badge/tests-72%20passing-brightgreen" alt="Tests" />
   </p>
 </p>
 
@@ -160,7 +160,7 @@ graph TB
     end
 
     subgraph Backend["Backend (FastAPI + Python)"]
-        API["REST API\n7 Endpoints"]
+        API["REST API\n8 Endpoints"]
         subgraph Domain["Domain Layer"]
             OPT["Markowitz\nOptimizer"]
             SIM["Monte Carlo\nSimulator"]
@@ -206,8 +206,17 @@ graph TB
 | `GET`  | `/api/v1/climate-risk/{township_id}` | Climate risk assessment (live + fallback)  |
 | `POST` | `/api/v1/optimize`                   | Markowitz portfolio optimization           |
 | `POST` | `/api/v1/simulate`                   | Monte Carlo simulation (histogram + stats) |
+| `GET`  | `/api/v1/report/pdf`                 | Generate PDF report for portfolio          |
 
 Full interactive API docs available at `/docs` (Swagger UI).
+
+### Routes
+
+| Route    | Description                                                        |
+| -------- | ------------------------------------------------------------------ |
+| `/`      | Landing page with animated hero and scroll-driven story            |
+| `/app`   | 4-step portfolio wizard (township → climate → optimize → simulate) |
+| `/admin` | Mock admin dashboard (login: admin / 12345)                        |
 
 ---
 
@@ -238,7 +247,7 @@ Sources: FAO GAEZ, IRRI, Myanmar Department of Agriculture
 | **Styling**       | Tailwind CSS v4                       | Utility-first, rapid prototyping              |
 | **Data**          | NASA POWER, Open-Meteo, FAO, WFP      | All open, all verified for Myanmar coverage   |
 | **Deployment**    | Railway (backend) + Vercel (frontend) | Zero-config, instant deploys                  |
-| **Testing**       | pytest (63 tests), vitest             | 80%+ coverage on critical paths               |
+| **Testing**       | pytest (72 tests), vitest             | 80%+ coverage on critical paths               |
 
 ---
 
@@ -333,7 +342,7 @@ npm run dev
 ### Run Tests
 
 ```bash
-# Backend (63 tests)
+# Backend (72 tests)
 cd backend && pytest -v
 
 # Frontend
@@ -362,7 +371,7 @@ cropfolio/
 │   │   │   └── open_meteo.py    # Open-Meteo weather forecasts
 │   │   └── services/            # Orchestration layer
 │   ├── data/                    # Static data (townships, prices)
-│   ├── tests/                   # 63 tests (unit + integration)
+│   ├── tests/                   # 72 tests (unit + integration)
 │   └── Dockerfile
 ├── frontend/
 │   ├── src/
@@ -427,19 +436,24 @@ portfolio_income = scenarios @ weights
 ## Testing
 
 ```
-63 tests | 0 failures | 1.4s runtime
+72 tests | 0 failures
 
 Unit Tests (32):
   - Climate risk engine: 8 tests
-  - Portfolio optimizer: 12 tests (weights sum to 1, risk reduction > 0, etc.)
+  - Portfolio optimizer: 12 tests (weights sum to 1, PSD correction, convergence check, risk reduction > 0)
   - Monte Carlo simulator: 8 tests (reproducible, bounded, convergent)
   - Diversification proof: monocrop vs diversified catastrophic loss
 
 Integration Tests (31):
-  - All 7 API endpoints tested
+  - All 8 API endpoints tested
   - Error handling: 400, 404, 422 responses
   - External API fallback behavior
   - Schema validation
+
+Data Pipeline Tests (9):
+  - NASA POWER mm/day to mm/month conversion
+  - Open-Meteo seasonal scaling
+  - WFP price data loading and validation
 ```
 
 ---
@@ -461,15 +475,16 @@ This is a proof of concept. Here's what's real and what's not:
 
 | What                            | Status                                                                        |
 | ------------------------------- | ----------------------------------------------------------------------------- |
-| The Markowitz optimization math | Real and correct                                                              |
+| The Markowitz optimization math | Real and correct (PSD correction + convergence check added)                   |
 | The Monte Carlo simulation      | Real and correct                                                              |
-| The crop risk profiles          | Approximate — based on FAO/IRRI literature, not a specific cited dataset      |
+| The crop risk profiles          | Cited — based on FAO/IRRI literature with source citations in crop data       |
 | The covariance matrix           | Heuristic — estimated from tolerance profiles, not historical return data     |
-| The climate data pipeline       | Uses regional fallback data — live NASA POWER path has unit conversion issues |
+| The climate data pipeline       | Working — NASA POWER mm/day→mm/month fixed, Open-Meteo seasonal scaling fixed |
+| WFP price data                  | Real — 6 WFP price CSVs loaded for Myanmar crops                              |
 | The Burmese translations        | AI-generated, not reviewed by a native speaker                                |
 | The business model              | Speculative — zero customer validation                                        |
 
-**What needs to happen for production:** Real historical crop yield + price time series for covariance estimation. NASA POWER unit correction (mm/day to mm/month). Native Burmese speaker review. User testing with actual extension workers. Customer interviews with insurers/cooperatives.
+**What needs to happen for production:** Real historical crop yield + price time series for covariance estimation (currently heuristic). Native Burmese speaker review. User testing with actual extension workers. Customer interviews with insurers/cooperatives.
 
 The core insight — negatively correlated crop risk profiles creating diversification opportunity — is agronomically valid. The architecture supports iterating toward production quality. The bones are good.
 

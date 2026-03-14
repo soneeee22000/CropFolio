@@ -1,6 +1,6 @@
 # CropFolio — Product Requirements Document
 
-## Status: DRAFT — Awaiting Approval
+## Status: COMPLETE — All Phases Delivered
 
 ---
 
@@ -119,7 +119,7 @@ Rice is flood-tolerant but drought-sensitive. Pulses and oilseeds are drought-to
 | ------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------- |
 | **Frontend**        | React 18 + TypeScript + Tailwind CSS                                | Fast to build, component-driven, great charting ecosystem       |
 | **Charts**          | Recharts + D3.js (for Monte Carlo animation)                        | Recharts for standard charts, D3 for the custom simulation viz  |
-| **Backend**         | Python 3.12 + FastAPI                                               | Best ecosystem for data science + API in one codebase           |
+| **Backend**         | Python 3.10 + FastAPI                                               | Best ecosystem for data science + API in one codebase           |
 | **ML/Optimization** | scikit-learn, scipy.optimize, numpy, pandas                         | Markowitz optimization, Monte Carlo simulation, data processing |
 | **Data Sources**    | NASA POWER API, Open-Meteo API, FAO GAEZ (static), WFP HDX (static) | All confirmed to cover Myanmar                                  |
 | **Database**        | SQLite (hackathon) → PostgreSQL (production)                        | Zero setup for MVP, easy migration path                         |
@@ -160,10 +160,11 @@ Rice is flood-tolerant but drought-sensitive. Pulses and oilseeds are drought-to
 | GET    | `/api/v1/townships`                  | List Myanmar townships with coordinates |
 | GET    | `/api/v1/climate-risk/{township_id}` | Climate risk profile for township       |
 | GET    | `/api/v1/crops`                      | List available crops with profiles      |
+| GET    | `/api/v1/crops/{id}`                 | Single crop detail                      |
+| GET    | `/api/v1/climate-risk/{township_id}` | Climate risk profile for township       |
 | POST   | `/api/v1/optimize`                   | Run portfolio optimization              |
 | POST   | `/api/v1/simulate`                   | Run Monte Carlo simulation              |
-| GET    | `/api/v1/prices/{crop_id}`           | Historical price data                   |
-| POST   | `/api/v1/report/export`              | Generate PDF report                     |
+| GET    | `/api/v1/report/pdf`                 | Generate PDF report                     |
 
 ---
 
@@ -249,7 +250,7 @@ class PortfolioAllocation:
 
 ## 8. Build Milestones (Solo Developer — No Deadline Pressure)
 
-### Phase 1: Core Engine (Focus: Get the Math Right)
+### Phase 1: Core Engine (Focus: Get the Math Right) — COMPLETE
 
 **Deliverables:**
 
@@ -262,11 +263,11 @@ class PortfolioAllocation:
 
 **Quality Gate:** All optimization tests pass. Given sample input, produces valid diversified portfolio with demonstrably lower risk than monocrop. Math is verified against manual calculations.
 
-### Phase 2: API Layer (Focus: Clean Architecture)
+### Phase 2: API Layer (Focus: Clean Architecture) — COMPLETE
 
 **Deliverables:**
 
-- FastAPI backend with all 7 endpoints
+- FastAPI backend with all 8 endpoints
 - Pydantic schemas for all request/response models
 - Service layer separating business logic from routes
 - Integration tests for all endpoints
@@ -275,7 +276,7 @@ class PortfolioAllocation:
 
 **Quality Gate:** All endpoints return correct data. API docs are complete. Error cases handled gracefully.
 
-### Phase 3: Frontend (Focus: The Wow Demo)
+### Phase 3: Frontend (Focus: The Wow Demo) — COMPLETE
 
 **Deliverables:**
 
@@ -289,7 +290,7 @@ class PortfolioAllocation:
 
 **Quality Gate:** Full user flow works end-to-end. The Monte Carlo animation makes people lean forward.
 
-### Phase 4: Polish + Pitch Ready
+### Phase 4: Polish + Pitch Ready — COMPLETE
 
 **Deliverables:**
 

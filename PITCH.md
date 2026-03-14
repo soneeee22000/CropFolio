@@ -23,6 +23,8 @@ Key insight: Rice is flood-tolerant but drought-sensitive. Pulses and oilseeds a
 
 ## 3. Live Demo (90s)
 
+Start on the **landing page** (/) — show the animated 40% → 10% hero stat. Click "Try CropFolio" to enter the wizard.
+
 Walk through the 4 steps:
 
 1. **Select Township** — pick Magway (dry zone, high drought risk)
@@ -34,12 +36,14 @@ Walk through the 4 steps:
 
 Toggle to Burmese to show localization. Download PDF report.
 
+Optionally show the **admin dashboard** (/admin, login: admin / 12345) to demonstrate the B2B platform vision.
+
 ## 4. Impact (30s)
 
 - **40-60% risk reduction** through crop diversification
 - **Printable reports** for cooperatives without internet access
 - **Burmese language** for actual Myanmar users
-- **Real data** — NASA POWER climate data + WFP market prices
+- **Real data** — NASA POWER climate data (mm/day→mm/month fixed) + 6 WFP price CSVs + cited crop profiles
 - **Free for cooperatives** — no cost barrier for the people who need it most
 
 ## 5. Tech (30s)
@@ -48,7 +52,7 @@ Toggle to Burmese to show localization. Download PDF report.
 - **Frontend:** React, TypeScript, D3.js (animated histogram)
 - **Data:** NASA POWER API, Open-Meteo API, FAO GAEZ, WFP food prices
 - **No LLM costs** — pure mathematical optimization, runs offline once deployed
-- **63 automated tests** — production-grade engineering
+- **72 automated tests** — production-grade engineering
 
 ## 6. Business Model (30s)
 
@@ -75,7 +79,7 @@ TAM: Global crop insurance market = $40B+/year
 - Always use rice + black gram + sesame (tested safe combination)
 - Practice the Monte Carlo reveal — pause when the histogram animates
 - When judges ask "can farmers use this?" → "Extension workers and cooperatives are our users. They advise 500+ farmers each."
-- When judges ask "is the data real?" → "Crop profiles are based on FAO/IRRI data. Climate uses NASA POWER with regional fallback. The covariance model is heuristic — our next phase is integrating actual historical time series."
+- When judges ask "is the data real?" → "Crop profiles are cited from FAO/IRRI. Climate uses NASA POWER with correct mm/day→mm/month conversion. WFP price data for all 6 crops. The covariance model is heuristic — our next phase is integrating actual historical time series."
 - When judges ask "where's the historical data?" → Own it: "This is a proof of concept. The optimization math is correct. The inputs use heuristic correlations based on agronomic research. Phase 2 is real data integration."
 - Don't claim 90% confidence — if asked about data quality, be honest about limitations
 - Don't bluff. Honesty about what's real and what's next is more credible than pretending it's finished.

@@ -14,13 +14,13 @@ CropFolio is a well-architected proof of concept that applies a genuinely novel 
 
 - The covariance matrix is **fabricated from intuition**, not estimated from real data
 - The crop profiles are **approximate**, not cited from a specific dataset
-- The climate data pipeline is **broken** (unit conversion errors, temporal mismatches)
+- The climate data pipeline **had unit conversion errors** — now fixed (NASA mm/day→mm/month, Open-Meteo seasonal scaling)
 - The Burmese translations are **AI-generated and unverified** by a native speaker
 - The business model is **pure speculation** with zero customer validation
 - The UI is **untested** by any real user, let alone a Myanmar extension worker
 - There are **zero frontend tests**
 
-The project has 3 high-severity silent failure modes, a data pipeline that produces wrong results when the live API actually works, and a "90% confidence" label on a heuristic model that has no statistical basis for that number.
+The project had 4 high-severity issues — all now fixed (PSD correction, convergence check, NASA units, seasonal scaling). It still has a "90% confidence" label on a heuristic model that has no statistical basis for that number.
 
 It's a strong hackathon entry. It is not what the README implies it is.
 
@@ -82,7 +82,7 @@ No native Myanmar speaker has reviewed them. If a Burmese-speaking judge reads t
 
 ### 4. Zero Frontend Tests Is Worse Than It Sounds
 
-The backend has 88% coverage and 63 tests. The frontend — which is **everything the judges see** — has exactly zero tests. No component tests. No hook tests. No E2E tests. The assessment initially scored test coverage 7/10. That's dishonest for a project where the entire user-facing surface is untested.
+The backend has 72 tests (including 9 data pipeline tests). The frontend — which is **everything the judges see** — has exactly zero tests. No component tests. No hook tests. No E2E tests. The assessment initially scored test coverage 7/10. That's dishonest for a project where the entire user-facing surface is untested.
 
 ### 5. The Business Model Is Pitch-Deck Fiction
 
@@ -116,102 +116,69 @@ No user feedback loop. No "we tried X, it didn't work, so we pivoted to Y." The 
 
 ### HIGH SEVERITY — Silent Failure Modes
 
-#### 1. Covariance Matrix May Not Be Positive Semi-Definite
+#### 1. ~~Covariance Matrix May Not Be Positive Semi-Definite~~ — FIXED
 
-**File:** `backend/app/domain/optimizer.py:85-104`
+PSD correction added. Eigenvalue check ensures the covariance matrix is always positive semi-definite by adding a small diagonal correction when needed.
 
-The correlation matrix is built entry-by-entry from a heuristic formula. There is **no check** that the resulting covariance matrix is positive semi-definite. When it isn't:
+#### 2. ~~Optimizer Convergence Not Checked~~ — FIXED
 
-- `scipy.optimize.minimize` silently produces garbage weights
-- `numpy.random.multivariate_normal` raises `ValueError: matrix is not positive semidefinite`
+Convergence check added. If `result.success` is False, the optimizer logs a warning and falls back to equal weights.
 
-This can happen with certain crop combinations (e.g., sesame + chickpea, both drought-tolerant/flood-sensitive, similar season).
+#### 3. ~~NASA POWER Data Unit Bug~~ — FIXED
 
-**Risk:** Latent crash bug. Won't happen in demo if you use the standard rice + black_gram + sesame combo.
+mm/day to mm/month conversion implemented. Each monthly value is now multiplied by the number of days in that month. 9 new data pipeline tests validate this.
 
-**Fix:**
+#### 4. ~~Open-Meteo 14-Day vs Annual Comparison~~ — FIXED
 
-```python
-eigvals = np.linalg.eigvalsh(cov_matrix)
-if eigvals.min() < 0:
-    cov_matrix += (-eigvals.min() + 1e-8) * np.eye(n)
-```
-
-#### 2. Optimizer Convergence Not Checked
-
-**File:** `backend/app/domain/optimizer.py:143-154`
-
-`scipy.optimize.minimize` returns a `.success` boolean. The code never checks it. If the optimizer fails to converge, `result.x` is the last iterate — potentially nonsensical weights that still sum to 1.0 after renormalization.
-
-**Risk:** Silent bad recommendations. Unlikely in demo but possible with extreme climate inputs.
-
-**Fix:** Check `result.success`, log warning, optionally fall back to equal weights.
-
-#### 3. NASA POWER Data Unit Bug
-
-**File:** `backend/app/infrastructure/nasa_power.py:67-78`
-
-NASA POWER `PRECTOTCORR` monthly data returns **mm/day** averages, not mm/month totals. The code sums them directly, producing annual rainfall of ~12-48mm when the real values should be 700-2800mm. Every township appears to be in extreme drought.
-
-**Risk:** Live API path is broken. Only works because the fallback fires most of the time. If NASA POWER actually responds successfully during a demo, the climate risk will be wildly wrong.
-
-**Fix:** Multiply each monthly value by the number of days in that month.
-
-#### 4. Open-Meteo 14-Day vs Annual Comparison
-
-**File:** `backend/app/services/climate_service.py`
-
-The forecast returns 14-day total rainfall, but it's compared against annual historical averages. A 14-day total of 50mm against an annual average of 900mm always reads as extreme drought.
-
-**Fix:** Scale forecast to seasonal units, or compare against seasonal baselines.
+Forecast rainfall is now scaled to seasonal units for comparison against seasonal baselines, not annual averages.
 
 ---
 
 ### MEDIUM SEVERITY — Correctness Nuances
 
-| Issue                                                                  | File                         | Impact                                             |
-| ---------------------------------------------------------------------- | ---------------------------- | -------------------------------------------------- |
-| Variance formula drops yield-price covariance term                     | `optimizer.py:70-74`         | Risk estimates systematically overstated by ~5-15% |
-| Temperature anomaly amplifies drought even for negative anomalies      | `climate.py:70-71`           | Cool years wrongly flagged as drought risk         |
-| Drought probability has a discontinuity at threshold                   | `climate.py:101-106`         | Risk classification flickers for marginal cases    |
-| Confidence score of 90% is misleading for a 10-year heuristic model    | `climate.py:74`              | Users may over-trust results                       |
-| Monte Carlo clips per-asset before portfolio aggregation               | `simulator.py:76-79`         | Tail statistics biased upward                      |
-| Monocrop comparison hard-codes `rice` — breaks for non-rice portfolios | `MonteCarloView.tsx:48-52`   | Comparison disappears if rice not selected         |
-| Singletons use module-level globals without thread safety              | Multiple service files       | Test pollution, async race conditions              |
-| Services import API schemas — layering violation                       | `portfolio_service.py:11-20` | Coupling between layers                            |
+| Issue                                                                         | File                         | Impact                                              |
+| ----------------------------------------------------------------------------- | ---------------------------- | --------------------------------------------------- |
+| Variance formula drops yield-price covariance term                            | `optimizer.py:70-74`         | Risk estimates systematically overstated by ~5-15%  |
+| Temperature anomaly amplifies drought even for negative anomalies             | `climate.py:70-71`           | Cool years wrongly flagged as drought risk          |
+| Drought probability has a discontinuity at threshold                          | `climate.py:101-106`         | Risk classification flickers for marginal cases     |
+| Confidence score of 90% is misleading for a 10-year heuristic model           | `climate.py:74`              | Users may over-trust results                        |
+| Monte Carlo clips per-asset before portfolio aggregation                      | `simulator.py:76-79`         | Tail statistics biased upward                       |
+| ~~Monocrop comparison hard-codes `rice`~~ — FIXED, uses highest-weighted crop | `MonteCarloView.tsx`         | Now uses the highest-weighted crop in the portfolio |
+| Singletons use module-level globals without thread safety                     | Multiple service files       | Test pollution, async race conditions               |
+| Services import API schemas — layering violation                              | `portfolio_service.py:11-20` | Coupling between layers                             |
 
 ---
 
 ### LOW SEVERITY — Polish Issues
 
-| Issue                                                              | File                         | Impact                             |
-| ------------------------------------------------------------------ | ---------------------------- | ---------------------------------- |
-| D3 histogram not responsive (no ResizeObserver)                    | `MonteCarloHistogram.tsx`    | Chart clips on window resize       |
-| D3 transitions not cancelled on unmount                            | `MonteCarloHistogram.tsx`    | Memory leak potential              |
-| PDF download has no error handling                                 | `MonteCarloView.tsx:121-147` | Silent failure if backend down     |
-| `<style>` block duplicated per RiskGauge instance                  | `ClimateRiskDashboard.tsx`   | Minor DOM waste                    |
-| ReportLab Paragraph doesn't sanitize HTML entities                 | `report_service.py`          | XML injection in PDF output        |
-| Fallback data uses non-deterministic `hash()` seed                 | `climate_service.py:117`     | Different results between restarts |
-| 25 ruff linting errors (unused imports, line length, import order) | Multiple files               | Code hygiene                       |
-| No frontend tests written yet                                      | `frontend/tests/`            | Zero coverage on React components  |
-| No report endpoint tests                                           | `backend/tests/`             | PDF generation untested            |
-| `useLanguage()` called without consuming translations              | `MonteCarloView.tsx:29`      | Unnecessary re-renders             |
+| Issue                                                 | File                         | Impact                             |
+| ----------------------------------------------------- | ---------------------------- | ---------------------------------- |
+| D3 histogram not responsive (no ResizeObserver)       | `MonteCarloHistogram.tsx`    | Chart clips on window resize       |
+| D3 transitions not cancelled on unmount               | `MonteCarloHistogram.tsx`    | Memory leak potential              |
+| PDF download has no error handling                    | `MonteCarloView.tsx:121-147` | Silent failure if backend down     |
+| `<style>` block duplicated per RiskGauge instance     | `ClimateRiskDashboard.tsx`   | Minor DOM waste                    |
+| ReportLab Paragraph doesn't sanitize HTML entities    | `report_service.py`          | XML injection in PDF output        |
+| Fallback data uses non-deterministic `hash()` seed    | `climate_service.py:117`     | Different results between restarts |
+| ~~25 ruff linting errors~~ — FIXED (zero lint errors) | Multiple files               | Clean                              |
+| No frontend tests written yet                         | `frontend/tests/`            | Zero coverage on React components  |
+| No report endpoint tests                              | `backend/tests/`             | PDF generation untested            |
+| `useLanguage()` called without consuming translations | `MonteCarloView.tsx:29`      | Unnecessary re-renders             |
 
 ---
 
 ## Hackathon Readiness Score (Revised — Honest)
 
-| Criterion              | Score    | Honest Take                                                                                      |
-| ---------------------- | -------- | ------------------------------------------------------------------------------------------------ |
-| **Demo Reliability**   | 9/10     | Works end-to-end. Only risk: selecting crops without rice breaks monocrop comparison             |
-| **Technical Depth**    | 8/10     | Real optimization, real simulation — but the covariance matrix is fabricated, not data-derived   |
-| **Originality**        | 10/10    | No one else will apply Markowitz to crop selection. This is the genuine differentiator           |
-| **Visual Polish**      | 7/10     | Premium design, histogram is art. But zero user testing, AI-generated Burmese unverified         |
-| **Business Viability** | 6/10     | B2B pivot sounds credible. Zero validation. Pitch-deck fiction until someone talks to a customer |
-| **Code Quality**       | 7/10     | Clean architecture with 3 silent failure modes and 25 lint errors                                |
-| **Data Accuracy**      | 3/10     | Fabricated covariance. Uncited crop profiles. Broken climate pipeline. This is the weakest link  |
-| **Test Coverage**      | 5/10     | 88% backend on fake-data models. 0% frontend. No PDF test. Tests validate math, not meaning      |
-| **Overall**            | **7/10** | Strong proof of concept. Impressive for a hackathon. Not what the README implies it is           |
+| Criterion              | Score      | Honest Take                                                                                      |
+| ---------------------- | ---------- | ------------------------------------------------------------------------------------------------ |
+| **Demo Reliability**   | 9/10       | Works end-to-end. Monocrop comparison now uses highest-weighted crop (not hardcoded rice)        |
+| **Technical Depth**    | 8/10       | Real optimization, real simulation — but the covariance matrix is fabricated, not data-derived   |
+| **Originality**        | 10/10      | No one else will apply Markowitz to crop selection. This is the genuine differentiator           |
+| **Visual Polish**      | 7/10       | Premium design, histogram is art. But zero user testing, AI-generated Burmese unverified         |
+| **Business Viability** | 6/10       | B2B pivot sounds credible. Zero validation. Pitch-deck fiction until someone talks to a customer |
+| **Code Quality**       | 8/10       | Clean architecture, PSD + convergence fixes applied, zero lint errors                            |
+| **Data Accuracy**      | 6/10       | NASA units fixed, seasonal scaling fixed, WFP data real. Covariance still heuristic              |
+| **Test Coverage**      | 6/10       | 72 backend tests including data pipeline. 0% frontend. Tests validate math + data pipeline       |
+| **Overall**            | **7.5/10** | Strong proof of concept with real data pipeline fixes. Covariance and Burmese remain gaps        |
 
 ### What the scores mean
 
@@ -225,28 +192,30 @@ The risk is a judge who asks the right question: "Where's the historical data be
 
 - [ ] Always select rice + black_gram + sesame for the demo (safe combination)
 - [ ] Open the app 2 minutes before the pitch to warm up Railway
-- [ ] Don't select crops without rice (monocrop comparison breaks)
+- [ ] Monocrop comparison now uses highest-weighted crop (any crop combo works)
 - [ ] Don't mention "90% confidence" — judges who know statistics will question it
-- [ ] Be ready for "is the data real?" — answer: "crop profiles from FAO/IRRI, climate from NASA POWER with regional fallback"
+- [ ] Be ready for "is the data real?" — answer: "crop profiles cited from FAO/IRRI, climate from NASA POWER (mm/day→mm/month fixed), WFP price CSVs for 6 crops"
 - [ ] Be ready for "can farmers use this?" — answer: "extension workers and cooperatives are our users"
+- [ ] Show landing page first (/) then navigate to wizard (/app) for the demo flow
+- [ ] Optionally show admin dashboard (/admin, login: admin / 12345) for B2B narrative
 
 ---
 
 ## Phase-by-Phase Improvement Roadmap
 
-### Phase 5: Critical Fixes (Before hackathon if time allows)
+### Phase 5: Critical Fixes — COMPLETE
 
-1. Add PSD correction to covariance matrix
-2. Check optimizer convergence result
-3. Fix monocrop comparison to use highest-weighted crop, not hardcoded rice
-4. Fix ruff lint errors (`ruff check . --fix`)
+1. ~~Add PSD correction to covariance matrix~~ — DONE
+2. ~~Check optimizer convergence result~~ — DONE
+3. ~~Fix monocrop comparison to use highest-weighted crop, not hardcoded rice~~ — DONE
+4. ~~Fix ruff lint errors~~ — DONE (zero lint errors)
 
-### Phase 6: Data Pipeline Fixes (Post-hackathon)
+### Phase 6: Data Pipeline Fixes — COMPLETE
 
-1. Fix NASA POWER mm/day to mm/month conversion
-2. Fix Open-Meteo 14-day vs seasonal comparison
-3. Add real WFP price data CSVs to `data/wfp_prices/`
-4. Validate crop profiles against published Myanmar agricultural statistics
+1. ~~Fix NASA POWER mm/day to mm/month conversion~~ — DONE (9 new tests)
+2. ~~Fix Open-Meteo 14-day vs seasonal comparison~~ — DONE
+3. ~~Add real WFP price data CSVs to `data/wfp_prices/`~~ — DONE (6 CSVs)
+4. ~~Validate crop profiles against published Myanmar agricultural statistics~~ — DONE (citations added)
 
 ### Phase 7: Production Readiness
 
@@ -278,7 +247,7 @@ It is also a project with fabricated model inputs, a broken data pipeline, AI-ge
 
 - "The covariance matrix uses heuristic correlations — our next phase is real historical data integration"
 - "The Burmese text needs native speaker review — we'd do that before any field deployment"
-- "The climate pipeline is currently using regional fallback data — live API integration needs unit correction"
+- "The climate pipeline now correctly converts NASA POWER data (mm/day to mm/month) and scales Open-Meteo forecasts to seasonal baselines"
 - "This is a proof of concept. We built it to prove the approach works, not to deploy it tomorrow"
 
 ### What to be confident about:
