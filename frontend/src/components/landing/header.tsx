@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Sprout, Menu, X } from "./icons";
+import { Menu, X } from "./icons";
 
 /**
  * Fixed header with transparent-to-solid scroll transition.
@@ -29,14 +29,30 @@ export function Header() {
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div
-            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
-              isScrolled ? "bg-primary/10" : "bg-[#FAFAF8]/10"
-            }`}
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 32 32"
+            fill="none"
+            className="transition-transform duration-300 group-hover:scale-110"
           >
-            <Sprout className="w-4 h-4 text-primary" />
-          </div>
+            <rect
+              width="32"
+              height="32"
+              rx="8"
+              fill={isScrolled ? "#1B7A4A" : "#FAFAF8"}
+              fillOpacity={isScrolled ? 0.15 : 0.1}
+            />
+            <rect x="6" y="20" width="5" height="6" rx="1" fill="#3A8F5C" />
+            <rect x="13.5" y="14" width="5" height="12" rx="1" fill="#1B7A4A" />
+            <rect x="21" y="8" width="5" height="18" rx="1" fill="#B8860B" />
+            <path
+              d="M25.5 7C25.5 7 23 4 20 5.5C21.5 6 23.5 6 25.5 7Z"
+              fill="#3A8F5C"
+              opacity="0.8"
+            />
+          </svg>
           <span className="font-display text-lg text-[#FAFAF8] group-hover:text-primary transition-colors">
             CropFolio
           </span>
