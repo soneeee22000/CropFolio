@@ -96,7 +96,7 @@ export function Header() {
             {theme === "dark" ? "\u2600" : "\u263D"}
           </button>
           <Link
-            to="/app"
+            to="/dashboard"
             className="px-6 py-2 bg-primary text-white rounded-lg text-sm uppercase tracking-wide font-medium hover:bg-primary-dark transition-colors"
           >
             Try CropFolio
@@ -164,7 +164,7 @@ export function Header() {
               {theme === "dark" ? "\u2600 Light" : "\u263D Dark"}
             </button>
             <Link
-              to="/app"
+              to="/dashboard"
               className="px-6 py-3 bg-primary text-white rounded-lg text-sm uppercase tracking-wide font-medium hover:bg-primary-dark transition-colors text-center w-full mt-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >

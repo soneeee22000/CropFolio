@@ -42,7 +42,7 @@ export function CTAFooter() {
           }`}
         >
           <Link
-            to="/app"
+            to="/dashboard"
             className="inline-flex items-center px-10 py-4 bg-primary text-white rounded-lg text-lg font-body group hover:bg-primary-dark transition-colors"
           >
             Launch CropFolio

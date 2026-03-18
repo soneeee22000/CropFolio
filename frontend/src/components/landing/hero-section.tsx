@@ -157,7 +157,7 @@ export function HeroSection() {
           }`}
         >
           <Link
-            to="/app"
+            to="/dashboard"
             className="group px-8 py-4 bg-primary text-white rounded-xl text-base font-body font-medium inline-flex items-center gap-2 hover:bg-primary-dark transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
           >
             Try CropFolio
