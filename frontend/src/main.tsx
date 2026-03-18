@@ -19,27 +19,25 @@ createRoot(document.getElementById("root")!).render(
       <LanguageProvider>
         <BrowserRouter>
           <Routes>
-            {/* Landing */}
-            <Route path="/" element={<LandingPage />} />
-
-            {/* Legacy wizard (kept for backwards compat) */}
-            <Route path="/app" element={<App />} />
-            <Route path="/admin" element={<AdminPage />} />
-
-            {/* B2B Dashboard */}
+            {/* B2B Dashboard (primary) */}
             <Route element={<DashboardLayout />}>
+              <Route path="/" element={<DashboardOverview />} />
               <Route path="/dashboard" element={<DashboardOverview />} />
               <Route path="/recommend" element={<RecommendPage />} />
               <Route path="/demo-calculator" element={<DemoROICalculator />} />
               <Route path="/reports" element={<ReportsPage />} />
             </Route>
 
+            {/* Legacy routes */}
+            <Route path="/landing" element={<LandingPage />} />
+            <Route path="/app" element={<App />} />
+            <Route path="/admin" element={<AdminPage />} />
+
             {/* Catch-all redirect to dashboard */}
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </LanguageProvider>
     </ThemeProvider>
   </StrictMode>,
 );
-
