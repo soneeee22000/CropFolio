@@ -26,7 +26,7 @@ async def compare_townships(
     )
 
     townships = []
-    for tid, result in zip(body.township_ids, results):
+    for tid, result in zip(body.township_ids, results, strict=True):
         if result is None:
             raise HTTPException(
                 status_code=404,

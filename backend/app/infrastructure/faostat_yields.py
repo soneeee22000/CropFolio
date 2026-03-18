@@ -17,7 +17,9 @@ from numpy.typing import NDArray
 
 logger = logging.getLogger(__name__)
 
-DATA_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "faostat_yields.json"
+DATA_PATH = (
+    Path(__file__).resolve().parent.parent.parent / "data" / "faostat_yields.json"
+)
 
 # Crop IDs in the optimizer mapped to FAOSTAT series names.
 # black_gram and green_gram both use beans_dry as proxy.

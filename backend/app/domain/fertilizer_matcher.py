@@ -97,14 +97,16 @@ def _compute_soil_deficiency_score(
             score += 0.1
 
     # Low pH soils should avoid further acidification
-    if soil.ph_h2o < LOW_PH_THRESHOLD:
-        if fertilizer.id == "ammonium_sulfate":
-            score -= 0.2
+    if soil.ph_h2o < LOW_PH_THRESHOLD and fertilizer.id == "ammonium_sulfate":
+        score -= 0.2
 
     # Low organic carbon soils need more balanced nutrition
-    if soil.soc_g_per_kg < LOW_SOC_THRESHOLD:
-        if fertilizer.potassium_pct > 0 and fertilizer.nitrogen_pct > 0:
-            score += 0.1
+    if (
+        soil.soc_g_per_kg < LOW_SOC_THRESHOLD
+        and fertilizer.potassium_pct > 0
+        and fertilizer.nitrogen_pct > 0
+    ):
+        score += 0.1
 
     return max(0.0, min(1.0, score))
 
@@ -136,7 +138,10 @@ def _build_reasoning(
             f"{requirement.crop_id.replace('_', ' ').title()} has high N demand "
             f"({requirement.nitrogen_kg_per_ha} kg/ha)"
         )
-    elif requirement.primary_nutrient == "phosphorus" and fertilizer.phosphorus_pct > 15:
+    elif (
+        requirement.primary_nutrient == "phosphorus"
+        and fertilizer.phosphorus_pct > 15
+    ):
         parts.append(
             f"{requirement.crop_id.replace('_', ' ').title()} needs P for "
             f"root/nodule development ({requirement.phosphorus_kg_per_ha} kg/ha)"
