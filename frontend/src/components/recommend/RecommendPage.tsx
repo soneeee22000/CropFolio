@@ -9,6 +9,7 @@ import { ConfidenceGauge } from "./ConfidenceGauge";
 import { useRecommend } from "@/hooks/useRecommend";
 import { fetchTownships } from "@/api/townships";
 import { fetchCrops } from "@/api/crops";
+import { useLanguage } from "@/i18n/LanguageContext";
 import { formatMMKCompact, formatPercent } from "@/utils/formatters";
 import type { Township } from "@/types/township";
 
@@ -19,34 +20,40 @@ interface CropOption {
 
 /** Recommendation engine page: multi-township + crop selection -> results. */
 export function RecommendPage() {
+  const { t } = useLanguage();
   const [townships, setTownships] = useState<Township[]>([]);
   const [crops, setCrops] = useState<CropOption[]>([]);
   const [selectedTownships, setSelectedTownships] = useState<string[]>([]);
   const [selectedCrops, setSelectedCrops] = useState<string[]>([]);
   const [season, setSeason] = useState<"monsoon" | "dry">("dry");
   const [riskTolerance, setRiskTolerance] = useState(0.5);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const { result, isLoading, error, recommend } = useRecommend();
 
   useEffect(() => {
     async function loadOptions() {
-      const [twpRes, cropRes] = await Promise.all([
-        fetchTownships(),
-        fetchCrops(),
-      ]);
-      setTownships(twpRes.townships);
-      setCrops(
-        cropRes.crops.map((c: { id: string; name_en: string }) => ({
-          id: c.id,
-          name_en: c.name_en,
-        })),
-      );
+      try {
+        const [twpRes, cropRes] = await Promise.all([
+          fetchTownships(),
+          fetchCrops(),
+        ]);
+        setTownships(twpRes.townships);
+        setCrops(
+          cropRes.crops.map((c: { id: string; name_en: string }) => ({
+            id: c.id,
+            name_en: c.name_en,
+          })),
+        );
+      } catch {
+        setLoadError("Failed to load townships and crops");
+      }
     }
     loadOptions();
   }, []);
 
   const toggleTownship = (id: string) => {
     setSelectedTownships((prev) =>
-      prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id],
+      prev.includes(id) ? prev.filter((tw) => tw !== id) : [...prev, id],
     );
   };
 
@@ -67,22 +74,23 @@ export function RecommendPage() {
     });
   };
 
-  const regions = [...new Set(townships.map((t) => t.region))];
+  const regions = [...new Set(townships.map((tw) => tw.region))];
+
+  if (loadError) {
+    return <ErrorAlert message={loadError} />;
+  }
 
   return (
     <div className="space-y-8 animate-fade-in-up">
       <div>
         <h2 className="font-display text-3xl text-text-primary">
-          Recommendation Engine
+          {t("recommend.title")}
         </h2>
-        <p className="text-text-secondary mt-1">
-          Select townships and crops to generate optimized crop-fertilizer
-          recommendations
-        </p>
+        <p className="text-text-secondary mt-1">{t("recommend.subtitle")}</p>
       </div>
 
       {/* Township selection */}
-      <Card title="Select Townships">
+      <Card title={t("recommend.selectTownships")}>
         <div className="space-y-4">
           {regions.map((region) => (
             <div key={region}>
@@ -91,20 +99,20 @@ export function RecommendPage() {
               </h5>
               <div className="flex flex-wrap gap-2">
                 {townships
-                  .filter((t) => t.region === region)
-                  .map((t) => {
-                    const selected = selectedTownships.includes(t.id);
+                  .filter((tw) => tw.region === region)
+                  .map((tw) => {
+                    const selected = selectedTownships.includes(tw.id);
                     return (
                       <button
-                        key={t.id}
-                        onClick={() => toggleTownship(t.id)}
+                        key={tw.id}
+                        onClick={() => toggleTownship(tw.id)}
                         className={`px-3 py-1.5 rounded-lg text-sm border transition-colors ${
                           selected
                             ? "border-primary bg-primary/10 text-primary font-medium"
                             : "border-border text-text-secondary hover:border-text-tertiary"
                         }`}
                       >
-                        {t.name}
+                        {tw.name}
                       </button>
                     );
                   })}
@@ -116,7 +124,7 @@ export function RecommendPage() {
 
       {/* Crop selection + controls */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card title="Select Crops (min. 2)">
+        <Card title={t("recommend.selectCrops")}>
           <div className="flex flex-wrap gap-2">
             {crops.map((c) => {
               const selected = selectedCrops.includes(c.id);
@@ -136,31 +144,32 @@ export function RecommendPage() {
             })}
           </div>
         </Card>
-        <Card title="Parameters">
+        <Card title={t("recommend.parameters")}>
           <div className="space-y-4">
             <div>
               <label className="text-xs uppercase tracking-wide text-text-tertiary block mb-2">
-                Season
+                {t("recommend.season")}
               </label>
               <div className="flex gap-2">
                 {(["dry", "monsoon"] as const).map((s) => (
                   <button
                     key={s}
                     onClick={() => setSeason(s)}
-                    className={`px-4 py-2 rounded-lg text-sm border capitalize transition-colors ${
+                    className={`px-4 py-2 rounded-lg text-sm border transition-colors ${
                       season === s
                         ? "border-primary bg-primary/10 text-primary font-medium"
                         : "border-border text-text-secondary"
                     }`}
                   >
-                    {s}
+                    {t(`recommend.${s}`)}
                   </button>
                 ))}
               </div>
             </div>
             <div>
               <label className="text-xs uppercase tracking-wide text-text-tertiary block mb-2">
-                Risk Tolerance: {(riskTolerance * 100).toFixed(0)}%
+                {t("recommend.riskTolerance")}:{" "}
+                {(riskTolerance * 100).toFixed(0)}%
               </label>
               <input
                 type="range"
@@ -172,8 +181,8 @@ export function RecommendPage() {
                 className="w-full accent-primary"
               />
               <div className="flex justify-between text-[10px] text-text-tertiary mt-1">
-                <span>Conservative</span>
-                <span>Aggressive</span>
+                <span>{t("recommend.conservative")}</span>
+                <span>{t("recommend.aggressive")}</span>
               </div>
             </div>
           </div>
@@ -187,13 +196,11 @@ export function RecommendPage() {
           disabled={!canSubmit || isLoading}
           className="px-8 py-3 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? "Generating..." : "Generate Recommendations"}
+          {isLoading ? t("recommend.generating") : t("recommend.generate")}
         </button>
       </div>
 
-      {isLoading && (
-        <LoadingSpinner message="Running portfolio optimization + 1,000 Monte Carlo simulations..." />
-      )}
+      {isLoading && <LoadingSpinner message={t("recommend.running")} />}
       {error && <ErrorAlert message={error} />}
 
       {/* Results */}
@@ -204,7 +211,7 @@ export function RecommendPage() {
               <h3 className="font-display text-2xl text-text-primary">
                 {rec.township_name}
                 <span className="text-sm text-text-tertiary ml-2 capitalize">
-                  {rec.season} season
+                  {rec.season}
                 </span>
               </h3>
               {rec.confidence && (
@@ -218,23 +225,23 @@ export function RecommendPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <MetricCard
                 value={formatMMKCompact(rec.expected_income_per_ha)}
-                label="Expected Income/ha"
+                label={t("recommend.expectedIncome")}
                 highlight
               />
               <MetricCard
                 value={formatPercent(rec.risk_reduction_pct / 100)}
-                label="Risk Reduction"
-                sublabel="vs. monocrop"
+                label={t("recommend.riskReduction")}
+                sublabel={t("recommend.vsMonocrop")}
               />
               {rec.confidence && (
                 <>
                   <MetricCard
                     value={formatPercent(rec.confidence.success_probability)}
-                    label="Success Probability"
+                    label={t("recommend.successProb")}
                   />
                   <MetricCard
                     value={formatMMKCompact(rec.confidence.percentile_5)}
-                    label="Worst Case (5th pctl)"
+                    label={t("recommend.worstCase")}
                   />
                 </>
               )}

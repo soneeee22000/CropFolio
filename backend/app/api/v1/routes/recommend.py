@@ -1,5 +1,6 @@
 """Recommendation API routes — crop + fertilizer + confidence for distributors."""
 
+import logging
 from dataclasses import asdict
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Request
@@ -23,11 +24,13 @@ from app.services.recommendation_service import (
     get_recommendation_service,
 )
 
+logger = logging.getLogger(__name__)
+
 router = APIRouter(prefix="/recommend", tags=["recommend"])
 limiter = Limiter(key_func=get_remote_address)
 
 
-@router.post("/", response_model=RecommendResponse)
+@router.post("", response_model=RecommendResponse)
 @limiter.limit("10/minute")
 async def generate_recommendations(
     request: Request,
@@ -45,6 +48,9 @@ async def generate_recommendations(
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
+    except RuntimeError as e:
+        logger.warning("Recommendation pipeline error: %s", e)
+        raise HTTPException(status_code=503, detail=str(e)) from e
 
     recommendations: list[TownshipRecommendation] = []
     for r in results:
@@ -109,6 +115,9 @@ async def calculate_demo_roi(
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
+    except RuntimeError as e:
+        logger.warning("Demo ROI calculation error: %s", e)
+        raise HTTPException(status_code=503, detail=str(e)) from e
 
     fert_resp = None
     if result["recommended_fertilizer"] is not None:
@@ -144,7 +153,11 @@ async def calculate_demo_roi(
     "/soil/{township_id}",
     response_model=SoilProfileResponse,
 )
-async def get_township_soil(township_id: str) -> SoilProfileResponse:
+@limiter.limit("30/minute")
+async def get_township_soil(
+    request: Request,
+    township_id: str,
+) -> SoilProfileResponse:
     """Get soil profile for a township."""
     soil = get_soil_profile(township_id)
     if soil is None:

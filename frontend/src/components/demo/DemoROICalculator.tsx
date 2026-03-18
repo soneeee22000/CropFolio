@@ -8,6 +8,7 @@ import { SoilProfileCard } from "@/components/recommend/SoilProfileCard";
 import { fetchTownships } from "@/api/townships";
 import { fetchCrops } from "@/api/crops";
 import { calculateDemoROI } from "@/api/recommend";
+import { useLanguage } from "@/i18n/LanguageContext";
 import { formatMMK, formatPercent } from "@/utils/formatters";
 import type { Township } from "@/types/township";
 import type { DemoROIResponse } from "@/types/recommend";
@@ -19,6 +20,7 @@ interface CropOption {
 
 /** Demo crop ROI calculator for distributors. */
 export function DemoROICalculator() {
+  const { t } = useLanguage();
   const [townships, setTownships] = useState<Township[]>([]);
   const [crops, setCrops] = useState<CropOption[]>([]);
   const [townshipId, setTownshipId] = useState("");
@@ -31,23 +33,31 @@ export function DemoROICalculator() {
 
   useEffect(() => {
     async function loadOptions() {
-      const [twpRes, cropRes] = await Promise.all([
-        fetchTownships(),
-        fetchCrops(),
-      ]);
-      setTownships(twpRes.townships);
-      setCrops(
-        cropRes.crops.map((c: { id: string; name_en: string }) => ({
-          id: c.id,
-          name_en: c.name_en,
-        })),
-      );
+      try {
+        const [twpRes, cropRes] = await Promise.all([
+          fetchTownships(),
+          fetchCrops(),
+        ]);
+        setTownships(twpRes.townships);
+        setCrops(
+          cropRes.crops.map((c: { id: string; name_en: string }) => ({
+            id: c.id,
+            name_en: c.name_en,
+          })),
+        );
+      } catch {
+        setError("Failed to load options");
+      }
     }
     loadOptions();
   }, []);
 
   const handleCalculate = async () => {
     if (!townshipId || !cropId) return;
+    if (area < 0.1 || area > 100) {
+      setError(t("demo.area") + ": 0.1 - 100");
+      return;
+    }
     setIsLoading(true);
     setError(null);
     try {
@@ -71,20 +81,17 @@ export function DemoROICalculator() {
     <div className="space-y-8 animate-fade-in-up">
       <div>
         <h2 className="font-display text-3xl text-text-primary">
-          Demo ROI Calculator
+          {t("demo.title")}
         </h2>
-        <p className="text-text-secondary mt-1">
-          Calculate costs, expected returns, and reimbursement risk before
-          committing to a demo farm
-        </p>
+        <p className="text-text-secondary mt-1">{t("demo.subtitle")}</p>
       </div>
 
       {/* Input form */}
-      <Card title="Scenario">
+      <Card title={t("demo.scenario")}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
             <label className="text-xs uppercase tracking-wide text-text-tertiary block mb-2">
-              Township
+              {t("demo.township")}
             </label>
             <select
               value={townshipId}
@@ -101,7 +108,7 @@ export function DemoROICalculator() {
           </div>
           <div>
             <label className="text-xs uppercase tracking-wide text-text-tertiary block mb-2">
-              Crop
+              {t("demo.crop")}
             </label>
             <select
               value={cropId}
@@ -118,7 +125,7 @@ export function DemoROICalculator() {
           </div>
           <div>
             <label className="text-xs uppercase tracking-wide text-text-tertiary block mb-2">
-              Area (hectares)
+              {t("demo.area")}
             </label>
             <input
               type="number"
@@ -132,7 +139,7 @@ export function DemoROICalculator() {
           </div>
           <div>
             <label className="text-xs uppercase tracking-wide text-text-tertiary block mb-2">
-              Season
+              {t("recommend.season")}
             </label>
             <div className="flex gap-2">
               {(["dry", "monsoon"] as const).map((s) => (
@@ -157,7 +164,7 @@ export function DemoROICalculator() {
             disabled={!townshipId || !cropId || isLoading}
             className="px-8 py-3 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Calculating..." : "Calculate ROI"}
+            {isLoading ? t("demo.calculating") : t("demo.calculate")}
           </button>
         </div>
       </Card>
@@ -179,29 +186,29 @@ export function DemoROICalculator() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <MetricCard
               value={formatMMK(result.total_input_cost_mmk)}
-              label="Total Input Cost"
+              label={t("demo.totalInputCost")}
               sublabel={`Seed: ${formatMMK(result.seed_cost_mmk)} + Fert: ${formatMMK(result.fertilizer_cost_mmk)}`}
             />
             <MetricCard
               value={formatMMK(result.expected_revenue_mmk)}
-              label="Expected Revenue"
+              label={t("demo.expectedRevenue")}
               highlight={isProfitable}
             />
             <MetricCard
               value={formatMMK(result.expected_profit_mmk)}
-              label="Expected Profit"
+              label={t("demo.expectedProfit")}
               highlight={isProfitable}
             />
             <MetricCard
               value={formatMMK(result.reimbursement_exposure_mmk)}
-              label="Reimbursement Risk"
+              label={t("demo.reimbursementRisk")}
               sublabel="Expected payout if demo fails"
             />
           </div>
 
           {/* Risk metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card title="Risk Assessment">
+            <Card title={t("demo.riskAssessment")}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-4 rounded-lg bg-surface-subtle">
                   <div
@@ -210,7 +217,7 @@ export function DemoROICalculator() {
                     {formatPercent(result.success_probability)}
                   </div>
                   <div className="text-[10px] uppercase tracking-wide text-text-tertiary mt-2">
-                    Success Probability
+                    {t("demo.successProb")}
                   </div>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-surface-subtle">
@@ -220,14 +227,14 @@ export function DemoROICalculator() {
                     {formatPercent(result.catastrophic_loss_probability)}
                   </div>
                   <div className="text-[10px] uppercase tracking-wide text-text-tertiary mt-2">
-                    Catastrophic Loss Risk
+                    {t("demo.catastrophicLoss")}
                   </div>
                 </div>
               </div>
             </Card>
 
             {result.recommended_fertilizer && (
-              <Card title="Recommended Fertilizer">
+              <Card title={t("demo.recommendedFert")}>
                 <div className="space-y-3">
                   <FertilizerBadge
                     formulation={result.recommended_fertilizer.formulation}
