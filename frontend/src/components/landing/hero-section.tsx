@@ -67,7 +67,7 @@ export function HeroSection() {
               : "opacity-0 translate-y-4"
           }`}
         >
-          Modern Portfolio Theory for Agriculture
+          Data-Driven Crop-Fertilizer Intelligence for Myanmar
         </p>
 
         {/* The Number — the entire pitch */}
@@ -160,7 +160,7 @@ export function HeroSection() {
             to="/dashboard"
             className="group px-8 py-4 bg-primary text-white rounded-xl text-base font-body font-medium inline-flex items-center gap-2 hover:bg-primary-dark transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
           >
-            Try CropFolio
+            Try CropFolio Pro
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
 

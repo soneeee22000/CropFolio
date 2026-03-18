@@ -58,6 +58,9 @@ export function Header() {
           <span className="font-display text-lg text-text-primary group-hover:text-primary transition-colors">
             CropFolio
           </span>
+          <span className="text-[9px] uppercase tracking-widest text-accent font-medium -ml-1">
+            Pro
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -99,7 +102,7 @@ export function Header() {
             to="/dashboard"
             className="px-6 py-2 bg-primary text-white rounded-lg text-sm uppercase tracking-wide font-medium hover:bg-primary-dark transition-colors"
           >
-            Try CropFolio
+            Try CropFolio Pro
           </Link>
         </nav>
 
@@ -168,7 +171,7 @@ export function Header() {
               className="px-6 py-3 bg-primary text-white rounded-lg text-sm uppercase tracking-wide font-medium hover:bg-primary-dark transition-colors text-center w-full mt-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Try CropFolio
+              Try CropFolio Pro
             </Link>
           </nav>
         </div>
