@@ -1,10 +1,8 @@
 """Recommendation API routes — crop + fertilizer + confidence for distributors."""
 
-from __future__ import annotations
-
 from dataclasses import asdict
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Body, Depends, HTTPException, Request
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 
@@ -33,8 +31,8 @@ limiter = Limiter(key_func=get_remote_address)
 @limiter.limit("10/minute")
 async def generate_recommendations(
     request: Request,
-    body: RecommendRequest,
-    service: RecommendationService = Depends(get_recommendation_service),
+    body: RecommendRequest = Body(...),  # noqa: B008
+    service: RecommendationService = Depends(get_recommendation_service),  # noqa: B008
 ) -> RecommendResponse:
     """Generate crop + fertilizer recommendations for one or more townships."""
     try:
@@ -98,8 +96,8 @@ async def generate_recommendations(
 @limiter.limit("10/minute")
 async def calculate_demo_roi(
     request: Request,
-    body: DemoROIRequest,
-    service: RecommendationService = Depends(get_recommendation_service),
+    body: DemoROIRequest = Body(...),  # noqa: B008
+    service: RecommendationService = Depends(get_recommendation_service),  # noqa: B008
 ) -> DemoROIResponse:
     """Calculate ROI for a demo crop scenario."""
     try:
