@@ -11,10 +11,14 @@ from typing import Any
 from app.core.config import settings
 from app.domain.ai_prompts import (
     ANALYSIS_SYSTEM_PROMPT,
+    DISTRIBUTOR_ADVISORY_SYSTEM_PROMPT,
+    FERTILIZER_EXPLANATION_SYSTEM_PROMPT,
     REPORT_SYSTEM_PROMPT,
     AiNarrative,
     CropRecommendation,
     build_analysis_prompt,
+    build_distributor_advisory_prompt,
+    build_fertilizer_explanation_prompt,
     build_report_prompt,
 )
 
@@ -107,6 +111,82 @@ class AiService:
         )
 
         return await self._call_gemini_for_analysis(prompt)
+
+    async def generate_distributor_advisory(
+        self,
+        township_name: str,
+        season: str,
+        crop_recommendations: list[dict[str, object]],
+        soil_summary: dict[str, object],
+        expected_income: float,
+        risk_reduction_pct: float,
+        success_probability: float,
+    ) -> dict[str, str] | None:
+        """Generate a distributor-oriented advisory brief."""
+        if self._client is None:
+            return None
+
+        prompt = build_distributor_advisory_prompt(
+            township_name=township_name,
+            season=season,
+            crop_recommendations=crop_recommendations,
+            soil_summary=soil_summary,
+            expected_income=expected_income,
+            risk_reduction_pct=risk_reduction_pct,
+            success_probability=success_probability,
+        )
+
+        try:
+            raw = await asyncio.wait_for(
+                asyncio.to_thread(
+                    self._generate,
+                    DISTRIBUTOR_ADVISORY_SYSTEM_PROMPT + "\n\n" + prompt,
+                ),
+                timeout=GEMINI_TIMEOUT_SECONDS,
+            )
+            return json.loads(raw)
+        except Exception:
+            logger.warning("Gemini distributor advisory failed", exc_info=True)
+            return None
+
+    async def explain_fertilizer_recommendation(
+        self,
+        crop_name: str,
+        fertilizer_name: str,
+        formulation: str,
+        soil_ph: float,
+        soil_nitrogen: float,
+        soil_texture: str,
+        score: float,
+        reasoning: str,
+    ) -> dict[str, str] | None:
+        """Generate plain-language fertilizer recommendation explanation."""
+        if self._client is None:
+            return None
+
+        prompt = build_fertilizer_explanation_prompt(
+            crop_name=crop_name,
+            fertilizer_name=fertilizer_name,
+            formulation=formulation,
+            soil_ph=soil_ph,
+            soil_nitrogen=soil_nitrogen,
+            soil_texture=soil_texture,
+            score=score,
+            reasoning=reasoning,
+        )
+
+        try:
+            raw = await asyncio.wait_for(
+                asyncio.to_thread(
+                    self._generate,
+                    FERTILIZER_EXPLANATION_SYSTEM_PROMPT + "\n\n" + prompt,
+                ),
+                timeout=GEMINI_TIMEOUT_SECONDS,
+            )
+            return json.loads(raw)
+        except Exception:
+            logger.warning("Gemini fertilizer explanation failed", exc_info=True)
+            return None
 
     async def _call_gemini_for_narrative(
         self, prompt: str

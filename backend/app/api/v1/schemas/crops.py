@@ -19,6 +19,9 @@ class CropResponse(BaseModel):
     yield_variance: float
     avg_price_mmk_per_kg: float
     price_variance: float
+    nitrogen_requirement: int
+    phosphorus_requirement: int
+    potassium_requirement: int
 
 
 class CropListResponse(BaseModel):

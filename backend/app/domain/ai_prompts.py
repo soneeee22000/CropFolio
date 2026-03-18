@@ -83,6 +83,154 @@ Guidelines:
 - Keep under 150 words per field"""
 
 
+DISTRIBUTOR_ADVISORY_SYSTEM_PROMPT = """You are a B2B agricultural business \
+advisor for Myanmar distributors and fertilizer companies. Generate data-driven \
+advisory briefs based on crop-fertilizer recommendation data.
+
+You MUST respond with valid JSON only. No markdown, no explanation outside JSON.
+
+JSON schema:
+{
+  "executive_brief": "3-4 sentence English brief for distributor executives — \
+focus on ROI, risk reduction, and competitive advantage",
+  "executive_brief_mm": "Same in Burmese (Myanmar language)",
+  "inventory_guidance": "2-3 sentences on which fertilizers to stock for \
+this region and why",
+  "inventory_guidance_mm": "Same in Burmese",
+  "field_agent_notes": "3-4 bullet points for field agents — simple, \
+actionable fertilizer application advice",
+  "field_agent_notes_mm": "Same in Burmese",
+  "risk_warnings": "1-2 sentences on key risks and what to watch for",
+  "risk_warnings_mm": "Same in Burmese",
+  "demo_farm_advice": "2-3 sentences on whether a demo farm is recommended \
+for this crop-region combination and expected outcomes",
+  "demo_farm_advice_mm": "Same in Burmese"
+}
+
+Guidelines:
+- Think like a business advisor, not a farmer advisor
+- Reference specific numbers (cost, probability, expected yield)
+- Inventory guidance should be practical — quantities for a typical township
+- Field agent notes should be understandable by someone with no agronomic training
+- Burmese translations should use business-casual register
+- Keep each field under 120 words"""
+
+
+FERTILIZER_EXPLANATION_SYSTEM_PROMPT = """You are a Myanmar agricultural advisor \
+explaining a fertilizer recommendation in plain language.
+
+You MUST respond with valid JSON only:
+{
+  "explanation": "3-4 sentence English explanation of why this fertilizer was \
+recommended for this crop and soil",
+  "explanation_mm": "Same in Burmese (Myanmar language)",
+  "application_guide": "Step-by-step application instructions (3-4 steps)",
+  "application_guide_mm": "Same in Burmese"
+}
+
+Guidelines:
+- Explain the science simply — why this NPK ratio matches the crop's needs
+- Reference soil conditions (pH, nitrogen level)
+- Include timing (when to apply relative to planting)
+- Keep language accessible for field agents with basic training
+- Keep each field under 100 words"""
+
+
+def build_distributor_advisory_prompt(
+    township_name: str,
+    season: str,
+    crop_recommendations: list[dict[str, object]],
+    soil_summary: dict[str, object],
+    expected_income: float,
+    risk_reduction_pct: float,
+    success_probability: float,
+) -> str:
+    """Build the user prompt for distributor advisory generation.
+
+    Args:
+        township_name: Name of the target township.
+        season: Growing season (monsoon/dry).
+        crop_recommendations: List of crop + fertilizer recommendation dicts.
+        soil_summary: Soil profile summary dict.
+        expected_income: Expected income in MMK per hectare.
+        risk_reduction_pct: Percentage risk reduction vs monocrop.
+        success_probability: Overall success probability from Monte Carlo.
+
+    Returns:
+        Formatted prompt string.
+    """
+    crops_text = ""
+    for rec in crop_recommendations:
+        crops_text += (
+            f"\n- {rec['crop_name']} ({rec.get('weight', 0):.0%} allocation)"
+        )
+        ferts = rec.get("fertilizers", [])
+        if ferts:
+            top = ferts[0] if isinstance(ferts[0], dict) else {}
+            crops_text += (
+                f"\n  Top fertilizer: {top.get('name', 'N/A')} "
+                f"({top.get('formulation', 'N/A')}), "
+                f"score {top.get('score', 0):.2f}, "
+                f"cost {top.get('cost_per_ha', 0):,.0f} MMK/ha"
+            )
+
+    soil_text = (
+        f"pH: {soil_summary.get('ph', 'N/A')}, "
+        f"N: {soil_summary.get('nitrogen', 'N/A')} g/kg, "
+        f"Texture: {soil_summary.get('texture', 'N/A')}, "
+        f"Fertility: {soil_summary.get('fertility', 'N/A')}"
+    )
+
+    return (
+        f"Township: {township_name}\n"
+        f"Season: {season}\n"
+        f"Soil Profile: {soil_text}\n"
+        f"\nOptimized Recommendations:{crops_text}\n"
+        f"\nPortfolio Expected Income: {expected_income:,.0f} MMK/ha\n"
+        f"Risk Reduction vs Monocrop: {risk_reduction_pct:.1f}%\n"
+        f"Success Probability: {success_probability:.0%}\n"
+        f"\nGenerate a distributor advisory brief for this recommendation."
+    )
+
+
+def build_fertilizer_explanation_prompt(
+    crop_name: str,
+    fertilizer_name: str,
+    formulation: str,
+    soil_ph: float,
+    soil_nitrogen: float,
+    soil_texture: str,
+    score: float,
+    reasoning: str,
+) -> str:
+    """Build prompt for plain-language fertilizer explanation.
+
+    Args:
+        crop_name: Name of the crop.
+        fertilizer_name: Name of the fertilizer.
+        formulation: NPK formulation string.
+        soil_ph: Soil pH value.
+        soil_nitrogen: Soil nitrogen in g/kg.
+        soil_texture: Soil texture class.
+        score: Match score (0-1).
+        reasoning: Algorithm reasoning string.
+
+    Returns:
+        Formatted prompt string.
+    """
+    return (
+        f"Crop: {crop_name}\n"
+        f"Recommended Fertilizer: {fertilizer_name} ({formulation})\n"
+        f"Match Score: {score:.2f}\n"
+        f"Algorithm Reasoning: {reasoning}\n"
+        f"\nSoil Conditions:\n"
+        f"- pH: {soil_ph}\n"
+        f"- Nitrogen: {soil_nitrogen} g/kg\n"
+        f"- Texture: {soil_texture}\n"
+        f"\nExplain this recommendation in plain language."
+    )
+
+
 def build_report_prompt(
     township_name: str,
     season: str,

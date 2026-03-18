@@ -1,0 +1,72 @@
+{
+  "_metadata": {
+    "description": "Crop-fertilizer effectiveness matrix. Scores 0.0-1.0 indicate how well each fertilizer matches each crop's nutrient needs.",
+    "scoring": "Based on NPK match to crop requirements, agronomic compatibility, and Myanmar field practice.",
+    "sources": [
+      "FAO Fertilizer and Plant Nutrition Bulletin",
+      "IRRI best management practices",
+      "Myanmar DoA field recommendations",
+      "Awba Myanmar product application guides"
+    ]
+  },
+  "rice": {
+    "urea": 0.95,
+    "dap": 0.8,
+    "mop": 0.6,
+    "compound_15_15_15": 0.75,
+    "tsp": 0.55,
+    "ammonium_sulfate": 0.7,
+    "compound_20_10_10": 0.85,
+    "gypsum": 0.2
+  },
+  "black_gram": {
+    "urea": 0.3,
+    "dap": 0.9,
+    "mop": 0.55,
+    "compound_15_15_15": 0.7,
+    "tsp": 0.85,
+    "ammonium_sulfate": 0.5,
+    "compound_20_10_10": 0.4,
+    "gypsum": 0.45
+  },
+  "green_gram": {
+    "urea": 0.3,
+    "dap": 0.88,
+    "mop": 0.5,
+    "compound_15_15_15": 0.68,
+    "tsp": 0.82,
+    "ammonium_sulfate": 0.45,
+    "compound_20_10_10": 0.38,
+    "gypsum": 0.4
+  },
+  "chickpea": {
+    "urea": 0.25,
+    "dap": 0.92,
+    "mop": 0.6,
+    "compound_15_15_15": 0.72,
+    "tsp": 0.88,
+    "ammonium_sulfate": 0.55,
+    "compound_20_10_10": 0.35,
+    "gypsum": 0.5
+  },
+  "sesame": {
+    "urea": 0.75,
+    "dap": 0.7,
+    "mop": 0.55,
+    "compound_15_15_15": 0.72,
+    "tsp": 0.5,
+    "ammonium_sulfate": 0.8,
+    "compound_20_10_10": 0.7,
+    "gypsum": 0.35
+  },
+  "groundnut": {
+    "urea": 0.3,
+    "dap": 0.85,
+    "mop": 0.7,
+    "compound_15_15_15": 0.75,
+    "tsp": 0.8,
+    "ammonium_sulfate": 0.6,
+    "compound_20_10_10": 0.4,
+    "gypsum": 0.92
+  }
+}

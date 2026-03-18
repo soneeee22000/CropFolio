@@ -1,0 +1,67 @@
+{
+  "_metadata": {
+    "description": "NPK requirements per crop in kg/ha for Myanmar conditions",
+    "sources": [
+      "FAO Fertilizer and Plant Nutrition Bulletin No. 16",
+      "IRRI Rice Knowledge Bank — Nutrient Management",
+      "Myanmar Department of Agriculture recommended rates",
+      "ICRISAT technical bulletins for chickpea, groundnut",
+      "FAO Crop Fertilization Guidelines for SE Asia"
+    ],
+    "notes": "Values represent recommended application rates, not plant uptake. Actual field rates vary by soil fertility and target yield."
+  },
+  "rice": {
+    "crop_id": "rice",
+    "nitrogen_kg_per_ha": 90,
+    "phosphorus_kg_per_ha": 30,
+    "potassium_kg_per_ha": 30,
+    "sulfur_kg_per_ha": 0,
+    "primary_nutrient": "nitrogen",
+    "notes": "IRRI recommended: 80-120 N, 20-40 P2O5, 20-40 K2O for irrigated lowland rice in Myanmar. Split N application: 50% basal, 25% tillering, 25% panicle initiation."
+  },
+  "black_gram": {
+    "crop_id": "black_gram",
+    "nitrogen_kg_per_ha": 20,
+    "phosphorus_kg_per_ha": 45,
+    "potassium_kg_per_ha": 25,
+    "sulfur_kg_per_ha": 15,
+    "primary_nutrient": "phosphorus",
+    "notes": "Legume — fixes atmospheric N via Rhizobium. Starter N only. High P demand for root nodule development. S improves protein content."
+  },
+  "green_gram": {
+    "crop_id": "green_gram",
+    "nitrogen_kg_per_ha": 20,
+    "phosphorus_kg_per_ha": 40,
+    "potassium_kg_per_ha": 20,
+    "sulfur_kg_per_ha": 10,
+    "primary_nutrient": "phosphorus",
+    "notes": "Similar to black gram. Shorter duration crop, lower total nutrient demand. P critical for early root establishment."
+  },
+  "chickpea": {
+    "crop_id": "chickpea",
+    "nitrogen_kg_per_ha": 20,
+    "phosphorus_kg_per_ha": 50,
+    "potassium_kg_per_ha": 30,
+    "sulfur_kg_per_ha": 20,
+    "primary_nutrient": "phosphorus",
+    "notes": "ICRISAT: 20 N + 40-60 P2O5 + 20-40 K2O. Deep-rooted legume. High P and S demand. Rhizobium inoculant recommended for new fields."
+  },
+  "sesame": {
+    "crop_id": "sesame",
+    "nitrogen_kg_per_ha": 45,
+    "phosphorus_kg_per_ha": 30,
+    "potassium_kg_per_ha": 25,
+    "sulfur_kg_per_ha": 20,
+    "primary_nutrient": "nitrogen",
+    "notes": "Moderate N demand. S important for oil quality. Sensitive to excess N (lodging risk). Apply N in 2 splits."
+  },
+  "groundnut": {
+    "crop_id": "groundnut",
+    "nitrogen_kg_per_ha": 25,
+    "phosphorus_kg_per_ha": 50,
+    "potassium_kg_per_ha": 40,
+    "sulfur_kg_per_ha": 30,
+    "primary_nutrient": "phosphorus",
+    "notes": "ICRISAT: 10-20 N + 40-60 P2O5 + 20-40 K2O + gypsum at pegging. Ca and S critical for pod filling. Gypsum application at 250 kg/ha recommended."
+  }
+}

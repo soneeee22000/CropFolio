@@ -11,6 +11,9 @@ export interface Crop {
   yield_variance: number;
   avg_price_mmk_per_kg: number;
   price_variance: number;
+  nitrogen_requirement: number;
+  phosphorus_requirement: number;
+  potassium_requirement: number;
 }
 
 /** API response for listing crops. */

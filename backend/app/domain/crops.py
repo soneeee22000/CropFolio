@@ -29,6 +29,10 @@ class CropProfile:
     yield_variance: float
     avg_price_mmk_per_kg: float
     price_variance: float
+    # NPK requirements in kg/ha (FAO/IRRI recommended rates)
+    nitrogen_requirement: int = 0
+    phosphorus_requirement: int = 0
+    potassium_requirement: int = 0
 
 
 # Research-backed crop profiles for Myanmar
@@ -46,6 +50,9 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         yield_variance=0.0169,  # FAOSTAT: CV from 2010-2021 national yields
         avg_price_mmk_per_kg=678.52,  # WFP: mean Mandalay 2022-2025 (48 months)
         price_variance=0.151,  # WFP: price CV from monthly series
+        nitrogen_requirement=90,  # IRRI: 80-120 kg N/ha
+        phosphorus_requirement=30,  # IRRI: 20-40 kg P2O5/ha
+        potassium_requirement=30,  # IRRI: 20-40 kg K2O/ha
     ),
     "black_gram": CropProfile(
         id="black_gram",
@@ -59,6 +66,9 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         yield_variance=0.016,  # FAOSTAT: CV from beans_dry 2014-2021
         avg_price_mmk_per_kg=1898.25,  # WFP: mean "Pulses" Mandalay 2022-2025
         price_variance=0.1514,  # WFP: price CV from monthly series
+        nitrogen_requirement=20,  # Starter N only (legume N-fixer)
+        phosphorus_requirement=45,  # High P for nodule development
+        potassium_requirement=25,  # Moderate K
     ),
     "green_gram": CropProfile(
         id="green_gram",
@@ -72,6 +82,9 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         yield_variance=0.016,  # FAOSTAT: CV from beans_dry 2014-2021
         avg_price_mmk_per_kg=2027.21,  # WFP: mean "Pulses" + noise, Mandalay 2022-2025
         price_variance=0.1507,  # WFP: price CV from monthly series
+        nitrogen_requirement=20,  # Starter N only (legume N-fixer)
+        phosphorus_requirement=40,  # High P for root establishment
+        potassium_requirement=20,  # Moderate K
     ),
     "chickpea": CropProfile(
         id="chickpea",
@@ -85,6 +98,9 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         yield_variance=0.0526,  # FAOSTAT: CV from 2010-2021 national yields
         avg_price_mmk_per_kg=2321.24,  # WFP: mean "Chickpeas (local)" Mandalay 2022-2025
         price_variance=0.1305,  # WFP: price CV from monthly series
+        nitrogen_requirement=20,  # ICRISAT: starter N for legume
+        phosphorus_requirement=50,  # ICRISAT: 40-60 kg P2O5/ha
+        potassium_requirement=30,  # ICRISAT: 20-40 kg K2O/ha
     ),
     "sesame": CropProfile(
         id="sesame",
@@ -98,6 +114,9 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         yield_variance=0.0674,  # FAOSTAT: CV from 2010-2021 national yields
         avg_price_mmk_per_kg=4510.45,  # Synthetic based on FAOSTAT trade + MMK rates
         price_variance=0.1298,  # Price CV from synthetic monthly series
+        nitrogen_requirement=45,  # Moderate N (lodging risk if excess)
+        phosphorus_requirement=30,  # Moderate P
+        potassium_requirement=25,  # Moderate K
     ),
     "groundnut": CropProfile(
         id="groundnut",
@@ -111,6 +130,9 @@ MYANMAR_CROPS: dict[str, CropProfile] = {
         yield_variance=0.0475,  # FAOSTAT: CV from 2010-2021 national yields
         avg_price_mmk_per_kg=2841.62,  # WFP: mean "Oil (groundnut)" proxy, Mandalay 2022-2025
         price_variance=0.1292,  # WFP: price CV from monthly series
+        nitrogen_requirement=25,  # ICRISAT: low N (legume fixer)
+        phosphorus_requirement=50,  # ICRISAT: 40-60 kg P2O5/ha
+        potassium_requirement=40,  # ICRISAT: 20-40 kg K2O/ha
     ),
 }
 
