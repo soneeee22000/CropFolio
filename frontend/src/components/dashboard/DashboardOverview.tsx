@@ -33,14 +33,8 @@ export function DashboardOverview() {
           fertilizers: fertRes.count,
         });
         setTownships(twpRes.townships);
-        (window as Record<string, unknown>).__dashSuccess = {
-          twp: twpRes.count,
-          crops: cropRes.count,
-          fert: fertRes.count,
-        };
-      } catch (err: unknown) {
-        (window as Record<string, unknown>).__dashError = err;
-        console.error("Dashboard loadStats failed:", err);
+      } catch {
+        /* graceful degradation — show zeros */
       } finally {
         setIsLoading(false);
       }
