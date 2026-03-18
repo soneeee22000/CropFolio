@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/common/Card";
 import { MetricCard } from "@/components/common/MetricCard";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
-import { fetchTownships } from "@/api/townships";
-import { fetchCrops } from "@/api/crops";
-import { getFertilizers } from "@/api/fertilizers";
 import type { Township } from "@/types/township";
+
+const API = import.meta.env.VITE_API_BASE_URL ?? "/api/v1";
 
 /** Dashboard overview with KPI cards and quick actions. */
 export function DashboardOverview() {
@@ -23,9 +22,9 @@ export function DashboardOverview() {
     async function loadStats() {
       try {
         const [twpRes, cropRes, fertRes] = await Promise.all([
-          fetchTownships(),
-          fetchCrops(),
-          getFertilizers(),
+          fetch(`${API}/townships/`).then((r) => r.json()),
+          fetch(`${API}/crops/`).then((r) => r.json()),
+          fetch(`${API}/fertilizers/`).then((r) => r.json()),
         ]);
         setStats({
           townships: twpRes.count,
