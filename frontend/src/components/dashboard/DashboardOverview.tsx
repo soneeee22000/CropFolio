@@ -33,8 +33,8 @@ export function DashboardOverview() {
           fertilizers: fertRes.count,
         });
         setTownships(twpRes.townships);
-      } catch {
-        /* graceful degradation — show zeros */
+      } catch (err) {
+        console.error("Dashboard loadStats failed:", err);
       } finally {
         setIsLoading(false);
       }
