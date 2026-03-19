@@ -5,7 +5,6 @@ from __future__ import annotations
 import pytest
 
 from app.domain.bayesian import (
-    BayesianPredictionResult,
     CropBayesianNetwork,
     EvidenceItem,
     compute_bayesian_returns,
@@ -74,7 +73,9 @@ class TestCropBayesianNetwork:
         rice_drought = rice_bbn.predict(drought_prob=0.7, flood_prob=0.0)
         chick_drought = chickpea_bbn.predict(drought_prob=0.7, flood_prob=0.0)
 
-        assert chick_drought.yield_probabilities["low"] < rice_drought.yield_probabilities["low"]
+        chick_low = chick_drought.yield_probabilities["low"]
+        rice_low = rice_drought.yield_probabilities["low"]
+        assert chick_low < rice_low
 
     def test_evidence_rainfall_low_shifts_prediction(self, rice_crop):
         """Setting rainfall=low should shift prediction toward drought."""
@@ -87,7 +88,9 @@ class TestCropBayesianNetwork:
             flood_prob=0.1,
         )
 
-        assert with_evidence.yield_probabilities["low"] > no_evidence.yield_probabilities["low"]
+        ev_low = with_evidence.yield_probabilities["low"]
+        no_ev_low = no_evidence.yield_probabilities["low"]
+        assert ev_low > no_ev_low
 
     def test_evidence_soil_good_improves_prediction(self, rice_crop):
         """Good soil evidence should increase high yield probability."""
@@ -100,7 +103,9 @@ class TestCropBayesianNetwork:
             evidence=[EvidenceItem(variable="soil", value="good")],
         )
 
-        assert good_soil.yield_probabilities["high"] > poor_soil.yield_probabilities["high"]
+        good_high = good_soil.yield_probabilities["high"]
+        poor_high = poor_soil.yield_probabilities["high"]
+        assert good_high > poor_high
 
     def test_expected_yield_factor_range(self, rice_crop):
         """Expected yield factor should be between 0.5 and 1.3."""

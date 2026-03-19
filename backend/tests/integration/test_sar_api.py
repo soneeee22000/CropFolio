@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
-
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -56,7 +54,7 @@ class TestSARResults:
         assert response.status_code == 404
 
     def test_known_job_id_returns_status(self) -> None:
-        """After submitting, polling the returned job_id should return a valid status."""
+        """Polling a submitted job_id returns valid status."""
         submit = client.post(
             "/api/v1/sar/analyze",
             json={"township_id": AMARAPURA, "season": "monsoon", "year": 2025},

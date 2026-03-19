@@ -19,7 +19,7 @@ class TestComputeExpectedReturns:
     ) -> None:
         """Crops with price data should have positive expected returns."""
         returns = compute_expected_returns(all_crops, drought_prob=0.2, flood_prob=0.1)
-        for crop, ret in zip(all_crops, returns):
+        for crop, ret in zip(all_crops, returns, strict=False):
             if crop.avg_price_mmk_per_kg > 0:
                 assert ret > 0, f"{crop.id} should have positive return"
             else:

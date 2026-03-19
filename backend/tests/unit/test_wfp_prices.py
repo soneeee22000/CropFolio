@@ -27,7 +27,10 @@ class TestLoadPriceHistory:
 
     def test_all_crops_loadable(self) -> None:
         """All six crop CSVs should be loadable."""
-        crop_ids = ["rice", "black_gram", "green_gram", "chickpea", "sesame", "groundnut"]
+        crop_ids = [
+            "rice", "black_gram", "green_gram",
+            "chickpea", "sesame", "groundnut",
+        ]
         for crop_id in crop_ids:
             records = load_price_history(crop_id)
             assert records is not None, f"Failed to load {crop_id}"

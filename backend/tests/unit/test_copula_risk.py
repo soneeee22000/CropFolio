@@ -6,9 +6,6 @@ import numpy as np
 import pytest
 
 from app.domain.copula_risk import (
-    CopulaConfig,
-    MarginalFit,
-    TailRiskMetrics,
     compute_clayton_theta,
     estimate_kendall_tau,
     fit_marginals,

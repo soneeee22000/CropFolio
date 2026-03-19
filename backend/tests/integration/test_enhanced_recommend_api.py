@@ -28,11 +28,14 @@ class TestEnhancedFertilizerPlan:
         assert response.status_code == 200
         data = response.json()
         crops = data["recommendations"][0]["crops"]
-        plans = [c["fertilizer_plan"] for c in crops if c["fertilizer_plan"] is not None]
+        plans = [
+            c["fertilizer_plan"] for c in crops
+            if c["fertilizer_plan"] is not None
+        ]
         assert len(plans) >= 1
 
     def test_fertilizer_plan_structure(self) -> None:
-        """fertilizer_plan must contain applications, nutrient_totals, micronutrient_flags, and roi_estimate."""
+        """fertilizer_plan must contain required keys."""
         response = client.post("/api/v1/recommend", json=VALID_REQUEST)
         assert response.status_code == 200
         data = response.json()
@@ -48,7 +51,7 @@ class TestEnhancedFertilizerPlan:
         assert "roi_estimate" in plan
 
     def test_roi_estimate_fields(self) -> None:
-        """roi_estimate inside fertilizer_plan must have total_cost_mmk, expected_yield_increase_pct, return_ratio."""
+        """roi_estimate must have cost, yield, and ratio."""
         response = client.post("/api/v1/recommend", json=VALID_REQUEST)
         assert response.status_code == 200
         data = response.json()

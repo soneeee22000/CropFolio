@@ -12,8 +12,16 @@ VALID_PAYLOAD = {
     "township_name": "Magway",
     "season": "monsoon",
     "allocations": [
-        {"crop_name": "Rice", "crop_name_mm": "\u1006\u1014\u103a", "weight_pct": 60.0},
-        {"crop_name": "Sesame", "crop_name_mm": "\u1014\u1036\u1038", "weight_pct": 40.0},
+        {
+            "crop_name": "Rice",
+            "crop_name_mm": "\u1006\u1014\u103a",
+            "weight_pct": 60.0,
+        },
+        {
+            "crop_name": "Sesame",
+            "crop_name_mm": "\u1014\u1036\u1038",
+            "weight_pct": 40.0,
+        },
     ],
     "expected_income": 850000.0,
     "risk_reduction_pct": 23.5,

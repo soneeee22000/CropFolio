@@ -9,7 +9,6 @@ from app.domain.fertilizers import (
     get_nutrient_requirement,
 )
 
-
 # Reusable soil fixtures
 CLAY_LOAM_SOIL = SoilProfile(
     township_id="test_clay_loam",
@@ -78,9 +77,13 @@ class TestGroundnutInAlkalineSoil:
         """Gypsum or ammonium_sulfate should appear in top 3."""
         req = get_nutrient_requirement("groundnut")
         assert req is not None
-        results = match_fertilizers("groundnut", req, ALKALINE_SOIL, ALL_FERTILIZERS, top_n=3)
+        results = match_fertilizers(
+            "groundnut", req, ALKALINE_SOIL, ALL_FERTILIZERS, top_n=3,
+        )
         fert_ids = {r.fertilizer_id for r in results}
-        assert fert_ids & {"gypsum", "ammonium_sulfate"}, f"Expected sulfur ferts in {fert_ids}"
+        assert fert_ids & {"gypsum", "ammonium_sulfate"}, (
+            f"Expected sulfur ferts in {fert_ids}"
+        )
 
 
 class TestTopNParameter:
@@ -91,7 +94,9 @@ class TestTopNParameter:
         req = get_nutrient_requirement("rice")
         assert req is not None
         for n in [1, 2, 5]:
-            results = match_fertilizers("rice", req, CLAY_LOAM_SOIL, ALL_FERTILIZERS, top_n=n)
+            results = match_fertilizers(
+                "rice", req, CLAY_LOAM_SOIL, ALL_FERTILIZERS, top_n=n,
+            )
             assert len(results) == min(n, len(ALL_FERTILIZERS))
 
 
@@ -104,7 +109,9 @@ class TestAllCropsGetResults:
             req = get_nutrient_requirement(crop_id)
             if req is None:
                 continue
-            results = match_fertilizers(crop_id, req, CLAY_LOAM_SOIL, ALL_FERTILIZERS, top_n=1)
+            results = match_fertilizers(
+                crop_id, req, CLAY_LOAM_SOIL, ALL_FERTILIZERS, top_n=1,
+            )
             assert len(results) >= 1, f"No fertilizer match for {crop_id}"
 
 
@@ -115,7 +122,9 @@ class TestScoreRange:
         """Composite and component scores should be in [0, 1]."""
         req = get_nutrient_requirement("rice")
         assert req is not None
-        results = match_fertilizers("rice", req, CLAY_LOAM_SOIL, ALL_FERTILIZERS, top_n=8)
+        results = match_fertilizers(
+            "rice", req, CLAY_LOAM_SOIL, ALL_FERTILIZERS, top_n=8,
+        )
         for r in results:
             assert 0.0 <= r.score <= 1.0, f"Score {r.score} out of range"
             assert 0.0 <= r.crop_need_score <= 1.0
