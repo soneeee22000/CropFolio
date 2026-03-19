@@ -8,29 +8,29 @@ interface FaqItem {
 
 const faqs: FaqItem[] = [
   {
-    question: "How does Myanmar's post-2021 situation affect the simulation?",
+    question: "Who is CropFolio built for?",
     answer:
-      "This is our biggest limitation, honestly. Our yield correlations come from FAOSTAT 2010-2021 — essentially pre-coup data. Post-2021 Myanmar has a fundamentally different agricultural economy: 60% currency devaluation, banking collapse, supply chain disruption, fertilizer cost spikes, and active conflict in some regions. CropFolio models CLIMATE risk well (drought, flood, yield correlation), but it does NOT model political risk, economic disruption, input cost inflation, or supply chain breakdowns — which for farmers in 2026 may be bigger threats than weather. The yield hedging insight (rice-sesame = -0.49) remains physically valid regardless of politics, but the price and income projections should be treated as directional, not precise.",
+      "Agricultural distributors and fertilizer companies — not individual farmers. In Myanmar, distributors like Awba control the entire value chain: they recommend crops, supply fertilizers, and even grow demo plots at their own expense to convince farmers. When a distributor recommends a crop, entire regions follow. CropFolio gives these decision-makers data-driven confidence in their crop-fertilizer recommendations, reducing their risk when advising hundreds of farmers at once.",
   },
   {
     question: "Is the data actually real?",
     answer:
-      "Yield correlations: Yes — 12 years of FAOSTAT data (2010-2021, element code 5419, country code 28). Price data: Based on WFP-published ranges but generated synthetically for the hackathon prototype. Climate data: NASA POWER + Open-Meteo with regional fallback. Crop profiles: Updated to FAOSTAT 2019-2021 means with cited sources. The covariance matrix — the core of the optimizer — uses real FAOSTAT yield correlations. This is our strongest data asset.",
+      "Yield correlations: Yes — 12 years of FAOSTAT data (2010-2021, element code 5419, country code 28). Price data: Based on WFP-published ranges but generated synthetically for the hackathon prototype. Climate data: NASA POWER + Open-Meteo with regional fallback. Soil coverage: 50 townships across 14 regions with real soil property data. The covariance matrix — the core of the optimizer — uses real FAOSTAT yield correlations. This is our strongest data asset.",
   },
   {
-    question: "Can individual farmers use this?",
+    question: "How does Myanmar's post-2021 situation affect the simulation?",
     answer:
-      "Not directly. CropFolio targets agricultural extension workers and cooperative managers — intermediaries who advise 500+ farmers each. They have the digital literacy, smartphones, and mandate to translate portfolio recommendations into planting advice. The tool speaks their language (literally — it supports Burmese), not the farmer's.",
+      "This is our biggest limitation, honestly. Our yield correlations come from FAOSTAT 2010-2021 — essentially pre-coup data. Post-2021 Myanmar has a fundamentally different agricultural economy: 60% currency devaluation, fertilizer cost spikes, and supply chain disruption. CropFolio models CLIMATE risk well (drought, flood, yield correlation), but it does NOT model political risk or economic disruption. The yield hedging insight (rice-sesame = -0.49) remains physically valid regardless of politics, but the price and income projections should be treated as directional, not precise. For distributors, the relative crop-risk ranking matters more than absolute numbers.",
   },
   {
     question: "What's the AI actually doing?",
     answer:
-      "Gemini 2.5 Flash generates natural language analysis of the optimization results — translating numbers into actionable advice in English and Burmese. It does not perform the optimization itself. The portfolio math is pure scipy/numpy. The AI adds a layer of contextual interpretation: 'Given Magway's 30% drought probability, sesame's drought tolerance makes it the strongest hedge in your portfolio.' Without the API key, the app works fully — AI is additive, not essential.",
+      "Gemini 2.5 Flash generates natural language analysis of optimization results — translating numbers into actionable crop-fertilizer advice in English and Burmese. It does not perform the optimization itself. The portfolio math is pure scipy/numpy. The AI adds contextual interpretation: 'Given Magway's 30% drought probability and sandy loam soil, sesame with balanced NPK is your strongest recommendation.' Without the API key, the app works fully — AI is additive, not essential.",
   },
   {
     question: "Why sesame? Why not just diversify with any crop?",
     answer:
-      "Because the data says so. We computed yield correlations from 12 years of FAOSTAT data and found that rice-sesame has a -0.49 correlation — the only strong negative correlation among Myanmar's major crops. Rice-chickpea is +0.13 (slightly positive, NOT a hedge). Pulses correlate with each other at +0.5 to +0.9. Diversification only works when crops respond differently to the same climate stress. Sesame is the one crop that genuinely hedges rice.",
+      "Because the data says so. We computed yield correlations from 12 years of FAOSTAT data and found that rice-sesame has a -0.49 correlation — the only strong negative correlation among Myanmar's 11 major crops. Rice-chickpea is +0.13 (slightly positive, NOT a hedge). Diversification only works when crops respond differently to the same climate stress. For distributors, this means recommending sesame alongside rice actually reduces the risk of their farmers failing — and that means fewer reimbursements.",
   },
 ];
 

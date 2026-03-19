@@ -17,15 +17,15 @@ This is THE decision-making document for CropFolio Pro. Every feature request, p
 
 ## 1. WHERE WE ARE -- Honest Current State
 
-| Dimension | Score | Reality |
-|---|---|---|
-| Code Quality | **8/10** | 83 tests, clean architecture, FastAPI + React/TS, deployed Railway + Vercel |
-| Data Quality | **3/10** | FAOSTAT 2010-2021 (stale), fabricated sesame price, fertilizer prices 30-50% below market, 6 crops, 25 townships |
-| Technical Depth | **5/10** | Textbook Markowitz + Monte Carlo. Not a moat. |
-| Market Fit | **2/10** | Zero customer validation. Wrong form factor (web vs Android/Viber) |
-| Revenue Potential | **1/10** | No SaaS payment infrastructure in Myanmar |
-| Competitive Moat | **1/10** | All-public data, textbook algorithms |
-| Htwet Toe Integration Angle | **7/10** | Awba already has farmer app. We complement as backend intelligence |
+| Dimension                   | Score    | Reality                                                                                                                |
+| --------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Code Quality                | **8/10** | 131 tests, clean architecture, FastAPI + React/TS, deployed Railway + Vercel                                           |
+| Data Quality                | **4/10** | FAOSTAT 2010-2021, WFP price ranges (synthetic for prototype), 11 crops, 50 townships across 14 regions, soil coverage |
+| Technical Depth             | **5/10** | Textbook Markowitz + Monte Carlo. Not a moat.                                                                          |
+| Market Fit                  | **2/10** | Zero customer validation. Wrong form factor (web vs Android/Viber)                                                     |
+| Revenue Potential           | **1/10** | No SaaS payment infrastructure in Myanmar                                                                              |
+| Competitive Moat            | **1/10** | All-public data, textbook algorithms                                                                                   |
+| Htwet Toe Integration Angle | **7/10** | Awba already has farmer app. We complement as backend intelligence                                                     |
 
 **Overall: 3.7/10 as B2B product. 7/10 as hackathon project.**
 
@@ -38,6 +38,7 @@ This is THE decision-making document for CropFolio Pro. Every feature request, p
 CropFolio becomes the **Risk Intelligence Layer** for Myanmar agriculture. Not a dashboard -- the foundational data infrastructure distributors, MFIs, and insurers cannot operate without.
 
 **The 10/10 Moat (4 layers):**
+
 1. **Hyper-Local Real-Time Prices** -- Township daily prices from distributor network
 2. **Sentinel-1 SAR Pipeline** -- Cloud-penetrating radar for planting/flood monitoring
 3. **Credit-Yield Correlation Engine** -- Fusing MFI loans with SAR-verified planting
@@ -45,11 +46,11 @@ CropFolio becomes the **Risk Intelligence Layer** for Myanmar agriculture. Not a
 
 **Revenue targets by customer segment:**
 
-| Segment | Value Prop | Year 1 Potential |
-|---|---|---|
-| International Orgs (UNDP/FAO/WB) | Climate resilience assessments (USD contracts) | $10K-80K |
-| Distributors (Awba) | Backend API for Htwet Toe + demo farm ROI | $0-6K (pilot) |
-| MFIs (Proximity Finance) | Agricultural loan risk scoring | $0-20K |
+| Segment                          | Value Prop                                     | Year 1 Potential |
+| -------------------------------- | ---------------------------------------------- | ---------------- |
+| International Orgs (UNDP/FAO/WB) | Climate resilience assessments (USD contracts) | $10K-80K         |
+| Distributors (Awba)              | Backend API for Htwet Toe + demo farm ROI      | $0-6K (pilot)    |
+| MFIs (Proximity Finance)         | Agricultural loan risk scoring                 | $0-20K           |
 
 ---
 
@@ -58,6 +59,7 @@ CropFolio becomes the **Risk Intelligence Layer** for Myanmar agriculture. Not a
 ### Phase 1: Customer Discovery + Data Collection (Days 1-14)
 
 **Co-founder tasks (Myanmar, in-person):**
+
 - Interview 5-10 distributors (use structured interview script)
 - Collect current market prices for 10 crops in 3 townships
 - Collect current fertilizer prices from 3 distributors
@@ -65,10 +67,11 @@ CropFolio becomes the **Risk Intelligence Layer** for Myanmar agriculture. Not a
 - Validate Burmese translations with native speakers
 
 **Engineering tasks (remote):**
-- Remove all fabricated/synthetic data
-- Build one-page Burmese PDF generator (the actual MVP)
-- Add 5 new crops (corn, sugarcane, onion, chili, potato)
-- Expand to 50 townships
+
+- ~~Remove all fabricated/synthetic data~~ (in progress -- WFP prices still synthetic)
+- ~~Build one-page Burmese PDF generator (the actual MVP)~~ DONE
+- ~~Add 5 new crops (corn, sugarcane, onion, chili, potato)~~ DONE (11 crops total)
+- ~~Expand to 50 townships~~ DONE (50 townships across 14 regions)
 - Prepare Awba pitch deck (10 slides, bilingual)
 
 **Exit criteria:** 5+ interviews, go/no-go decision on Awba pitch.
@@ -116,21 +119,21 @@ CropFolio becomes the **Risk Intelligence Layer** for Myanmar agriculture. Not a
 
 ### Key Objection Handlers
 
-| Objection | Response |
-|---|---|
-| "Our agents know this" | "CropFolio gives every agent the confidence of your best one" |
-| "Data isn't accurate" | "That's why we want YOUR data -- partnership makes it unbeatable for YOUR regions" |
-| "We don't pay for software" | "Pilot is free. We're proposing a data partnership, not selling software" |
-| "We already have Htwet Toe" | "We make Htwet Toe smarter. Complementary, not competitive" |
+| Objection                   | Response                                                                           |
+| --------------------------- | ---------------------------------------------------------------------------------- |
+| "Our agents know this"      | "CropFolio gives every agent the confidence of your best one"                      |
+| "Data isn't accurate"       | "That's why we want YOUR data -- partnership makes it unbeatable for YOUR regions" |
+| "We don't pay for software" | "Pilot is free. We're proposing a data partnership, not selling software"          |
+| "We already have Htwet Toe" | "We make Htwet Toe smarter. Complementary, not competitive"                        |
 
 ---
 
 ## 5. TECHNICAL EVOLUTION
 
 ```
-TODAY (Moat: 1/10)        6 MONTHS (4/10)          12-18 MONTHS (8/10)
+TODAY (Moat: 2/10)        6 MONTHS (4/10)          12-18 MONTHS (8/10)
 Monte Carlo + Public Data -> Hybrid MC+BBN+Expert -> Full Bayesian+SAR+RTP
-6 crops, 25 townships       10-15 crops, 50+ twp    20+ crops, 100+ twp
+11 crops, 50 townships      15-20 crops, 75+ twp    20+ crops, 100+ twp
 ```
 
 **Key decisions:** BBN library = pgmpy, SAR processing = Google Earth Engine, Mobile delivery = Viber Bot + PDF, API pattern = REST with webhooks for Htwet Toe.
@@ -157,4 +160,4 @@ Monte Carlo + Public Data -> Hybrid MC+BBN+Expert -> Full Bayesian+SAR+RTP
 
 ---
 
-*This document governs all CropFolio decisions through June 2026. If reality diverges from this plan, update the plan -- do not pretend reality matches the plan.*
+_This document governs all CropFolio decisions through June 2026. If reality diverges from this plan, update the plan -- do not pretend reality matches the plan._
