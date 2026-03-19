@@ -55,7 +55,7 @@ def _register_padauk() -> bool:
     Returns:
         True if fonts were registered successfully, False otherwise.
     """
-    global PADAUK_REGISTERED  # noqa: PLW0603
+    global PADAUK_REGISTERED
     if PADAUK_REGISTERED:
         return True
 
