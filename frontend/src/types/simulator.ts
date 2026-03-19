@@ -5,6 +5,7 @@ export interface SimulateRequest {
   township_id: string;
   num_simulations?: number;
   season?: "monsoon" | "dry";
+  distribution_model?: "normal" | "copula";
 }
 
 /** Single histogram bin for income distribution chart. */
@@ -32,6 +33,7 @@ export interface SimulateResponse {
   township_name: string;
   season: string;
   num_simulations: number;
+  distribution_model?: string;
   stats: SimulationStats;
   histogram: HistogramBin[];
 }

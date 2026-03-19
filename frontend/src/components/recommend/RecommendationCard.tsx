@@ -1,5 +1,6 @@
 import { Card } from "@/components/common/Card";
 import { FertilizerBadge } from "./FertilizerBadge";
+import { FertilizerPlanCard } from "./FertilizerPlanCard";
 import { formatMMK } from "@/utils/formatters";
 import { CROP_COLORS } from "@/constants";
 import type { CropRecommendation } from "@/types/recommend";
@@ -53,6 +54,10 @@ export function RecommendationCard({
           {formatMMK(expected_income_per_ha)}/ha
         </div>
       </div>
+
+      {recommendation.fertilizer_plan && (
+        <FertilizerPlanCard plan={recommendation.fertilizer_plan} />
+      )}
 
       {fertilizers.length > 0 && (
         <div>

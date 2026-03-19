@@ -260,6 +260,107 @@ const strings: Record<string, Record<Lang, string>> = {
   "region.kachin": { en: "Kachin", mm: "ကချင်" },
   "region.rakhine": { en: "Rakhine", mm: "ရခိုင်" },
 
+  // Navigation — new engines
+  "nav.bayesian": {
+    en: "Bayesian Analyzer",
+    mm: "ဘေးစီးယန်း ပိုင်းခြမ်းစိတ်ဖြာမှု",
+  },
+  "nav.sar": { en: "SAR Verification", mm: "SAR အတည်ပြုခြင်း" },
+
+  // Fertilizer Plan
+  "fertPlan.title": {
+    en: "Optimized Fertilizer Plan",
+    mm: "အကောင်းဆုံး ဓာတ်မြေသြဇာ အစီအစဉ်",
+  },
+  "fertPlan.optimized": { en: "LP Optimized", mm: "LP အကောင်းဆုံး" },
+  "fertPlan.fallback": { en: "Fallback", mm: "အရန်" },
+  "fertPlan.totalCost": { en: "Total Cost", mm: "စုစုပေါင်း ကုန်ကျစရိတ်" },
+  "fertPlan.yieldIncrease": {
+    en: "Yield Increase",
+    mm: "အထွက်နှုန်း တိုးမြင့်မှု",
+  },
+  "fertPlan.returnRatio": { en: "Return Ratio", mm: "ပြန်လည်ရရှိမှု အချိုး" },
+  "fertPlan.nutrientDelivery": {
+    en: "NPK Delivery (kg/ha)",
+    mm: "NPK ပေးပို့မှု (kg/ha)",
+  },
+  "fertPlan.applicationSchedule": {
+    en: "Application Schedule",
+    mm: "သုံးစွဲမှု အချိန်ဇယား",
+  },
+  "fertPlan.day": { en: "Day", mm: "ရက်" },
+  "fertPlan.micronutrientAlerts": {
+    en: "Micronutrient Alerts",
+    mm: "အာဟာရဓာတ်သတိပေးချက်များ",
+  },
+  "fertPlan.nutrientBalance": { en: "Nutrient Balance", mm: "အာဟာရ ညီမျှမှု" },
+
+  // Bayesian Dashboard
+  "bayesian.title": {
+    en: "Bayesian Analyzer",
+    mm: "ဘေးစီးယန်း ပိုင်းခြမ်းစိတ်ဖြာစက်",
+  },
+  "bayesian.subtitle": {
+    en: "Input field observations to update yield predictions with Bayesian inference",
+    mm: "ကွင်းဆင်းလေ့လာမှုများ ထည့်သွင်းပြီး ဘေးစီးယန်း ခန့်မှန်းချက်ဖြင့် အထွက်နှုန်း ခန့်မှန်းချက်များ အပ်ဒိတ်လုပ်ပါ",
+  },
+  "bayesian.setup": { en: "Setup", mm: "ပြင်ဆင်မှု" },
+  "bayesian.evidence": { en: "Field Evidence", mm: "ကွင်းဆင်း အထောက်အထား" },
+  "bayesian.evidenceDesc": {
+    en: "Set observed conditions to update predictions. Leave unset for prior estimates.",
+    mm: "ခန့်မှန်းချက်များ အပ်ဒိတ်လုပ်ရန် တွေ့ရှိထားသော အခြေအနေများ သတ်မှတ်ပါ။",
+  },
+  "bayesian.run": {
+    en: "Run Bayesian Analysis",
+    mm: "ဘေးစီးယန်း ပိုင်းခြမ်းစိတ်ဖြာမှု လုပ်ပါ",
+  },
+  "bayesian.running": {
+    en: "Running Bayesian inference...",
+    mm: "ဘေးစီးယန်း ခန့်မှန်းနေသည်...",
+  },
+  "bayesian.predictions": {
+    en: "Yield Predictions",
+    mm: "အထွက်နှုန်း ခန့်မှန်းချက်များ",
+  },
+  "bayesian.portfolioWeights": {
+    en: "Bayesian Portfolio Weights",
+    mm: "ဘေးစီးယန်း ခွဲဝေမှု အလေးချိန်များ",
+  },
+
+  // SAR Dashboard
+  "sar.title": {
+    en: "SAR Planting Verification",
+    mm: "SAR စိုက်ပျိုးမှု အတည်ပြုခြင်း",
+  },
+  "sar.subtitle": {
+    en: "Sentinel-1 radar analysis for rice paddy detection and crop monitoring",
+    mm: "လယ်ယာ စိုက်ပျိုးမှု စောင့်ကြည့်ရန် Sentinel-1 ရေဒါ ပိုင်းခြမ်းစိတ်ဖြာမှု",
+  },
+  "sar.selectArea": {
+    en: "Select Analysis Area",
+    mm: "ပိုင်းခြမ်းစိတ်ဖြာမည့် ဧရိယာ ရွေးချယ်ပါ",
+  },
+  "sar.analyze": { en: "Analyze", mm: "ပိုင်းခြမ်းစိတ်ဖြာပါ" },
+  "sar.analyzing": {
+    en: "Analyzing satellite data...",
+    mm: "ဂြိုလ်တု အချက်အလက် ပိုင်းခြမ်းစိတ်ဖြာနေသည်...",
+  },
+  "sar.riceStatus": { en: "Rice Detection", mm: "စပါး ရှာဖွေတွေ့ရှိမှု" },
+  "sar.confidence": { en: "Confidence", mm: "ယုံကြည်မှု" },
+  "sar.estimatedArea": { en: "Estimated Area", mm: "ခန့်မှန်း ဧရိယာ" },
+  "sar.analysisDate": {
+    en: "Analysis Date",
+    mm: "ပိုင်းခြမ်းစိတ်ဖြာသည့် ရက်စွဲ",
+  },
+  "sar.phenologySignals": {
+    en: "Phenology Signals",
+    mm: "ဖီနိုလိုဂျီ အချက်ပြမှုများ",
+  },
+  "sar.backscatterTimeSeries": {
+    en: "Backscatter Time Series",
+    mm: "Backscatter အချိန်စီးရီး",
+  },
+
   // Reports
   "reports.title": { en: "Reports", mm: "အစီရင်ခံစာများ" },
   "reports.subtitle": {

@@ -10,6 +10,8 @@ import { DashboardOverview } from "./components/dashboard/DashboardOverview";
 import { RecommendPage } from "./components/recommend/RecommendPage";
 import { DemoROICalculator } from "./components/demo/DemoROICalculator";
 import { ReportsPage } from "./components/reports/ReportsPage";
+import { BayesianDashboard } from "./components/bayesian/BayesianDashboard";
+import { SARDashboard } from "./components/sar/SARDashboard";
 import "./index.css";
 import App from "./App.tsx";
 
@@ -28,6 +30,8 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/recommend" element={<RecommendPage />} />
               <Route path="/demo-calculator" element={<DemoROICalculator />} />
               <Route path="/reports" element={<ReportsPage />} />
+              <Route path="/bayesian" element={<BayesianDashboard />} />
+              <Route path="/sar" element={<SARDashboard />} />
             </Route>
 
             {/* Legacy wizard */}

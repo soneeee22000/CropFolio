@@ -21,6 +21,7 @@ export interface CropRecommendation {
   portfolio_weight: number;
   expected_income_per_ha: number;
   fertilizers: FertilizerRecommendation[];
+  fertilizer_plan: import("./fertilizer-plan").FertilizerPlan | null;
 }
 
 /** Soil profile for a township. */
