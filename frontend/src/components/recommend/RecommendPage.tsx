@@ -81,7 +81,7 @@ export function RecommendPage() {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in-up">
+    <div className="space-y-8 animate-fade-in-up" data-testid="recommend-page">
       <div>
         <h2 className="font-display text-3xl text-text-primary">
           {t("recommend.title")}
@@ -105,6 +105,7 @@ export function RecommendPage() {
                     return (
                       <button
                         key={tw.id}
+                        data-testid={`township-${tw.id}`}
                         onClick={() => toggleTownship(tw.id)}
                         className={`px-3 py-1.5 rounded-lg text-sm border transition-colors ${
                           selected
@@ -131,6 +132,7 @@ export function RecommendPage() {
               return (
                 <button
                   key={c.id}
+                  data-testid={`crop-${c.id}`}
                   onClick={() => toggleCrop(c.id)}
                   className={`px-3 py-1.5 rounded-lg text-sm border transition-colors ${
                     selected
@@ -154,6 +156,7 @@ export function RecommendPage() {
                 {(["dry", "monsoon"] as const).map((s) => (
                   <button
                     key={s}
+                    data-testid={`season-${s}`}
                     onClick={() => setSeason(s)}
                     className={`px-4 py-2 rounded-lg text-sm border transition-colors ${
                       season === s
@@ -178,6 +181,7 @@ export function RecommendPage() {
                 step={0.05}
                 value={riskTolerance}
                 onChange={(e) => setRiskTolerance(Number(e.target.value))}
+                data-testid="risk-slider"
                 className="w-full accent-primary"
               />
               <div className="flex justify-between text-[10px] text-text-tertiary mt-1">
@@ -194,6 +198,7 @@ export function RecommendPage() {
         <button
           onClick={handleSubmit}
           disabled={!canSubmit || isLoading}
+          data-testid="btn-recommend"
           className="px-8 py-3 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? t("recommend.generating") : t("recommend.generate")}
@@ -204,60 +209,68 @@ export function RecommendPage() {
       {error && <ErrorAlert message={error} />}
 
       {/* Results */}
-      {result &&
-        result.recommendations.map((rec) => (
-          <div key={rec.township_id} className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h3 className="font-display text-2xl text-text-primary">
-                {rec.township_name}
-                <span className="text-sm text-text-tertiary ml-2 capitalize">
-                  {rec.season}
-                </span>
-              </h3>
-              {rec.confidence && (
-                <div className="relative">
-                  <ConfidenceGauge value={rec.confidence.success_probability} />
-                </div>
-              )}
-            </div>
+      {result && (
+        <div data-testid="recommend-results">
+          {result.recommendations.map((rec) => (
+            <div key={rec.township_id} className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="font-display text-2xl text-text-primary">
+                  {rec.township_name}
+                  <span className="text-sm text-text-tertiary ml-2 capitalize">
+                    {rec.season}
+                  </span>
+                </h3>
+                {rec.confidence && (
+                  <div className="relative">
+                    <ConfidenceGauge
+                      value={rec.confidence.success_probability}
+                    />
+                  </div>
+                )}
+              </div>
 
-            {/* Summary metrics */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <MetricCard
-                value={formatMMKCompact(rec.expected_income_per_ha)}
-                label={t("recommend.expectedIncome")}
-                highlight
-              />
-              <MetricCard
-                value={formatPercent(rec.risk_reduction_pct / 100)}
-                label={t("recommend.riskReduction")}
-                sublabel={t("recommend.vsMonocrop")}
-              />
-              {rec.confidence && (
-                <>
-                  <MetricCard
-                    value={formatPercent(rec.confidence.success_probability)}
-                    label={t("recommend.successProb")}
+              {/* Summary metrics */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <MetricCard
+                  value={formatMMKCompact(rec.expected_income_per_ha)}
+                  label={t("recommend.expectedIncome")}
+                  highlight
+                />
+                <MetricCard
+                  value={formatPercent(rec.risk_reduction_pct / 100)}
+                  label={t("recommend.riskReduction")}
+                  sublabel={t("recommend.vsMonocrop")}
+                />
+                {rec.confidence && (
+                  <>
+                    <MetricCard
+                      value={formatPercent(rec.confidence.success_probability)}
+                      label={t("recommend.successProb")}
+                    />
+                    <MetricCard
+                      value={formatMMKCompact(rec.confidence.percentile_5)}
+                      label={t("recommend.worstCase")}
+                    />
+                  </>
+                )}
+              </div>
+
+              {/* Soil profile */}
+              {rec.soil && <SoilProfileCard soil={rec.soil} />}
+
+              {/* Crop-fertilizer cards */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {rec.crops.map((crop) => (
+                  <RecommendationCard
+                    key={crop.crop_id}
+                    recommendation={crop}
                   />
-                  <MetricCard
-                    value={formatMMKCompact(rec.confidence.percentile_5)}
-                    label={t("recommend.worstCase")}
-                  />
-                </>
-              )}
+                ))}
+              </div>
             </div>
-
-            {/* Soil profile */}
-            {rec.soil && <SoilProfileCard soil={rec.soil} />}
-
-            {/* Crop-fertilizer cards */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {rec.crops.map((crop) => (
-                <RecommendationCard key={crop.crop_id} recommendation={crop} />
-              ))}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      )}
     </div>
   );
 }

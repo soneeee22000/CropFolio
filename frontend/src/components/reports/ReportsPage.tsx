@@ -81,6 +81,7 @@ export function ReportsPage() {
           <button
             type="button"
             onClick={() => setLanguage("en")}
+            data-testid="btn-pdf-en"
             className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
               language === "en"
                 ? "bg-primary text-white"
@@ -92,6 +93,7 @@ export function ReportsPage() {
           <button
             type="button"
             onClick={() => setLanguage("mm")}
+            data-testid="btn-pdf-mm"
             className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
               language === "mm"
                 ? "bg-primary text-white"
@@ -106,6 +108,7 @@ export function ReportsPage() {
           type="button"
           onClick={handleDownloadSample}
           disabled={downloading}
+          data-testid="btn-download-pdf"
           className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 disabled:opacity-50 transition-colors"
         >
           {downloading

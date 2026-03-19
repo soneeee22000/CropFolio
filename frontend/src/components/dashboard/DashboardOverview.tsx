@@ -50,7 +50,10 @@ export function DashboardOverview() {
   const regions = [...new Set(townships.map((tw) => tw.region))];
 
   return (
-    <div className="space-y-8 animate-fade-in-up">
+    <div
+      className="space-y-8 animate-fade-in-up"
+      data-testid="dashboard-overview"
+    >
       {/* Page header */}
       <div>
         <h2 className="font-display text-3xl text-text-primary">
@@ -60,7 +63,10 @@ export function DashboardOverview() {
       </div>
 
       {/* KPI cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        data-testid="kpi-cards"
+      >
         <MetricCard
           value={String(stats?.townships ?? 0)}
           label={t("dashboard.townships")}
@@ -95,6 +101,7 @@ export function DashboardOverview() {
           </p>
           <button
             onClick={() => navigate("/recommend")}
+            data-testid="btn-generate-rec"
             className="px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors"
           >
             {t("dashboard.startRec")}
@@ -106,6 +113,7 @@ export function DashboardOverview() {
           </p>
           <button
             onClick={() => navigate("/demo-calculator")}
+            data-testid="btn-demo-roi"
             className="px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors"
           >
             {t("dashboard.calcRoi")}

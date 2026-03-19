@@ -78,7 +78,7 @@ export function DemoROICalculator() {
   const isProfitable = result ? result.expected_profit_mmk > 0 : false;
 
   return (
-    <div className="space-y-8 animate-fade-in-up">
+    <div className="space-y-8 animate-fade-in-up" data-testid="demo-roi-page">
       <div>
         <h2 className="font-display text-3xl text-text-primary">
           {t("demo.title")}
@@ -96,6 +96,7 @@ export function DemoROICalculator() {
             <select
               value={townshipId}
               onChange={(e) => setTownshipId(e.target.value)}
+              data-testid="select-township"
               className="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary text-sm"
             >
               <option value="">Select...</option>
@@ -113,6 +114,7 @@ export function DemoROICalculator() {
             <select
               value={cropId}
               onChange={(e) => setCropId(e.target.value)}
+              data-testid="select-crop"
               className="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary text-sm"
             >
               <option value="">Select...</option>
@@ -134,6 +136,7 @@ export function DemoROICalculator() {
               step={0.5}
               value={area}
               onChange={(e) => setArea(Number(e.target.value))}
+              data-testid="input-area"
               className="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary text-sm"
             />
           </div>
@@ -162,6 +165,7 @@ export function DemoROICalculator() {
           <button
             onClick={handleCalculate}
             disabled={!townshipId || !cropId || isLoading}
+            data-testid="btn-calculate"
             className="px-8 py-3 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? t("demo.calculating") : t("demo.calculate")}
@@ -174,7 +178,7 @@ export function DemoROICalculator() {
 
       {/* Results */}
       {result && (
-        <div className="space-y-6">
+        <div className="space-y-6" data-testid="roi-results">
           <h3 className="font-display text-2xl text-text-primary">
             {result.crop_name} in {result.township_name}
             <span className="text-sm text-text-tertiary ml-2">

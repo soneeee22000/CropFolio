@@ -69,6 +69,7 @@ export function Sidebar() {
           <NavLink
             key={item.to}
             to={item.to}
+            data-testid={`nav-${item.to.slice(1)}`}
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors duration-200 ${
                 isActive
