@@ -81,3 +81,4 @@ class SimulationServiceResult:
     num_simulations: int
     stats: SimStatsResult
     histogram: list[HistogramBinResult]
+    distribution_model: str = "normal"

@@ -24,6 +24,7 @@ def _to_simulate_response(
         township_name=result.township_name,
         season=result.season,
         num_simulations=result.num_simulations,
+        distribution_model=result.distribution_model,
         stats=SimulationStats(
             mean_income=result.stats.mean_income,
             median_income=result.stats.median_income,
@@ -60,6 +61,7 @@ async def run_simulation(
             township_id=body.township_id,
             num_simulations=body.num_simulations,
             season=body.season,
+            distribution_model=body.distribution_model,
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e)) from e

@@ -32,6 +32,7 @@ class CropRecommendationResponse(BaseModel):
     portfolio_weight: float
     expected_income_per_ha: float
     fertilizers: list[FertilizerRecommendationResponse]
+    fertilizer_plan: FertilizerPlanResponse | None = None
 
 
 class SoilProfileResponse(BaseModel):
@@ -84,6 +85,54 @@ class TownshipRecommendation(BaseModel):
     risk_reduction_pct: float
     ai_advisory: str | None = None
     ai_advisory_mm: str | None = None
+
+
+class StageApplicationResponse(BaseModel):
+    """A single fertilizer application at a growth stage."""
+
+    stage: str
+    day: int
+    fertilizer_id: str
+    fertilizer_name: str
+    rate_kg_per_ha: float
+    cost_mmk: int
+
+
+class MicronutrientFlagResponse(BaseModel):
+    """A micronutrient deficiency warning."""
+
+    nutrient: str
+    severity: str
+    recommendation: str
+
+
+class NutrientInteractionFlagResponse(BaseModel):
+    """A nutrient ratio imbalance warning."""
+
+    ratio_name: str
+    actual_ratio: float
+    optimal_range: str
+    recommendation: str
+
+
+class ROIEstimateResponse(BaseModel):
+    """Return on investment estimate for the fertilizer plan."""
+
+    total_cost_mmk: int
+    expected_yield_increase_pct: float
+    return_ratio: float
+
+
+class FertilizerPlanResponse(BaseModel):
+    """Complete optimized fertilizer application plan."""
+
+    crop_id: str
+    applications: list[StageApplicationResponse]
+    nutrient_totals: dict[str, float]
+    micronutrient_flags: list[MicronutrientFlagResponse]
+    interaction_flags: list[NutrientInteractionFlagResponse]
+    roi_estimate: ROIEstimateResponse
+    lp_feasible: bool
 
 
 class RecommendResponse(BaseModel):

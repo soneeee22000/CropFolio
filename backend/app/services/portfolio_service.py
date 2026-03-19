@@ -8,8 +8,17 @@ from functools import lru_cache
 
 import numpy as np
 
+from app.domain.bayesian import (
+    BayesianPortfolioResult,
+    EvidenceItem,
+    compute_bayesian_returns,
+)
 from app.domain.crops import CropProfile, get_crop_by_id
-from app.domain.optimizer import compute_expected_returns, optimize_portfolio
+from app.domain.optimizer import (
+    compute_expected_returns,
+    optimize_portfolio,
+    optimize_portfolio_bayesian,
+)
 from app.domain.results import (
     ClimateRiskSummaryResult,
     CropWeightResult,
@@ -115,6 +124,7 @@ class PortfolioService:
         township_id: str,
         num_simulations: int,
         season: str,
+        distribution_model: str = "normal",
     ) -> SimulationServiceResult | None:
         """Run Monte Carlo simulation for a crop portfolio.
 
@@ -138,6 +148,8 @@ class PortfolioService:
             risk_profile.drought_probability,
             risk_profile.flood_probability,
             num_simulations,
+            None,
+            distribution_model,
         )
 
         histogram = _build_histogram(result.incomes, HISTOGRAM_NUM_BINS)
@@ -157,7 +169,88 @@ class PortfolioService:
                 value_at_risk_95=result.value_at_risk_95,
             ),
             histogram=histogram,
+            distribution_model=result.distribution_model,
         )
+
+    async def optimize_bayesian(
+        self,
+        crop_ids: list[str],
+        township_id: str,
+        risk_tolerance: float,
+        season: str,
+        evidence: list[EvidenceItem] | None = None,
+    ) -> tuple[PortfolioResult, BayesianPortfolioResult] | None:
+        """Run Bayesian portfolio optimization with evidence.
+
+        Returns None if township not found.
+        Raises ValueError if any crop_id is invalid.
+        """
+        crops = self._resolve_crops(crop_ids)
+        township = self._townships.get_by_id(township_id)
+        if township is None:
+            return None
+
+        climate_result = await self._climate.assess_risk(township_id, season)
+        if climate_result is None:
+            return None
+        risk_profile, data_source = climate_result
+
+        result = await asyncio.to_thread(
+            optimize_portfolio_bayesian,
+            crops,
+            risk_profile.drought_probability,
+            risk_profile.flood_probability,
+            risk_tolerance,
+            evidence,
+        )
+
+        _, bayesian_result = compute_bayesian_returns(
+            crops,
+            risk_profile.drought_probability,
+            risk_profile.flood_probability,
+            evidence,
+        )
+
+        adjusted_returns_list, _ = compute_bayesian_returns(
+            crops,
+            risk_profile.drought_probability,
+            risk_profile.flood_probability,
+            evidence,
+        )
+
+        crop_weights = [
+            CropWeightResult(
+                crop_id=crop.id,
+                crop_name=crop.name_en,
+                crop_name_mm=crop.name_mm,
+                weight=result.weights[crop.id],
+                expected_income_per_ha=round(
+                    adjusted_returns_list[i] * result.weights[crop.id], 2
+                ),
+            )
+            for i, crop in enumerate(crops)
+        ]
+
+        portfolio_result = PortfolioResult(
+            township_id=township_id,
+            township_name=township["name"],
+            season=season,
+            crop_weights=crop_weights,
+            metrics=PortfolioMetricsResult(
+                expected_income_per_ha=result.expected_income_per_ha,
+                income_std_dev=result.income_std_dev,
+                sharpe_ratio=result.sharpe_ratio,
+                risk_reduction_pct=result.risk_reduction_pct,
+            ),
+            climate_risk=ClimateRiskSummaryResult(
+                drought_probability=risk_profile.drought_probability,
+                flood_probability=risk_profile.flood_probability,
+                risk_level=risk_profile.risk_level,
+                data_source=data_source,
+            ),
+        )
+
+        return portfolio_result, bayesian_result
 
     async def compare_townships(
         self,

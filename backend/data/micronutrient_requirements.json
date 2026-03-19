@@ -1,0 +1,259 @@
+{
+  "_metadata": {
+    "source": "IRRI, FAO Micronutrient Assessment Guide for Myanmar",
+    "description": "Micronutrient requirements and deficiency thresholds per crop"
+  },
+  "rice": {
+    "zinc": {
+      "required": true,
+      "rate_kg_per_ha": 25,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.0,
+      "severity": "high"
+    },
+    "boron": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    },
+    "manganese": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    }
+  },
+  "black_gram": {
+    "zinc": {
+      "required": false,
+      "rate_kg_per_ha": 10,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.5,
+      "severity": "low"
+    },
+    "boron": {
+      "required": true,
+      "rate_kg_per_ha": 1.5,
+      "compound": "Borax",
+      "ph_threshold": 0,
+      "severity": "moderate"
+    },
+    "manganese": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    }
+  },
+  "green_gram": {
+    "zinc": {
+      "required": false,
+      "rate_kg_per_ha": 10,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.5,
+      "severity": "low"
+    },
+    "boron": {
+      "required": true,
+      "rate_kg_per_ha": 1.5,
+      "compound": "Borax",
+      "ph_threshold": 0,
+      "severity": "moderate"
+    },
+    "manganese": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    }
+  },
+  "chickpea": {
+    "zinc": {
+      "required": true,
+      "rate_kg_per_ha": 15,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.0,
+      "severity": "moderate"
+    },
+    "boron": {
+      "required": true,
+      "rate_kg_per_ha": 1.0,
+      "compound": "Borax",
+      "ph_threshold": 0,
+      "severity": "moderate"
+    },
+    "manganese": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    }
+  },
+  "sesame": {
+    "zinc": {
+      "required": false,
+      "rate_kg_per_ha": 10,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.5,
+      "severity": "low"
+    },
+    "boron": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    },
+    "manganese": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    }
+  },
+  "groundnut": {
+    "zinc": {
+      "required": true,
+      "rate_kg_per_ha": 15,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.0,
+      "severity": "moderate"
+    },
+    "boron": {
+      "required": true,
+      "rate_kg_per_ha": 1.5,
+      "compound": "Borax",
+      "ph_threshold": 0,
+      "severity": "moderate"
+    },
+    "manganese": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    }
+  },
+  "maize": {
+    "zinc": {
+      "required": true,
+      "rate_kg_per_ha": 20,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.0,
+      "severity": "high"
+    },
+    "boron": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    },
+    "manganese": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    }
+  },
+  "sugarcane": {
+    "zinc": {
+      "required": true,
+      "rate_kg_per_ha": 25,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.0,
+      "severity": "moderate"
+    },
+    "boron": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    },
+    "manganese": {
+      "required": true,
+      "rate_kg_per_ha": 10,
+      "compound": "MnSO4",
+      "ph_threshold": 7.5,
+      "severity": "low"
+    }
+  },
+  "potato": {
+    "zinc": {
+      "required": true,
+      "rate_kg_per_ha": 15,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.0,
+      "severity": "moderate"
+    },
+    "boron": {
+      "required": true,
+      "rate_kg_per_ha": 2.0,
+      "compound": "Borax",
+      "ph_threshold": 0,
+      "severity": "moderate"
+    },
+    "manganese": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    }
+  },
+  "onion": {
+    "zinc": {
+      "required": true,
+      "rate_kg_per_ha": 15,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.0,
+      "severity": "moderate"
+    },
+    "boron": {
+      "required": true,
+      "rate_kg_per_ha": 1.5,
+      "compound": "Borax",
+      "ph_threshold": 0,
+      "severity": "moderate"
+    },
+    "manganese": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    }
+  },
+  "chili": {
+    "zinc": {
+      "required": true,
+      "rate_kg_per_ha": 15,
+      "compound": "ZnSO4",
+      "ph_threshold": 7.0,
+      "severity": "moderate"
+    },
+    "boron": {
+      "required": true,
+      "rate_kg_per_ha": 1.5,
+      "compound": "Borax",
+      "ph_threshold": 0,
+      "severity": "moderate"
+    },
+    "manganese": {
+      "required": false,
+      "rate_kg_per_ha": 0,
+      "compound": "",
+      "ph_threshold": 0,
+      "severity": "none"
+    }
+  }
+}

@@ -12,6 +12,10 @@ from app.domain.fertilizer_matcher import (
     FertilizerRecommendation,
     match_fertilizers,
 )
+from app.domain.fertilizer_optimizer import (
+    FertilizerPlan,
+    optimize_fertilizer_plan,
+)
 from app.domain.fertilizers import (
     SoilProfile,
     get_all_fertilizers,
@@ -51,12 +55,14 @@ class CropFertilizerResult:
         weight: float,
         expected_income: float,
         fertilizers: list[FertilizerRecommendation],
+        fertilizer_plan: FertilizerPlan | None = None,
     ) -> None:
         """Initialize with crop, weight, and matched fertilizers."""
         self.crop = crop
         self.weight = weight
         self.expected_income = expected_income
         self.fertilizers = fertilizers
+        self.fertilizer_plan = fertilizer_plan
 
 
 class TownshipRecommendationResult:
@@ -173,7 +179,7 @@ class RecommendationService:
         # Step 3: Soil profile lookup
         soil = get_soil_profile(township_id)
 
-        # Step 4: Fertilizer matching per crop
+        # Step 4: Fertilizer matching + optimization per crop
         crop_results: list[CropFertilizerResult] = []
         for i, crop in enumerate(crops):
             weight = opt_result.weights[crop.id]
@@ -184,12 +190,16 @@ class RecommendationService:
             fertilizer_recs = self._match_for_crop(
                 crop, soil, top_fertilizers
             )
+            fert_plan = optimize_fertilizer_plan(
+                crop_id=crop.id, soil=soil
+            )
             crop_results.append(
                 CropFertilizerResult(
                     crop=crop,
                     weight=weight,
                     expected_income=income,
                     fertilizers=fertilizer_recs,
+                    fertilizer_plan=fert_plan,
                 )
             )
 

@@ -15,6 +15,7 @@ class SimulateRequest(BaseModel):
     township_id: str
     num_simulations: int = Field(default=1000, ge=100, le=10000)
     season: Literal["monsoon", "dry"] = "monsoon"
+    distribution_model: Literal["normal", "copula"] = "normal"
 
     @model_validator(mode="after")
     def validate_weights_sum(self) -> SimulateRequest:
@@ -63,5 +64,6 @@ class SimulateResponse(BaseModel):
     township_name: str
     season: str
     num_simulations: int
+    distribution_model: str = "normal"
     stats: SimulationStats
     histogram: list[HistogramBin]

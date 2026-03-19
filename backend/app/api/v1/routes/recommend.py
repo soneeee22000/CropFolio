@@ -12,10 +12,15 @@ from app.api.v1.schemas.recommend import (
     CropRecommendationResponse,
     DemoROIRequest,
     DemoROIResponse,
+    FertilizerPlanResponse,
     FertilizerRecommendationResponse,
+    MicronutrientFlagResponse,
+    NutrientInteractionFlagResponse,
     RecommendRequest,
     RecommendResponse,
+    ROIEstimateResponse,
     SoilProfileResponse,
+    StageApplicationResponse,
     TownshipRecommendation,
 )
 from app.domain.fertilizers import get_soil_profile
@@ -58,20 +63,64 @@ async def generate_recommendations(
         if r.soil is not None:
             soil_resp = SoilProfileResponse(**asdict(r.soil))
 
-        crop_recs = [
-            CropRecommendationResponse(
-                crop_id=cr.crop.id,
-                crop_name=cr.crop.name_en,
-                crop_name_mm=cr.crop.name_mm,
-                portfolio_weight=round(cr.weight, 4),
-                expected_income_per_ha=cr.expected_income,
-                fertilizers=[
-                    FertilizerRecommendationResponse(**asdict(f))
-                    for f in cr.fertilizers
-                ],
+        crop_recs = []
+        for cr in r.crop_results:
+            plan_resp = None
+            if cr.fertilizer_plan is not None:
+                fp = cr.fertilizer_plan
+                plan_resp = FertilizerPlanResponse(
+                    crop_id=fp.crop_id,
+                    applications=[
+                        StageApplicationResponse(
+                            stage=a.stage,
+                            day=a.day,
+                            fertilizer_id=a.fertilizer_id,
+                            fertilizer_name=a.fertilizer_name,
+                            rate_kg_per_ha=a.rate_kg_per_ha,
+                            cost_mmk=a.cost_mmk,
+                        )
+                        for a in fp.applications
+                    ],
+                    nutrient_totals=fp.nutrient_totals,
+                    micronutrient_flags=[
+                        MicronutrientFlagResponse(
+                            nutrient=mf.nutrient,
+                            severity=mf.severity,
+                            recommendation=mf.recommendation,
+                        )
+                        for mf in fp.micronutrient_flags
+                    ],
+                    interaction_flags=[
+                        NutrientInteractionFlagResponse(
+                            ratio_name=nf.ratio_name,
+                            actual_ratio=nf.actual_ratio,
+                            optimal_range=nf.optimal_range,
+                            recommendation=nf.recommendation,
+                        )
+                        for nf in fp.interaction_flags
+                    ],
+                    roi_estimate=ROIEstimateResponse(
+                        total_cost_mmk=fp.roi_estimate.total_cost_mmk,
+                        expected_yield_increase_pct=fp.roi_estimate.expected_yield_increase_pct,
+                        return_ratio=fp.roi_estimate.return_ratio,
+                    ),
+                    lp_feasible=fp.lp_feasible,
+                )
+
+            crop_recs.append(
+                CropRecommendationResponse(
+                    crop_id=cr.crop.id,
+                    crop_name=cr.crop.name_en,
+                    crop_name_mm=cr.crop.name_mm,
+                    portfolio_weight=round(cr.weight, 4),
+                    expected_income_per_ha=cr.expected_income,
+                    fertilizers=[
+                        FertilizerRecommendationResponse(**asdict(f))
+                        for f in cr.fertilizers
+                    ],
+                    fertilizer_plan=plan_resp,
+                )
             )
-            for cr in r.crop_results
-        ]
 
         confidence = None
         if r.confidence is not None:

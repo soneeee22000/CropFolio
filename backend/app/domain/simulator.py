@@ -2,11 +2,17 @@
 
 Simulates thousands of possible climate scenarios to show the
 income distribution for a given crop portfolio allocation.
+
+Supports two distribution models:
+- "normal": Classic multivariate normal (fast, textbook)
+- "copula": Copula-based with fat-tail dependence (production-grade)
 """
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
+from typing import Literal
 
 import numpy as np
 from numpy.typing import NDArray
@@ -18,6 +24,10 @@ from app.core.constants import (
 )
 from app.domain.crops import CropProfile
 from app.domain.optimizer import compute_covariance_matrix, compute_expected_returns
+
+logger = logging.getLogger(__name__)
+
+DistributionModel = Literal["normal", "copula"]
 
 
 @dataclass(frozen=True)
@@ -32,6 +42,7 @@ class SimulationResult:
     percentile_95: float
     prob_catastrophic_loss: float
     value_at_risk_95: float
+    distribution_model: str = "normal"
 
 
 def run_monte_carlo(
@@ -41,12 +52,13 @@ def run_monte_carlo(
     flood_prob: float,
     num_simulations: int = DEFAULT_NUM_SIMULATIONS,
     seed: int | None = None,
+    distribution_model: DistributionModel = "normal",
 ) -> SimulationResult:
     """Run Monte Carlo simulation for a crop portfolio.
 
-    Generates num_simulations climate scenarios using multivariate
-    normal distribution based on crop covariance structure, then
-    computes portfolio income for each scenario.
+    Generates num_simulations climate scenarios using either multivariate
+    normal or copula-based distribution, then computes portfolio income
+    for each scenario.
 
     Args:
         crops: List of crop profiles in the portfolio.
@@ -55,6 +67,7 @@ def run_monte_carlo(
         flood_prob: Probability of flood for the region.
         num_simulations: Number of scenarios to simulate.
         seed: Random seed for reproducibility.
+        distribution_model: "normal" for classic MVN, "copula" for tail risk.
 
     Returns:
         SimulationResult with income distribution statistics.
@@ -69,11 +82,24 @@ def run_monte_carlo(
     expected_returns = compute_expected_returns(crops, drought_prob, flood_prob)
     cov_matrix = compute_covariance_matrix(crops)
 
-    raw_scenarios = rng.multivariate_normal(
-        expected_returns, cov_matrix, size=num_simulations
-    )
+    if distribution_model == "copula":
+        from app.domain.copula_risk import sample_correlated_scenarios
 
-    raw_scenarios = _cap_outliers(raw_scenarios, expected_returns, cov_matrix)
+        raw_scenarios = sample_correlated_scenarios(
+            crops=crops,
+            expected_returns=expected_returns,
+            cov_matrix=cov_matrix,
+            drought_prob=drought_prob,
+            num_simulations=num_simulations,
+            seed=seed,
+        )
+        logger.info("Copula simulation completed: %d scenarios", num_simulations)
+    else:
+        raw_scenarios = rng.multivariate_normal(
+            expected_returns, cov_matrix, size=num_simulations
+        )
+        raw_scenarios = _cap_outliers(raw_scenarios, expected_returns, cov_matrix)
+
     raw_scenarios = np.maximum(raw_scenarios, 0)
 
     portfolio_incomes: NDArray[np.float64] = raw_scenarios @ weight_array
@@ -97,6 +123,7 @@ def run_monte_carlo(
         percentile_95=round(float(np.percentile(portfolio_incomes, 95)), 2),
         prob_catastrophic_loss=round(prob_catastrophic, 4),
         value_at_risk_95=round(value_at_risk, 2),
+        distribution_model=distribution_model,
     )
 
 

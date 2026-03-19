@@ -21,9 +21,13 @@ dependencies = [
     "reportlab==4.1.0",
     "slowapi>=0.1.9",
     "google-genai>=1.0.0",
+    "pgmpy>=0.0.21",
 ]
 
 [project.optional-dependencies]
+sar = [
+    "earthengine-api>=1.1.0",
+]
 dev = [
     "pytest==8.3.4",
     "pytest-cov==6.0.0",

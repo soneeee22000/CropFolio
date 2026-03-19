@@ -50,6 +50,50 @@ class OptimizeResponse(BaseModel):
     township_id: str
     township_name: str
     season: str
+    model_type: str = "classic"
     weights: list[CropWeight]
     metrics: PortfolioMetrics
     climate_risk: ClimateRiskSummary
+
+
+class EvidenceItemSchema(BaseModel):
+    """A single piece of evidence for Bayesian updating."""
+
+    variable: str = Field(
+        description="BBN node: 'rainfall', 'drought', 'flood', or 'soil'"
+    )
+    value: str = Field(
+        description="Observed value: e.g., 'low'/'normal'/'high' for rainfall"
+    )
+
+
+class OptimizeBayesianRequest(BaseModel):
+    """Request body for Bayesian portfolio optimization."""
+
+    crop_ids: list[str] = Field(min_length=2, max_length=10)
+    township_id: str
+    risk_tolerance: float = Field(default=0.5, ge=0.0, le=1.0)
+    season: Literal["monsoon", "dry"] = "monsoon"
+    evidence: list[EvidenceItemSchema] = Field(default_factory=list)
+
+
+class BayesianCropPrediction(BaseModel):
+    """Bayesian prediction for a single crop."""
+
+    crop_id: str
+    yield_probabilities: dict[str, float]
+    expected_yield_factor: float
+    evidence_used: list[str]
+
+
+class OptimizeBayesianResponse(BaseModel):
+    """Response from Bayesian portfolio optimization."""
+
+    township_id: str
+    township_name: str
+    season: str
+    model_type: str = "bayesian"
+    weights: list[CropWeight]
+    metrics: PortfolioMetrics
+    climate_risk: ClimateRiskSummary
+    bayesian_predictions: list[BayesianCropPrediction]

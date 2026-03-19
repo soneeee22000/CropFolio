@@ -1,0 +1,239 @@
+{
+  "_metadata": {
+    "source": "IRRI, ICRISAT, FAO nutrient management guidelines for Myanmar",
+    "description": "Nutrient split ratios per crop per growth stage (fraction of total requirement)"
+  },
+  "rice": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 0.5,
+        "p_fraction": 1.0,
+        "k_fraction": 0.5
+      },
+      {
+        "name": "tillering",
+        "day": 30,
+        "n_fraction": 0.25,
+        "p_fraction": 0.0,
+        "k_fraction": 0.25
+      },
+      {
+        "name": "flowering",
+        "day": 60,
+        "n_fraction": 0.25,
+        "p_fraction": 0.0,
+        "k_fraction": 0.25
+      }
+    ]
+  },
+  "black_gram": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 1.0,
+        "p_fraction": 1.0,
+        "k_fraction": 1.0
+      },
+      {
+        "name": "flowering",
+        "day": 45,
+        "n_fraction": 0.0,
+        "p_fraction": 0.0,
+        "k_fraction": 0.0
+      }
+    ]
+  },
+  "green_gram": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 1.0,
+        "p_fraction": 1.0,
+        "k_fraction": 1.0
+      },
+      {
+        "name": "flowering",
+        "day": 40,
+        "n_fraction": 0.0,
+        "p_fraction": 0.0,
+        "k_fraction": 0.0
+      }
+    ]
+  },
+  "chickpea": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 1.0,
+        "p_fraction": 1.0,
+        "k_fraction": 0.6
+      },
+      {
+        "name": "flowering",
+        "day": 50,
+        "n_fraction": 0.0,
+        "p_fraction": 0.0,
+        "k_fraction": 0.4
+      }
+    ]
+  },
+  "sesame": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 0.5,
+        "p_fraction": 1.0,
+        "k_fraction": 1.0
+      },
+      {
+        "name": "vegetative",
+        "day": 30,
+        "n_fraction": 0.5,
+        "p_fraction": 0.0,
+        "k_fraction": 0.0
+      }
+    ]
+  },
+  "groundnut": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 1.0,
+        "p_fraction": 0.6,
+        "k_fraction": 0.5
+      },
+      {
+        "name": "pegging",
+        "day": 40,
+        "n_fraction": 0.0,
+        "p_fraction": 0.4,
+        "k_fraction": 0.5
+      }
+    ]
+  },
+  "maize": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 0.33,
+        "p_fraction": 1.0,
+        "k_fraction": 0.5
+      },
+      {
+        "name": "knee_height",
+        "day": 30,
+        "n_fraction": 0.34,
+        "p_fraction": 0.0,
+        "k_fraction": 0.25
+      },
+      {
+        "name": "tasseling",
+        "day": 55,
+        "n_fraction": 0.33,
+        "p_fraction": 0.0,
+        "k_fraction": 0.25
+      }
+    ]
+  },
+  "sugarcane": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 0.25,
+        "p_fraction": 1.0,
+        "k_fraction": 0.33
+      },
+      {
+        "name": "tillering",
+        "day": 45,
+        "n_fraction": 0.4,
+        "p_fraction": 0.0,
+        "k_fraction": 0.34
+      },
+      {
+        "name": "grand_growth",
+        "day": 120,
+        "n_fraction": 0.35,
+        "p_fraction": 0.0,
+        "k_fraction": 0.33
+      }
+    ]
+  },
+  "potato": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 0.5,
+        "p_fraction": 1.0,
+        "k_fraction": 0.5
+      },
+      {
+        "name": "tuber_initiation",
+        "day": 35,
+        "n_fraction": 0.5,
+        "p_fraction": 0.0,
+        "k_fraction": 0.5
+      }
+    ]
+  },
+  "onion": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 0.33,
+        "p_fraction": 1.0,
+        "k_fraction": 0.5
+      },
+      {
+        "name": "vegetative",
+        "day": 30,
+        "n_fraction": 0.34,
+        "p_fraction": 0.0,
+        "k_fraction": 0.25
+      },
+      {
+        "name": "bulb_formation",
+        "day": 60,
+        "n_fraction": 0.33,
+        "p_fraction": 0.0,
+        "k_fraction": 0.25
+      }
+    ]
+  },
+  "chili": {
+    "stages": [
+      {
+        "name": "basal",
+        "day": 0,
+        "n_fraction": 0.33,
+        "p_fraction": 1.0,
+        "k_fraction": 0.4
+      },
+      {
+        "name": "vegetative",
+        "day": 30,
+        "n_fraction": 0.34,
+        "p_fraction": 0.0,
+        "k_fraction": 0.3
+      },
+      {
+        "name": "fruiting",
+        "day": 60,
+        "n_fraction": 0.33,
+        "p_fraction": 0.0,
+        "k_fraction": 0.3
+      }
+    ]
+  }
+}

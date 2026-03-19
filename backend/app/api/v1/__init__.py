@@ -9,6 +9,7 @@ from app.api.v1.routes.fertilizers import router as fertilizers_router
 from app.api.v1.routes.optimizer import router as optimizer_router
 from app.api.v1.routes.recommend import router as recommend_router
 from app.api.v1.routes.report import router as report_router
+from app.api.v1.routes.sar import router as sar_router
 from app.api.v1.routes.simulator import router as simulator_router
 from app.api.v1.routes.townships import router as townships_router
 
@@ -22,3 +23,4 @@ api_v1_router.include_router(report_router)
 api_v1_router.include_router(compare_router)
 api_v1_router.include_router(fertilizers_router)
 api_v1_router.include_router(recommend_router)
+api_v1_router.include_router(sar_router)

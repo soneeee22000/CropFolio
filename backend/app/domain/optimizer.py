@@ -307,3 +307,102 @@ def optimize_portfolio(
         sharpe_ratio=round(sharpe, 4),
         risk_reduction_pct=round(risk_reduction, 2),
     )
+
+
+def optimize_portfolio_bayesian(
+    crops: list[CropProfile],
+    drought_prob: float,
+    flood_prob: float,
+    risk_tolerance: float = 0.5,
+    evidence: list | None = None,
+) -> OptimizationResult:
+    """Find optimal crop allocation using Bayesian-adjusted returns.
+
+    Same Markowitz optimization but replaces compute_expected_returns()
+    with Bayesian inference that incorporates field evidence.
+
+    Args:
+        crops: List of crop profiles to optimize across.
+        drought_prob: Probability of drought (0-1).
+        flood_prob: Probability of flood (0-1).
+        risk_tolerance: 0 = minimum risk, 1 = maximum return.
+        evidence: Optional list of EvidenceItem for Bayesian updating.
+
+    Returns:
+        OptimizationResult with optimal weights and metrics.
+    """
+    from app.domain.bayesian import EvidenceItem, compute_bayesian_returns
+
+    typed_evidence: list[EvidenceItem] = evidence or []
+
+    n = len(crops)
+    adjusted_returns_list, _ = compute_bayesian_returns(
+        crops, drought_prob, flood_prob, typed_evidence
+    )
+    expected_returns = np.array(adjusted_returns_list, dtype=np.float64)
+    cov_matrix = compute_covariance_matrix(crops)
+
+    def objective(weights: NDArray[np.float64]) -> float:
+        """Minimize negative risk-adjusted return."""
+        portfolio_return = float(np.dot(weights, expected_returns))
+        portfolio_variance = float(weights @ cov_matrix @ weights)
+        portfolio_std = np.sqrt(portfolio_variance)
+
+        risk_weight = 1 - risk_tolerance
+        return_weight = risk_tolerance
+
+        return -(return_weight * portfolio_return - risk_weight * portfolio_std)
+
+    constraints = [{"type": "eq", "fun": lambda w: np.sum(w) - 1.0}]
+    bounds = [(MIN_CROP_WEIGHT, MAX_CROP_WEIGHT)] * n
+    initial_weights = np.ones(n) / n
+
+    result = minimize(
+        objective,
+        initial_weights,
+        method="SLSQP",
+        bounds=bounds,
+        constraints=constraints,
+        options={"maxiter": 1000, "ftol": 1e-10},
+    )
+
+    if not result.success:
+        logger.warning("Bayesian optimizer did not converge: %s", result.message)
+
+    optimal_weights = result.x
+    optimal_weights = np.maximum(optimal_weights, 0)
+    optimal_weights /= optimal_weights.sum()
+
+    portfolio_return = float(np.dot(optimal_weights, expected_returns))
+    portfolio_std = float(
+        np.sqrt(optimal_weights @ cov_matrix @ optimal_weights)
+    )
+    sharpe = (
+        (portfolio_return - RISK_FREE_RATE) / portfolio_std
+        if portfolio_std > 0
+        else 0.0
+    )
+
+    monocrop_stds = [float(np.sqrt(cov_matrix[i][i])) for i in range(n)]
+    monocrop_avg_std = float(np.mean(monocrop_stds))
+    risk_reduction = (
+        (monocrop_avg_std - portfolio_std) / monocrop_avg_std * 100
+        if monocrop_avg_std > 0
+        else 0.0
+    )
+
+    raw_weights = {
+        crop.id: round(float(w), 4)
+        for crop, w in zip(crops, optimal_weights, strict=False)
+    }
+    weight_sum = sum(raw_weights.values())
+    max_crop = max(raw_weights, key=raw_weights.get)  # type: ignore[arg-type]
+    raw_weights[max_crop] += round(1.0 - weight_sum, 4)
+
+    return OptimizationResult(
+        weights=raw_weights,
+        expected_income_per_ha=round(portfolio_return, 2),
+        income_std_dev=round(portfolio_std, 2),
+        sharpe_ratio=round(sharpe, 4),
+        risk_reduction_pct=round(risk_reduction, 2),
+    )

@@ -1,0 +1,70 @@
+{
+  "_metadata": {
+    "source": "FAO Fertilizer Guide, IRRI nutrient interaction research",
+    "description": "Optimal nutrient ratios and pH-availability thresholds"
+  },
+  "optimal_ratios": {
+    "n_p_ratio": {
+      "min": 2.0,
+      "max": 4.0,
+      "description": "N:P ratio — outside range indicates P is limiting (Liebig's law)"
+    },
+    "n_k_ratio": {
+      "min": 1.5,
+      "max": 3.0,
+      "description": "N:K ratio — K deficiency if ratio too high"
+    },
+    "p_k_ratio": {
+      "min": 0.5,
+      "max": 1.5,
+      "description": "P:K balance indicator"
+    }
+  },
+  "ph_availability": {
+    "nitrogen": {
+      "optimal_min": 6.0,
+      "optimal_max": 7.5,
+      "note": "N availability drops sharply below pH 5.5"
+    },
+    "phosphorus": {
+      "optimal_min": 6.0,
+      "optimal_max": 7.0,
+      "note": "P fixation increases above pH 7.5 and below pH 5.5"
+    },
+    "potassium": {
+      "optimal_min": 6.0,
+      "optimal_max": 7.5,
+      "note": "K availability relatively stable across pH range"
+    },
+    "zinc": {
+      "optimal_min": 5.5,
+      "optimal_max": 7.0,
+      "note": "Zn availability decreases 100x for each pH unit above 7.0"
+    },
+    "boron": {
+      "optimal_min": 5.0,
+      "optimal_max": 7.0,
+      "note": "B leaching risk in acidic sandy soils"
+    }
+  },
+  "antagonisms": [
+    {
+      "nutrient_a": "phosphorus",
+      "nutrient_b": "zinc",
+      "condition": "high_p",
+      "effect": "Excess P reduces Zn uptake — common in DAP-heavy programs"
+    },
+    {
+      "nutrient_a": "calcium",
+      "nutrient_b": "potassium",
+      "condition": "high_ca",
+      "effect": "Lime application can reduce K availability"
+    },
+    {
+      "nutrient_a": "nitrogen",
+      "nutrient_b": "potassium",
+      "condition": "high_n",
+      "effect": "Excess N without K causes lodging in rice/sugarcane"
+    }
+  ]
+}
