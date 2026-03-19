@@ -23,24 +23,36 @@ async def generate_pdf_report(
     body: ReportRequest = Body(...),  # noqa: B008
 ) -> Response:
     """Generate a printable PDF recommendation report."""
-    ai_service = get_ai_service()
-    narrative = await ai_service.generate_report_narrative(
-        township_name=body.township_name,
-        season=body.season,
-        allocations=[a.model_dump() for a in body.allocations],
-        expected_income=body.expected_income,
-        risk_reduction_pct=body.risk_reduction_pct,
-        drought_probability=body.drought_probability,
-        flood_probability=body.flood_probability,
-        risk_level=body.climate_risk_level,
-    )
+    if body.language == "mm":
+        from app.services.burmese_report_service import generate_burmese_report_pdf
 
-    pdf_bytes = generate_report_pdf(body, narrative=narrative)
+        pdf_bytes = generate_burmese_report_pdf(
+            data=body,
+            soil_data=body.soil_data,
+            fertilizer_recs=body.fertilizer_recs,
+            crop_confidence=body.crop_confidence,
+        )
+        filename = "cropfolio-report-mm.pdf"
+    else:
+        ai_service = get_ai_service()
+        narrative = await ai_service.generate_report_narrative(
+            township_name=body.township_name,
+            season=body.season,
+            allocations=[a.model_dump() for a in body.allocations],
+            expected_income=body.expected_income,
+            risk_reduction_pct=body.risk_reduction_pct,
+            drought_probability=body.drought_probability,
+            flood_probability=body.flood_probability,
+            risk_level=body.climate_risk_level,
+        )
+        pdf_bytes = generate_report_pdf(body, narrative=narrative)
+        filename = "cropfolio-report.pdf"
+
     return Response(
         content=pdf_bytes,
         media_type="application/pdf",
         headers={
-            "Content-Disposition": "attachment; filename=cropfolio-report.pdf"
+            "Content-Disposition": f"attachment; filename={filename}"
         },
     )
 

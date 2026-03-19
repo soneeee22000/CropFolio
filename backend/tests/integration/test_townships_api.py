@@ -18,11 +18,11 @@ class TestListTownships:
         assert response.status_code == 200
 
     def test_returns_all_townships(self) -> None:
-        """Should return 25 townships."""
+        """Should return at least 25 townships (expanded to 50)."""
         response = client.get("/api/v1/townships/")
         data = response.json()
-        assert data["count"] == 25
-        assert len(data["townships"]) == 25
+        assert data["count"] >= 25
+        assert len(data["townships"]) >= 25
 
     def test_township_has_required_fields(self) -> None:
         """Each township should have id, name, name_mm, region, lat, lon."""

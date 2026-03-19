@@ -68,5 +68,55 @@
     "ammonium_sulfate": 0.6,
     "compound_20_10_10": 0.4,
     "gypsum": 0.92
+  },
+  "maize": {
+    "urea": 0.92,
+    "dap": 0.78,
+    "mop": 0.65,
+    "compound_15_15_15": 0.72,
+    "tsp": 0.5,
+    "ammonium_sulfate": 0.65,
+    "compound_20_10_10": 0.88,
+    "gypsum": 0.15
+  },
+  "sugarcane": {
+    "urea": 0.88,
+    "dap": 0.7,
+    "mop": 0.92,
+    "compound_15_15_15": 0.78,
+    "tsp": 0.55,
+    "ammonium_sulfate": 0.6,
+    "compound_20_10_10": 0.72,
+    "gypsum": 0.2
+  },
+  "potato": {
+    "urea": 0.75,
+    "dap": 0.82,
+    "mop": 0.9,
+    "compound_15_15_15": 0.85,
+    "tsp": 0.65,
+    "ammonium_sulfate": 0.55,
+    "compound_20_10_10": 0.6,
+    "gypsum": 0.25
+  },
+  "onion": {
+    "urea": 0.8,
+    "dap": 0.75,
+    "mop": 0.7,
+    "compound_15_15_15": 0.82,
+    "tsp": 0.6,
+    "ammonium_sulfate": 0.85,
+    "compound_20_10_10": 0.72,
+    "gypsum": 0.3
+  },
+  "chili": {
+    "urea": 0.82,
+    "dap": 0.78,
+    "mop": 0.85,
+    "compound_15_15_15": 0.8,
+    "tsp": 0.6,
+    "ammonium_sulfate": 0.7,
+    "compound_20_10_10": 0.75,
+    "gypsum": 0.2
   }
 }

@@ -18,11 +18,11 @@ class TestListCrops:
         assert response.status_code == 200
 
     def test_returns_all_crops(self) -> None:
-        """Should return all 6 Myanmar crops."""
+        """Should return all 11 Myanmar crops."""
         response = client.get("/api/v1/crops/")
         data = response.json()
-        assert data["count"] == 6
-        assert len(data["crops"]) == 6
+        assert data["count"] == 11
+        assert len(data["crops"]) == 11
 
     def test_crop_has_required_fields(self) -> None:
         """Each crop should have all profile fields."""
@@ -38,12 +38,23 @@ class TestListCrops:
             assert field in crop, f"Missing field: {field}"
 
     def test_includes_known_crops(self) -> None:
-        """Should include rice, black gram, sesame."""
+        """Should include rice, black gram, sesame, and new crops."""
         response = client.get("/api/v1/crops/")
         crop_ids = [c["id"] for c in response.json()["crops"]]
         assert "rice" in crop_ids
         assert "black_gram" in crop_ids
         assert "sesame" in crop_ids
+        assert "maize" in crop_ids
+        assert "onion" in crop_ids
+
+    def test_crop_has_data_confidence_fields(self) -> None:
+        """Each crop should have data provenance metadata."""
+        response = client.get("/api/v1/crops/")
+        crop = response.json()["crops"][0]
+        assert "data_confidence" in crop
+        assert "yield_data_source" in crop
+        assert "price_data_source" in crop
+        assert crop["data_confidence"] in ("high", "medium", "low")
 
 
 class TestGetCrop:

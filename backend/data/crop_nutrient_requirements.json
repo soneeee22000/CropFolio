@@ -63,5 +63,50 @@
     "sulfur_kg_per_ha": 30,
     "primary_nutrient": "phosphorus",
     "notes": "ICRISAT: 10-20 N + 40-60 P2O5 + 20-40 K2O + gypsum at pegging. Ca and S critical for pod filling. Gypsum application at 250 kg/ha recommended."
+  },
+  "maize": {
+    "crop_id": "maize",
+    "nitrogen_kg_per_ha": 120,
+    "phosphorus_kg_per_ha": 40,
+    "potassium_kg_per_ha": 40,
+    "sulfur_kg_per_ha": 10,
+    "primary_nutrient": "nitrogen",
+    "notes": "FAO: 100-150 N, 30-50 P2O5, 30-50 K2O. Split N: 33% basal, 33% V6, 33% tasseling. Major animal feed crop in Shan State."
+  },
+  "sugarcane": {
+    "crop_id": "sugarcane",
+    "nitrogen_kg_per_ha": 150,
+    "phosphorus_kg_per_ha": 60,
+    "potassium_kg_per_ha": 120,
+    "sulfur_kg_per_ha": 20,
+    "primary_nutrient": "nitrogen",
+    "notes": "FAO: 120-200 N, 40-80 P2O5, 100-150 K2O. High K demand for sucrose accumulation. Apply in 3 splits over ratoon cycle."
+  },
+  "potato": {
+    "crop_id": "potato",
+    "nitrogen_kg_per_ha": 100,
+    "phosphorus_kg_per_ha": 60,
+    "potassium_kg_per_ha": 100,
+    "sulfur_kg_per_ha": 15,
+    "primary_nutrient": "potassium",
+    "notes": "FAO: 80-120 N, 50-80 P2O5, 80-120 K2O. High K for tuber bulking. Grown mainly in Shan highlands. Split N at planting and hilling."
+  },
+  "onion": {
+    "crop_id": "onion",
+    "nitrogen_kg_per_ha": 80,
+    "phosphorus_kg_per_ha": 50,
+    "potassium_kg_per_ha": 60,
+    "sulfur_kg_per_ha": 25,
+    "primary_nutrient": "nitrogen",
+    "notes": "FAO: 60-100 N, 40-60 P2O5, 40-80 K2O. S critical for pungency and storage quality. Meiktila/Myingyan belt primary production zone."
+  },
+  "chili": {
+    "crop_id": "chili",
+    "nitrogen_kg_per_ha": 100,
+    "phosphorus_kg_per_ha": 50,
+    "potassium_kg_per_ha": 80,
+    "sulfur_kg_per_ha": 15,
+    "primary_nutrient": "nitrogen",
+    "notes": "FAO: 80-120 N, 40-60 P2O5, 60-100 K2O. K important for fruit quality and capsaicin content. Apply N in 3-4 splits through fruiting."
   }
 }

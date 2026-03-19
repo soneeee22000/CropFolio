@@ -14,6 +14,9 @@ export interface Crop {
   nitrogen_requirement: number;
   phosphorus_requirement: number;
   potassium_requirement: number;
+  yield_data_source: string;
+  price_data_source: string;
+  data_confidence: "high" | "medium" | "low";
 }
 
 /** API response for listing crops. */

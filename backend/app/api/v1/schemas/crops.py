@@ -22,6 +22,9 @@ class CropResponse(BaseModel):
     nitrogen_requirement: int
     phosphorus_requirement: int
     potassium_requirement: int
+    yield_data_source: str
+    price_data_source: str
+    data_confidence: str
 
 
 class CropListResponse(BaseModel):

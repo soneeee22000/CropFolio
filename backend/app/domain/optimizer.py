@@ -87,11 +87,20 @@ def compute_covariance_matrix(
 
     for i, crop_i in enumerate(crops):
         income_i = crop_i.avg_yield_kg_per_ha * crop_i.avg_price_mmk_per_kg
-        var_i = (crop_i.yield_variance + crop_i.price_variance) * income_i**2
+
+        # For crops with pending price data, use yield-only variance
+        if crop_i.avg_price_mmk_per_kg == 0.0:
+            var_i = crop_i.yield_variance * (crop_i.avg_yield_kg_per_ha ** 2)
+        else:
+            var_i = (crop_i.yield_variance + crop_i.price_variance) * income_i**2
 
         for j, crop_j in enumerate(crops):
             income_j = crop_j.avg_yield_kg_per_ha * crop_j.avg_price_mmk_per_kg
-            var_j = (crop_j.yield_variance + crop_j.price_variance) * income_j**2
+
+            if crop_j.avg_price_mmk_per_kg == 0.0:
+                var_j = crop_j.yield_variance * (crop_j.avg_yield_kg_per_ha ** 2)
+            else:
+                var_j = (crop_j.yield_variance + crop_j.price_variance) * income_j**2
 
             if i == j:
                 cov_matrix[i][j] = var_i
@@ -99,8 +108,12 @@ def compute_covariance_matrix(
                 correlation = _get_correlation(crop_i, crop_j)
                 cov_matrix[i][j] = correlation * np.sqrt(var_i * var_j)
 
-    # Ensure positive semi-definiteness (real data can still produce
-    # near-singular matrices due to proxy series sharing)
+    # Tikhonov regularization to handle proxy series sharing
+    # (e.g. black_gram and green_gram both use beans_dry) and
+    # crops with pending price data (price=0 → zero variance rows).
+    cov_matrix += 1e-6 * np.eye(n)
+
+    # Ensure positive semi-definiteness after regularization
     eigvals = np.linalg.eigvalsh(cov_matrix)
     if eigvals.min() < 0:
         cov_matrix += (-eigvals.min() + 1e-8) * np.eye(n)

@@ -14,12 +14,16 @@ from app.domain.optimizer import (
 class TestComputeExpectedReturns:
     """Tests for climate-adjusted expected returns calculation."""
 
-    def test_returns_positive_for_all_crops(
+    def test_returns_positive_for_priced_crops(
         self, all_crops: list[CropProfile]
     ) -> None:
-        """All crops should have positive expected returns."""
+        """Crops with price data should have positive expected returns."""
         returns = compute_expected_returns(all_crops, drought_prob=0.2, flood_prob=0.1)
-        assert all(r > 0 for r in returns)
+        for crop, ret in zip(all_crops, returns):
+            if crop.avg_price_mmk_per_kg > 0:
+                assert ret > 0, f"{crop.id} should have positive return"
+            else:
+                assert ret == 0.0, f"{crop.id} with pending price should return 0"
 
     def test_drought_reduces_drought_sensitive_crops_more(
         self, rice: CropProfile, sesame: CropProfile

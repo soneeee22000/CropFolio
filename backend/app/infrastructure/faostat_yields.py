@@ -30,6 +30,11 @@ CROP_TO_FAOSTAT: dict[str, str] = {
     "chickpea": "chickpea",
     "black_gram": "beans_dry",
     "green_gram": "beans_dry",
+    "maize": "maize",
+    "sugarcane": "sugar_cane",
+    "potato": "potatoes",
+    "onion": "onions_dry",
+    "chili": "chillies_peppers_dry",
 }
 
 # beans_dry has a methodology break between 2013-2014.
@@ -99,14 +104,6 @@ def compute_yield_covariance() -> dict[tuple[str, str], float]:
         series = _get_yield_series(crop_id, data)
         returns_map[crop_id] = _compute_yield_returns(series)
 
-    # For beans_dry proxies, add small noise to differentiate them
-    rng = np.random.default_rng(seed=42)
-    noise_scale = 0.005
-    for proxy_crop in ("black_gram", "green_gram"):
-        if proxy_crop in returns_map:
-            noise = rng.normal(0, noise_scale, size=returns_map[proxy_crop].shape)
-            returns_map[proxy_crop] = returns_map[proxy_crop] + noise
-
     # Build pairwise covariance dict
     # For pairs involving beans_dry crops (shorter series), use the shorter length
     covariance: dict[tuple[str, str], float] = {}
@@ -140,14 +137,6 @@ def compute_yield_correlation() -> dict[tuple[str, str], float]:
     for crop_id in crop_ids:
         series = _get_yield_series(crop_id, data)
         returns_map[crop_id] = _compute_yield_returns(series)
-
-    # Add noise to beans_dry proxies
-    rng = np.random.default_rng(seed=42)
-    noise_scale = 0.005
-    for proxy_crop in ("black_gram", "green_gram"):
-        if proxy_crop in returns_map:
-            noise = rng.normal(0, noise_scale, size=returns_map[proxy_crop].shape)
-            returns_map[proxy_crop] = returns_map[proxy_crop] + noise
 
     correlation: dict[tuple[str, str], float] = {}
     for crop_a in crop_ids:

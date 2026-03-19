@@ -1,0 +1,8 @@
+{
+  "crop_id": "sesame",
+  "data_source": "SYNTHETIC",
+  "methodology": "Derived from FAOSTAT export value/quantity × MMK exchange rates (CBM mid-rate). NOT from WFP market monitoring — no direct WFP sesame price series exists for Myanmar.",
+  "confidence": "low",
+  "action_needed": "Replace with field survey data from Awba distribution network or Mandalay Zegyo market spot prices.",
+  "generated": "2026-03-15"
+}

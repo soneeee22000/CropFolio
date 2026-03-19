@@ -26,6 +26,10 @@ class ReportRequest(BaseModel):
     climate_risk_level: str = ""
     drought_probability: float = 0.0
     flood_probability: float = 0.0
+    language: str = "en"
+    soil_data: dict | None = None
+    fertilizer_recs: list[dict] | None = None
+    crop_confidence: dict[str, str] | None = None
 
 
 class AnalysisRequest(BaseModel):

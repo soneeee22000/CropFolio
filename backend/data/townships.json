@@ -24,6 +24,30 @@
     "longitude": 96.13
   },
   {
+    "id": "mdy_myingyan",
+    "name": "Myingyan",
+    "name_mm": "မြင်းခြံ",
+    "region": "Mandalay",
+    "latitude": 21.46,
+    "longitude": 95.39
+  },
+  {
+    "id": "mdy_ngazun",
+    "name": "Ngazun",
+    "name_mm": "ငါးဇွန်",
+    "region": "Mandalay",
+    "latitude": 21.1,
+    "longitude": 95.7
+  },
+  {
+    "id": "mdy_wundwin",
+    "name": "Wundwin",
+    "name_mm": "ဝမ်းတွင်း",
+    "region": "Mandalay",
+    "latitude": 20.2,
+    "longitude": 96.08
+  },
+  {
     "id": "sgn_monywa",
     "name": "Monywa",
     "name_mm": "မုံရွာ",
@@ -46,6 +70,30 @@
     "region": "Sagaing",
     "latitude": 22.73,
     "longitude": 95.99
+  },
+  {
+    "id": "sgn_yinmabin",
+    "name": "Yinmabin",
+    "name_mm": "ယင်းမာပင်",
+    "region": "Sagaing",
+    "latitude": 21.84,
+    "longitude": 95.02
+  },
+  {
+    "id": "sgn_kalay",
+    "name": "Kalay",
+    "name_mm": "ကလေး",
+    "region": "Sagaing",
+    "latitude": 23.19,
+    "longitude": 94.07
+  },
+  {
+    "id": "sgn_tamu",
+    "name": "Tamu",
+    "name_mm": "တမူး",
+    "region": "Sagaing",
+    "latitude": 24.22,
+    "longitude": 94.3
   },
   {
     "id": "mgw_magway",
@@ -72,6 +120,14 @@
     "longitude": 94.87
   },
   {
+    "id": "mgw_minbu",
+    "name": "Minbu",
+    "name_mm": "မင်းဘူး",
+    "region": "Magway",
+    "latitude": 20.18,
+    "longitude": 94.88
+  },
+  {
     "id": "bgo_bago",
     "name": "Bago",
     "name_mm": "ပဲခူး",
@@ -94,6 +150,22 @@
     "region": "Bago",
     "latitude": 18.94,
     "longitude": 96.43
+  },
+  {
+    "id": "bgo_thayarwady",
+    "name": "Thayarwady",
+    "name_mm": "သာယာဝတီ",
+    "region": "Bago",
+    "latitude": 17.65,
+    "longitude": 95.78
+  },
+  {
+    "id": "bgo_letpadan",
+    "name": "Letpadan",
+    "name_mm": "လက်ပံတန်း",
+    "region": "Bago",
+    "latitude": 17.78,
+    "longitude": 95.75
   },
   {
     "id": "ayw_pathein",
@@ -126,6 +198,22 @@
     "region": "Ayeyarwady",
     "latitude": 16.15,
     "longitude": 94.75
+  },
+  {
+    "id": "ayw_maubin",
+    "name": "Maubin",
+    "name_mm": "မအူပင်",
+    "region": "Ayeyarwady",
+    "latitude": 16.73,
+    "longitude": 95.65
+  },
+  {
+    "id": "ayw_bogale",
+    "name": "Bogale",
+    "name_mm": "ဘိုကလေး",
+    "region": "Ayeyarwady",
+    "latitude": 16.29,
+    "longitude": 95.4
   },
   {
     "id": "ygn_hmawbi",
@@ -176,27 +264,139 @@
     "longitude": 96.56
   },
   {
-    "id": "mdy_myingyan",
-    "name": "Myingyan",
-    "name_mm": "မြင်းခြံ",
-    "region": "Mandalay",
-    "latitude": 21.46,
-    "longitude": 95.39
+    "id": "shn_lashio",
+    "name": "Lashio",
+    "name_mm": "လားရှိုး",
+    "region": "Shan",
+    "latitude": 22.93,
+    "longitude": 97.75
   },
   {
-    "id": "sgn_yinmabin",
-    "name": "Yinmabin",
-    "name_mm": "ယင်းမာပင်",
-    "region": "Sagaing",
-    "latitude": 21.84,
-    "longitude": 95.02
+    "id": "shn_hsipaw",
+    "name": "Hsipaw",
+    "name_mm": "သီပေါ",
+    "region": "Shan",
+    "latitude": 22.62,
+    "longitude": 97.3
   },
   {
-    "id": "mgw_minbu",
-    "name": "Minbu",
-    "name_mm": "မင်းဘူး",
-    "region": "Magway",
-    "latitude": 20.18,
-    "longitude": 94.88
+    "id": "mon_mawlamyine",
+    "name": "Mawlamyine",
+    "name_mm": "မော်လမြိုင်",
+    "region": "Mon",
+    "latitude": 16.49,
+    "longitude": 97.63
+  },
+  {
+    "id": "mon_thaton",
+    "name": "Thaton",
+    "name_mm": "သထုံ",
+    "region": "Mon",
+    "latitude": 16.92,
+    "longitude": 97.37
+  },
+  {
+    "id": "mon_ye",
+    "name": "Ye",
+    "name_mm": "ရေး",
+    "region": "Mon",
+    "latitude": 15.25,
+    "longitude": 97.87
+  },
+  {
+    "id": "kyn_hpaan",
+    "name": "Hpa-An",
+    "name_mm": "ဘားအံ",
+    "region": "Kayin",
+    "latitude": 16.89,
+    "longitude": 97.63
+  },
+  {
+    "id": "kyn_myawaddy",
+    "name": "Myawaddy",
+    "name_mm": "မြဝတီ",
+    "region": "Kayin",
+    "latitude": 16.69,
+    "longitude": 98.51
+  },
+  {
+    "id": "tni_dawei",
+    "name": "Dawei",
+    "name_mm": "ထားဝယ်",
+    "region": "Tanintharyi",
+    "latitude": 14.08,
+    "longitude": 98.19
+  },
+  {
+    "id": "tni_myeik",
+    "name": "Myeik",
+    "name_mm": "မြိတ်",
+    "region": "Tanintharyi",
+    "latitude": 12.44,
+    "longitude": 98.6
+  },
+  {
+    "id": "chn_hakha",
+    "name": "Hakha",
+    "name_mm": "ဟားခါး",
+    "region": "Chin",
+    "latitude": 21.97,
+    "longitude": 93.61
+  },
+  {
+    "id": "chn_falam",
+    "name": "Falam",
+    "name_mm": "ဖလမ်း",
+    "region": "Chin",
+    "latitude": 21.49,
+    "longitude": 93.68
+  },
+  {
+    "id": "kch_myitkyina",
+    "name": "Myitkyina",
+    "name_mm": "မြစ်ကြီးနား",
+    "region": "Kachin",
+    "latitude": 25.38,
+    "longitude": 97.4
+  },
+  {
+    "id": "kch_bhamo",
+    "name": "Bhamo",
+    "name_mm": "ဗန်းမော်",
+    "region": "Kachin",
+    "latitude": 24.25,
+    "longitude": 97.23
+  },
+  {
+    "id": "rkn_sittwe",
+    "name": "Sittwe",
+    "name_mm": "စစ်တွေ",
+    "region": "Rakhine",
+    "latitude": 20.15,
+    "longitude": 92.9
+  },
+  {
+    "id": "rkn_kyaukpyu",
+    "name": "Kyaukpyu",
+    "name_mm": "ကျောက်ဖြူ",
+    "region": "Rakhine",
+    "latitude": 19.43,
+    "longitude": 93.55
+  },
+  {
+    "id": "ygn_twante",
+    "name": "Twante",
+    "name_mm": "တွံတေး",
+    "region": "Yangon",
+    "latitude": 16.71,
+    "longitude": 95.93
+  },
+  {
+    "id": "npt_tatkon",
+    "name": "Tatkon",
+    "name_mm": "တပ်ကုန်း",
+    "region": "Nay Pyi Taw",
+    "latitude": 19.77,
+    "longitude": 96.22
   }
 ]

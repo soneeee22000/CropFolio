@@ -243,6 +243,22 @@ const strings: Record<string, Record<Lang, string>> = {
     mm: "အကြံပြုထားသော ဓာတ်မြေသြဇာ",
   },
 
+  // Region names for expanded township coverage
+  "region.mandalay": { en: "Mandalay", mm: "မန္တလေး" },
+  "region.sagaing": { en: "Sagaing", mm: "စစ်ကိုင်း" },
+  "region.magway": { en: "Magway", mm: "မကွေး" },
+  "region.bago": { en: "Bago", mm: "ပဲခူး" },
+  "region.ayeyarwady": { en: "Ayeyarwady", mm: "ဧရာဝတီ" },
+  "region.yangon": { en: "Yangon", mm: "ရန်ကုန်" },
+  "region.nayPyiTaw": { en: "Nay Pyi Taw", mm: "နေပြည်တော်" },
+  "region.shan": { en: "Shan", mm: "ရှမ်း" },
+  "region.mon": { en: "Mon", mm: "မွန်" },
+  "region.kayin": { en: "Kayin", mm: "ကရင်" },
+  "region.tanintharyi": { en: "Tanintharyi", mm: "တနင်္သာရီ" },
+  "region.chin": { en: "Chin", mm: "ချင်း" },
+  "region.kachin": { en: "Kachin", mm: "ကချင်" },
+  "region.rakhine": { en: "Rakhine", mm: "ရခိုင်" },
+
   // Reports
   "reports.title": { en: "Reports", mm: "အစီရင်ခံစာများ" },
   "reports.subtitle": {
