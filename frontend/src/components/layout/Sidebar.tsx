@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "@/hooks/useTheme";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -65,6 +65,24 @@ export function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1">
+        <Link
+          to="/"
+          data-testid="nav-home"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-surface-subtle transition-colors duration-200 mb-2 border-b border-border pb-3"
+        >
+          <svg
+            className="w-5 h-5 flex-shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          {t("nav.backToHome")}
+        </Link>
         {NAV_ITEMS.map((item) => (
           <NavLink
             key={item.to}

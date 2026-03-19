@@ -1,0 +1,16 @@
+Phase 1 Research Findings:
+
+1. The "Monte Carlo" Moat Deconstruction:
+- Verdict: Monte Carlo is a feature, NOT a moat. It is a stochastic simulation tool that is widely available in open-source libraries (e.g., scipy, numpy). Any competitor can implement it in days.
+- Superior Alternative: Bayesian Belief Networks (BBNs). Unlike Monte Carlo, which requires pre-defined probability distributions, BBNs can "learn" and update probabilities as new ground-truth data arrives. This creates a "Learning Moat" where the model becomes more accurate the more it is used.
+- Irreplaceability Factor: A "Hybrid Bayesian-Portfolio Optimizer" that incorporates expert knowledge (like the user's father's insights) as prior probabilities.
+
+2. AgTech Failure Patterns (Stress Test):
+- Cost-Adoption Mismatch: Many AgTechs fail because the capital burden on farmers exceeds their capacity. Pivot to B2B (Distributors) is the right move because they have the capital and the risk exposure.
+- Fragmentation: The "Market Map" is too noisy. Irreplaceability comes from "Scale and Integration," not just a single feature.
+- Data Quality: Relying on public satellite data (NASA/FAOSTAT) is a 5/10 moat. Everyone has it. 10/10 moats are built on "Proprietary Ground Truth" (e.g., FBN's network-sourced input prices and yield data).
+
+3. Strategic Pivot for 10/10 Moat:
+- Move from "Decision Support" to "Risk Refinery."
+- Incorporate "Revenue Covariance" (Yield x Price) which is already in CropFolio, but needs better data streams.
+- Focus on "Ground-Truth Loops": Every recommendation must have a feedback mechanism to capture the actual outcome, which then trains the Bayesian model.

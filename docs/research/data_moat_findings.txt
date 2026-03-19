@@ -1,0 +1,17 @@
+Phase 2 Data Moat Findings:
+
+1. The "Ground-Truth" Gap:
+- Current State: Relying on WFP/FAOSTAT (public, delayed) and NASA (low resolution for smallholder plots).
+- Irreplaceable Data Stream: "Hyper-Local Real-Time Prices (RTP)." The World Bank and IFPRI use weekly updated live datasets for Myanmar. Accessing or replicating this via a distributor network (who see prices daily) is a 10/10 moat.
+
+2. Sentinel-1 SAR (Synthetic Aperture Radar) Integration:
+- Why: Unlike optical satellites (which fail during Myanmar's cloudy monsoon), SAR can see through clouds to monitor rice planting and soil moisture.
+- Moat: Building a pipeline that translates SAR backscatter into "Planting Progress" and "Flood Risk" at the township level. This is technically difficult and highly valuable for B2B risk assessment.
+
+3. The "Credit-Yield" Correlation:
+- Discovery: Microfinance in Myanmar (e.g., Vision Fund, Proximity) lacks data-driven risk scoring. 
+- Moat: Connecting "Loan Disbursement Dates" with "Satellite-Verified Planting Dates." If a farmer gets a loan but hasn't planted (verified by SAR), the risk spikes. This "Financial-Agronomic Fusion" is an unreplaceable B2B service.
+
+4. Logistics & Conflict Risk:
+- Reality: Transport costs and "Logistics Chokepoints" in Myanmar are massive risk factors. 
+- Data Moat: Incorporating "Market Accessibility" data. If a township is cut off, the price of fertilizer spikes and the value of the crop drops (cannot reach market). This is a "Resilience Score" that no global AgTech has.

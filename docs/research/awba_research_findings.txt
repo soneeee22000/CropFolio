@@ -1,0 +1,12 @@
+Myanma Awba Group Research Findings:
+- Core Mission: "Helping 3.5 million farming families in agriculturally significant rural areas, focusing on crop protection, crop nutrition and high-quality seeds."
+- Digital Initiative: "Htwet Toe" mobile app.
+- Htwet Toe Features: 
+  - Connecting farmers and agriculture professionals in a single platform.
+  - Questions & Answers
+  - Crop Price
+  - Call Centre
+  - DM Code (Loyalty)
+- Opportunity for CropFolio: Htwet Toe seems to be farmer-facing. CropFolio's pivot to B2B (distributors/agents) is a perfect complement. It can provide the "Risk Intelligence" that agents can then communicate to farmers via Htwet Toe or in-person.
+- Awba's focus is on crop nutrition (fertilizers) and protection, which aligns with CropFolio's new fertilizer recommendation engine.
+- Potential Pitch Angle: "Enhance Htwet Toe's expert advisory with data-driven risk modeling and fertilizer optimization."

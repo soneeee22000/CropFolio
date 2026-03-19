@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
     <img src="https://img.shields.io/badge/D3.js-7-F9A03C?logo=d3dotjs&logoColor=white" alt="D3.js" />
-    <img src="https://img.shields.io/badge/tests-83%20passing-brightgreen" alt="Tests" />
+    <img src="https://img.shields.io/badge/tests-131%20passing-brightgreen" alt="Tests" />
   </p>
 </p>
 
@@ -170,7 +170,7 @@ Export recommendations and portfolio analysis as PDF reports with bilingual (Eng
 
 The original hackathon wizard remains at `/app`:
 
-1. **Select Township** — 25 Myanmar agricultural townships across 8 regions
+1. **Select Township** — 50 Myanmar agricultural townships across 14 regions
 2. **Climate Risk Assessment** — NASA POWER satellite data + Open-Meteo weather forecasts
 3. **Portfolio Optimization** — Markowitz mean-variance optimization with risk tolerance slider
 4. **Monte Carlo Simulation** — 1,000 simulated climate seasons with animated D3.js histogram
@@ -258,9 +258,9 @@ graph TB
 
 | Method | Endpoint                             | Description                                     |
 | ------ | ------------------------------------ | ----------------------------------------------- |
-| `GET`  | `/api/v1/townships`                  | List 25 Myanmar townships with coordinates      |
+| `GET`  | `/api/v1/townships`                  | List 50 Myanmar townships with coordinates      |
 | `GET`  | `/api/v1/townships/{id}`             | Single township detail                          |
-| `GET`  | `/api/v1/crops`                      | List 6 crop profiles with tolerance data        |
+| `GET`  | `/api/v1/crops`                      | List 11 crop profiles with tolerance data       |
 | `GET`  | `/api/v1/crops/{id}`                 | Single crop detail                              |
 | `GET`  | `/api/v1/climate-risk/{township_id}` | Climate risk assessment (live + fallback)       |
 | `POST` | `/api/v1/optimize`                   | Markowitz portfolio optimization                |
@@ -289,37 +289,42 @@ Full interactive API docs available at `/docs` (Swagger UI).
 
 ---
 
-## The 6 Myanmar Crops
+## The 11 Myanmar Crops
 
-| Crop         | Burmese   | Category | Drought              | Flood          | Season  |
-| ------------ | --------- | -------- | -------------------- | -------------- | ------- |
-| Rice (Paddy) | စပါး      | Cereal   | Low (0.3)            | **High (0.7)** | Monsoon |
-| Black Gram   | မတ်ပဲ     | Pulse    | **High (0.7)**       | Low (0.2)      | Dry     |
-| Green Gram   | ပဲတီစိမ်း | Pulse    | **High (0.65)**      | Low (0.25)     | Dry     |
-| Chickpea     | ကုလားပဲ   | Pulse    | **Very High (0.85)** | Very Low (0.1) | Dry     |
-| Sesame       | နှမ်း     | Oilseed  | **Very High (0.8)**  | Very Low (0.1) | Dry     |
-| Groundnut    | မြေပဲ     | Oilseed  | Moderate (0.55)      | Low (0.2)      | Dry     |
+| Crop         | Burmese    | Category  | Drought              | Flood           | Season  |
+| ------------ | ---------- | --------- | -------------------- | --------------- | ------- |
+| Rice (Paddy) | စပါး       | Cereal    | Low (0.3)            | **High (0.7)**  | Monsoon |
+| Black Gram   | မတ်ပဲ      | Pulse     | **High (0.7)**       | Low (0.2)       | Dry     |
+| Green Gram   | ပဲတီစိမ်း  | Pulse     | **High (0.65)**      | Low (0.25)      | Dry     |
+| Chickpea     | ကုလားပဲ    | Pulse     | **Very High (0.85)** | Very Low (0.1)  | Dry     |
+| Sesame       | နှမ်း      | Oilseed   | **Very High (0.8)**  | Very Low (0.1)  | Dry     |
+| Groundnut    | မြေပဲ      | Oilseed   | Moderate (0.55)      | Low (0.2)       | Dry     |
+| Maize (Corn) | ပြောင်း    | Cereal    | Moderate (0.45)      | Low (0.3)       | Monsoon |
+| Sugarcane    | ကြံ        | Cash Crop | Low (0.35)           | Moderate (0.5)  | Monsoon |
+| Potato       | အာလူး      | Tuber     | Low (0.3)            | Very Low (0.15) | Dry     |
+| Onion        | ကြက်သွန်နီ | Vegetable | Low (0.35)           | Very Low (0.1)  | Dry     |
+| Chili Pepper | ငရုတ်သီး   | Vegetable | Moderate (0.4)       | Very Low (0.15) | Dry     |
 
-Sources: FAOSTAT 2010-2021 (yield means + variance), FAO GAEZ, IRRI, Myanmar Department of Agriculture
+Sources: FAOSTAT 2010-2021 (yield means + variance), FAO GAEZ, IRRI, Myanmar DoA. Price data: WFP VAM (6 crops), field collection pending (5 crops).
 
 ---
 
 ## Tech Stack
 
-| Layer                   | Technology                            | Why                                                  |
-| ----------------------- | ------------------------------------- | ---------------------------------------------------- |
-| **Backend**             | Python 3.10, FastAPI                  | Best ecosystem for scientific computing + API        |
-| **Optimization**        | scipy.optimize (SLSQP)                | Markowitz mean-variance optimization                 |
-| **Simulation**          | numpy                                 | Monte Carlo with multivariate normal sampling        |
-| **Fertilizer Matching** | Custom scoring engine                 | Crop need + soil condition + cost + compatibility    |
-| **Soil Profiling**      | SoilGrids API (250m resolution)       | pH, organic carbon, nitrogen, clay for each township |
-| **Frontend**            | React 18, TypeScript (strict)         | Component-driven, type-safe UI                       |
-| **AI/ML**               | Google Gemini 2.0 Flash               | AI-powered analysis and recommendations              |
-| **Visualization**       | D3.js + Recharts                      | Custom animated histogram + standard charts          |
-| **Styling**             | Tailwind CSS v4                       | Utility-first, rapid prototyping                     |
-| **Data**                | NASA POWER, Open-Meteo, FAOSTAT, WFP  | All open, all verified for Myanmar coverage          |
-| **Deployment**          | Railway (backend) + Vercel (frontend) | Zero-config, instant deploys                         |
-| **Testing**             | pytest (83 tests), vitest             | 83+ total tests, 80%+ coverage on critical paths     |
+| Layer                   | Technology                              | Why                                                  |
+| ----------------------- | --------------------------------------- | ---------------------------------------------------- |
+| **Backend**             | Python 3.10, FastAPI                    | Best ecosystem for scientific computing + API        |
+| **Optimization**        | scipy.optimize (SLSQP)                  | Markowitz mean-variance optimization                 |
+| **Simulation**          | numpy                                   | Monte Carlo with multivariate normal sampling        |
+| **Fertilizer Matching** | Custom scoring engine                   | Crop need + soil condition + cost + compatibility    |
+| **Soil Profiling**      | SoilGrids API (250m resolution)         | pH, organic carbon, nitrogen, clay for each township |
+| **Frontend**            | React 18, TypeScript (strict)           | Component-driven, type-safe UI                       |
+| **AI/ML**               | Google Gemini 2.0 Flash                 | AI-powered analysis and recommendations              |
+| **Visualization**       | D3.js + Recharts                        | Custom animated histogram + standard charts          |
+| **Styling**             | Tailwind CSS v4                         | Utility-first, rapid prototyping                     |
+| **Data**                | NASA POWER, Open-Meteo, FAOSTAT, WFP    | All open, all verified for Myanmar coverage          |
+| **Deployment**          | Railway (backend) + Vercel (frontend)   | Zero-config, instant deploys                         |
+| **Testing**             | pytest (106 tests), Playwright (25 E2E) | 131 total tests across backend + E2E                 |
 
 ---
 
@@ -399,11 +404,14 @@ npm run dev
 ### Run Tests
 
 ```bash
-# Backend (83 tests)
+# Backend (106 tests)
 cd backend && pytest -v
 
-# Frontend
+# Frontend unit tests
 cd frontend && npm run test
+
+# Frontend E2E tests (requires backend running)
+cd frontend && npm run test:e2e
 ```
 
 ---
@@ -431,7 +439,7 @@ cropfolio/
 │   │   │   ├── climate.py                 # Climate risk engine
 │   │   │   ├── optimizer.py               # Markowitz portfolio optimizer
 │   │   │   ├── simulator.py               # Monte Carlo simulation
-│   │   │   ├── crops.py                   # 6 Myanmar crop profiles
+│   │   │   ├── crops.py                   # 11 Myanmar crop profiles
 │   │   │   ├── fertilizers.py             # Fertilizer catalog + soil profiles [B2B]
 │   │   │   └── fertilizer_matcher.py      # Crop-fertilizer scoring engine [B2B]
 │   │   ├── infrastructure/                # External API clients
@@ -442,11 +450,11 @@ cropfolio/
 │   │       └── recommendation_service.py  # Crop + fertilizer recommendation [B2B]
 │   ├── data/                              # Static data files
 │   │   ├── crops.json                     # Myanmar crop profiles
-│   │   ├── townships.json                 # 25 townships with coordinates
+│   │   ├── townships.json                 # 50 townships with coordinates
 │   │   ├── fertilizers.json               # Fertilizer product catalog [B2B]
-│   │   ├── soil_profiles.json             # Township soil profiles [B2B]
+│   │   ├── soil_profiles.json             # 50 township soil profiles (SoilGrids + regional fallbacks) [B2B]
 │   │   └── wfp_prices/                    # Historical price CSVs
-│   ├── tests/                             # 83 tests (unit + integration)
+│   ├── tests/                             # 106 tests (unit + integration)
 │   └── Dockerfile
 ├── frontend/
 │   ├── src/
@@ -471,7 +479,8 @@ cropfolio/
 │   └── vercel.json
 ├── docs/
 │   ├── PRD.md                             # Product Requirements Document
-│   └── STRATEGIC_ANALYSIS.md              # Honest B2B pivot analysis
+│   ├── STRATEGIC_ANALYSIS.md              # Honest B2B pivot analysis
+│   └── htwet_toe_integration.md       # Awba Htwet Toe API integration spec
 ├── PITCH.md                               # Hackathon pitch outline
 └── README.md
 ```
@@ -530,29 +539,35 @@ Each factor is normalized to [0, 1]. Soil fit is derived from SoilGrids data (pH
 ## Testing
 
 ```
-83 tests | 0 failures
+131 tests | 0 failures
 
-Unit Tests (32):
-  - Climate risk engine: 8 tests
-  - Portfolio optimizer: 12 tests (weights sum to 1, PSD correction, convergence check, risk reduction > 0)
-  - Monte Carlo simulator: 8 tests (reproducible, bounded, convergent)
-  - Diversification proof: monocrop vs diversified catastrophic loss
+Backend — pytest (106 tests):
+  Unit Tests (40):
+    - Climate risk engine: 8 tests
+    - Portfolio optimizer: 12 tests (weights sum to 1, PSD correction, convergence, risk reduction)
+    - Monte Carlo simulator: 8 tests (reproducible, bounded, convergent)
+    - Fertilizer matcher: 7 tests (N-heavy ranking, sulfur ranking, all 11 crops, score range)
+    - Diversification proof: monocrop vs diversified catastrophic loss
+    - Report service, AI service: 5 tests
 
-Integration Tests (31):
-  - All API endpoints tested (including B2B recommendation + fertilizer endpoints)
-  - Error handling: 400, 404, 422 responses
-  - External API fallback behavior
-  - Schema validation
+  Integration Tests (46):
+    - Recommendation API: 9 tests (happy path, multi-township, zero-price crops, validation)
+    - Demo ROI API: 6 tests (ROI scaling, zero-price, error handling)
+    - Climate, optimizer, simulator, report, compare, crop, township APIs: 31 tests
+    - Error handling: 400, 404, 422 responses
 
-Data Pipeline Tests (9):
-  - NASA POWER mm/day to mm/month conversion
-  - Open-Meteo seasonal scaling
-  - WFP price data loading and validation
+  Data Pipeline Tests (9):
+    - NASA POWER, Open-Meteo, WFP price data
 
-AI & Comparison Tests (11):
-  - Gemini AI analysis endpoint
-  - Multi-township comparison endpoint
-  - AI-enhanced PDF report generation
+  AI & Comparison Tests (11):
+    - Gemini AI analysis, multi-township comparison, AI-enhanced PDF
+
+Frontend — Playwright E2E (25 tests):
+  - Landing page: 3 tests (branding, CTA navigation, attribution)
+  - Dashboard: 5 tests (KPI cards, quick actions, sidebar nav, region coverage)
+  - Recommendation flow: 6 tests (selection, validation, results, multi-township)
+  - Demo ROI calculator: 6 tests (form, ROI calculation, soil, fertilizer, zero-price)
+  - Reports: 5 tests (language toggle, PDF download)
 ```
 
 ---
@@ -606,15 +621,15 @@ This is a proof of concept with a B2B pivot in progress. Here is what is real an
 
 ### B2B-Specific Limitations
 
-| What                        | Status                                                                                       |
-| --------------------------- | -------------------------------------------------------------------------------------------- |
-| FAOSTAT yield data          | 12 data points per crop, national-level only, 5 years stale (ends 2021, pre-coup)            |
-| Crop coverage               | **Only 6 crops** out of 50+ grown in Myanmar — missing corn, sugarcane, vegetables, flowers  |
-| Township coverage           | 25 out of 330+ Myanmar townships (7.5% coverage)                                             |
-| Fertilizer prices in data   | Estimated values, 30-50% below current market rates due to post-coup inflation               |
-| SoilGrids data              | Modeled predictions at 250m resolution, not field measurements; sparse Myanmar training data |
-| Fertilizer matching weights | `0.4/0.3/0.2/0.1` scoring weights are heuristic — not validated against field trial outcomes |
-| Customer validation         | **Zero** — no distributor has been interviewed or used the platform                          |
+| What                        | Status                                                                                                      |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| FAOSTAT yield data          | 12 data points per crop, national-level only, 5 years stale (ends 2021, pre-coup)                           |
+| Crop coverage               | **11 crops** — covers major cereals, pulses, oilseeds, tubers, vegetables. 5 crops pending field price data |
+| Township coverage           | 50 out of 330+ Myanmar townships (15% coverage)                                                             |
+| Fertilizer prices in data   | Updated to March 2026 market rates (~1.4x adjustment from initial estimates)                                |
+| SoilGrids data              | Modeled predictions at 250m resolution, not field measurements; sparse Myanmar training data                |
+| Fertilizer matching weights | `0.4/0.3/0.2/0.1` scoring weights are heuristic — not validated against field trial outcomes                |
+| Customer validation         | **Zero** — no distributor has been interviewed or used the platform                                         |
 
 ### What We Don't Model (Post-2021 Myanmar)
 
@@ -634,8 +649,8 @@ The FAOSTAT yield data (2010-2021) is essentially pre-coup. The yield correlatio
 - Native Burmese speaker review of all translations
 - Customer interviews with distributors and fertilizer companies
 - Field validation of fertilizer matching scores against demo farm outcomes
-- Current-market price data for fertilizer products
-- Expansion beyond 6 crops and 25 townships
+- Field-collected price data for 5 pending crops (maize, sugarcane, potato, onion, chili)
+- Expansion beyond 50 townships and integration with distributor systems
 - Mobile/offline support for field agents (current web-only form factor is insufficient for Myanmar field conditions)
 
 The core insight — that sesame is the one genuine hedge against rice yield risk (r = -0.49) — is backed by real FAOSTAT data. The cross-domain integration (climate + soil + crop portfolio + fertilizer matching) is genuinely novel for the Myanmar agricultural context. The architecture supports iterating toward production quality. The bones are good.

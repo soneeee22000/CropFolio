@@ -85,6 +85,7 @@ const strings: Record<string, Record<Lang, string>> = {
   "nav.recommend": { en: "Recommend", mm: "အကြံပြုချက်" },
   "nav.demoRoi": { en: "Demo ROI", mm: "သရုပ်ပြ ROI" },
   "nav.reports": { en: "Reports", mm: "အစီရင်ခံစာ" },
+  "nav.backToHome": { en: "Back to Home", mm: "ပင်မစာမျက်နှာ" },
   "nav.language": { en: "Language", mm: "ဘာသာစကား" },
   "nav.lightMode": { en: "Light Mode", mm: "အလင်းမုဒ်" },
   "nav.darkMode": { en: "Dark Mode", mm: "အမှောင်မုဒ်" },
