@@ -33,6 +33,11 @@ SEED_COST_MMK_PER_HA: dict[str, int] = {
     "chickpea": 55000,
     "sesame": 25000,
     "groundnut": 180000,
+    "maize": 80000,
+    "sugarcane": 200000,
+    "potato": 350000,
+    "onion": 100000,
+    "chili": 60000,
 }
 DEFAULT_SEED_COST = 50000
 

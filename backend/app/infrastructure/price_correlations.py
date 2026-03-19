@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "wfp_prices"
 
-CROP_IDS = ("rice", "black_gram", "green_gram", "chickpea", "sesame", "groundnut")
+CROP_IDS = tuple(p.stem for p in sorted(DATA_DIR.glob("*.csv")))
 
 
 def _load_prices(crop_id: str) -> NDArray[np.float64]:
@@ -54,20 +54,42 @@ def _compute_monthly_returns(prices: NDArray[np.float64]) -> NDArray[np.float64]
     return np.diff(prices) / prices[:-1]
 
 
+MIN_CORRELATION_POINTS = 3
+MIN_STATISTICS_POINTS = 2
+
+
 def compute_price_correlations() -> dict[tuple[str, str], float]:
     """Compute pairwise Pearson correlations of monthly price returns.
+
+    Crops with fewer than MIN_CORRELATION_POINTS price observations are
+    skipped with a warning, since returns cannot be meaningfully computed.
 
     Returns:
         Dict mapping (crop_a, crop_b) -> correlation coefficient.
     """
     returns_map: dict[str, NDArray[np.float64]] = {}
     for crop_id in CROP_IDS:
-        prices = _load_prices(crop_id)
+        try:
+            prices = _load_prices(crop_id)
+        except FileNotFoundError:
+            logger.warning("CSV not found for crop '%s', skipping.", crop_id)
+            continue
+
+        if len(prices) < MIN_CORRELATION_POINTS:
+            logger.warning(
+                "Crop '%s' has only %d price point(s) (need >= %d), skipping.",
+                crop_id,
+                len(prices),
+                MIN_CORRELATION_POINTS,
+            )
+            continue
+
         returns_map[crop_id] = _compute_monthly_returns(prices)
 
+    valid_crops = tuple(returns_map.keys())
     correlations: dict[tuple[str, str], float] = {}
-    for crop_a in CROP_IDS:
-        for crop_b in CROP_IDS:
+    for crop_a in valid_crops:
+        for crop_b in valid_crops:
             ret_a = returns_map[crop_a]
             ret_b = returns_map[crop_b]
 
@@ -87,12 +109,29 @@ def compute_price_correlations() -> dict[tuple[str, str], float]:
 def compute_price_statistics() -> dict[str, dict[str, float]]:
     """Compute summary statistics for each crop's price series.
 
+    Crops with fewer than MIN_STATISTICS_POINTS price observations are
+    skipped with a warning, since std requires at least 2 values.
+
     Returns:
         Dict mapping crop_id -> {mean, std, cv, min, max}.
     """
     stats: dict[str, dict[str, float]] = {}
     for crop_id in CROP_IDS:
-        prices = _load_prices(crop_id)
+        try:
+            prices = _load_prices(crop_id)
+        except FileNotFoundError:
+            logger.warning("CSV not found for crop '%s', skipping.", crop_id)
+            continue
+
+        if len(prices) < MIN_STATISTICS_POINTS:
+            logger.warning(
+                "Crop '%s' has only %d price point(s) (need >= %d), skipping.",
+                crop_id,
+                len(prices),
+                MIN_STATISTICS_POINTS,
+            )
+            continue
+
         mean_val = float(np.mean(prices))
         std_val = float(np.std(prices, ddof=1))
         cv_val = std_val / mean_val if mean_val > 0 else 0.0

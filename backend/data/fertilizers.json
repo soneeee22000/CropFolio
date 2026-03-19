@@ -8,7 +8,7 @@
     "phosphorus_pct": 0.0,
     "potassium_pct": 0.0,
     "sulfur_pct": 0.0,
-    "price_mmk_per_50kg": 45000,
+    "price_mmk_per_50kg": 63000,
     "application_rate_kg_per_ha": 150,
     "availability": "high",
     "notes": "Most common N fertilizer in Myanmar. Granular form. Apply in 2-3 splits."
@@ -22,7 +22,7 @@
     "phosphorus_pct": 46.0,
     "potassium_pct": 0.0,
     "sulfur_pct": 0.0,
-    "price_mmk_per_50kg": 72000,
+    "price_mmk_per_50kg": 101000,
     "application_rate_kg_per_ha": 100,
     "availability": "high",
     "notes": "Primary P source. Apply as basal dose before transplanting/sowing."
@@ -36,7 +36,7 @@
     "phosphorus_pct": 0.0,
     "potassium_pct": 60.0,
     "sulfur_pct": 0.0,
-    "price_mmk_per_50kg": 55000,
+    "price_mmk_per_50kg": 77000,
     "application_rate_kg_per_ha": 75,
     "availability": "medium",
     "notes": "Primary K source. Avoid on saline soils. Apply at planting or early growth."
@@ -50,7 +50,7 @@
     "phosphorus_pct": 15.0,
     "potassium_pct": 15.0,
     "sulfur_pct": 0.0,
-    "price_mmk_per_50kg": 65000,
+    "price_mmk_per_50kg": 91000,
     "application_rate_kg_per_ha": 200,
     "availability": "high",
     "notes": "Balanced NPK. Good general-purpose fertilizer for mixed cropping."
@@ -64,7 +64,7 @@
     "phosphorus_pct": 46.0,
     "potassium_pct": 0.0,
     "sulfur_pct": 0.0,
-    "price_mmk_per_50kg": 58000,
+    "price_mmk_per_50kg": 81000,
     "application_rate_kg_per_ha": 80,
     "availability": "medium",
     "notes": "Concentrated P source. Good for P-deficient soils. Apply as basal."
@@ -78,7 +78,7 @@
     "phosphorus_pct": 0.0,
     "potassium_pct": 0.0,
     "sulfur_pct": 24.0,
-    "price_mmk_per_50kg": 38000,
+    "price_mmk_per_50kg": 53000,
     "application_rate_kg_per_ha": 175,
     "availability": "medium",
     "notes": "N + S source. Lowers soil pH — good for alkaline soils. Preferred for oilseeds."
@@ -92,7 +92,7 @@
     "phosphorus_pct": 10.0,
     "potassium_pct": 10.0,
     "sulfur_pct": 0.0,
-    "price_mmk_per_50kg": 60000,
+    "price_mmk_per_50kg": 84000,
     "application_rate_kg_per_ha": 200,
     "availability": "medium",
     "notes": "N-heavy compound. Good for cereals and crops with high N demand."
@@ -106,7 +106,7 @@
     "phosphorus_pct": 0.0,
     "potassium_pct": 0.0,
     "sulfur_pct": 18.0,
-    "price_mmk_per_50kg": 15000,
+    "price_mmk_per_50kg": 21000,
     "application_rate_kg_per_ha": 250,
     "availability": "high",
     "notes": "Soil amendment for S and Ca. Improves groundnut pod filling. Cheap and widely available."
