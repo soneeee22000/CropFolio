@@ -66,28 +66,28 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <a
-            href="#about"
+            href="#insight"
             className="text-sm text-text-secondary hover:text-text-primary transition-colors font-body"
           >
-            About
-          </a>
-          <a
-            href="#the-science"
-            className="text-sm text-text-secondary hover:text-text-primary transition-colors font-body"
-          >
-            The Science
-          </a>
-          <a
-            href="#research"
-            className="text-sm text-text-secondary hover:text-text-primary transition-colors font-body"
-          >
-            Research
+            The Insight
           </a>
           <a
             href="#how-it-works"
             className="text-sm text-text-secondary hover:text-text-primary transition-colors font-body"
           >
             How It Works
+          </a>
+          <a
+            href="#impact"
+            className="text-sm text-text-secondary hover:text-text-primary transition-colors font-body"
+          >
+            Impact
+          </a>
+          <a
+            href="#faq"
+            className="text-sm text-text-secondary hover:text-text-primary transition-colors font-body"
+          >
+            FAQ
           </a>
           <button
             onClick={toggleTheme}
@@ -125,25 +125,11 @@ export function Header() {
         <div className="md:hidden bg-surface border-t border-border">
           <nav className="flex flex-col p-6 gap-4">
             <a
-              href="#about"
+              href="#insight"
               className="text-text-secondary hover:text-text-primary transition-colors font-body py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              About
-            </a>
-            <a
-              href="#the-science"
-              className="text-text-secondary hover:text-text-primary transition-colors font-body py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              The Science
-            </a>
-            <a
-              href="#research"
-              className="text-text-secondary hover:text-text-primary transition-colors font-body py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Research
+              The Insight
             </a>
             <a
               href="#how-it-works"
@@ -151,6 +137,20 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               How It Works
+            </a>
+            <a
+              href="#impact"
+              className="text-text-secondary hover:text-text-primary transition-colors font-body py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Impact
+            </a>
+            <a
+              href="#faq"
+              className="text-text-secondary hover:text-text-primary transition-colors font-body py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              FAQ
             </a>
             <button
               onClick={() => {

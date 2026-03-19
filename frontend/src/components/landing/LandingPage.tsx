@@ -1,18 +1,14 @@
 import { Header } from "./header";
 import { HeroSection } from "./hero-section";
 import { InsightSection } from "./insight-section";
-import { CrossDomainSection } from "./cross-domain-section";
-import { MonteCarloSection } from "./monte-carlo-section";
-import { ResearchSection } from "./research-section";
 import { HowItWorksSection } from "./how-it-works-section";
 import { MetricsSection } from "./metrics-section";
-import { TechSection } from "./tech-section";
 import { FaqSection } from "./faq-section";
 import { CTAFooter } from "./cta-footer";
 
 /**
- * CropFolio landing page composing all editorial sections
- * in presentation order.
+ * CropFolio landing page — 7-section editorial flow.
+ * Header → Hero → Insight → How It Works → Impact → FAQ → CTA
  */
 export function LandingPage() {
   return (
@@ -20,12 +16,8 @@ export function LandingPage() {
       <Header />
       <HeroSection />
       <InsightSection />
-      <CrossDomainSection />
-      <MonteCarloSection />
-      <ResearchSection />
       <HowItWorksSection />
       <MetricsSection />
-      <TechSection />
       <FaqSection />
       <CTAFooter />
     </main>

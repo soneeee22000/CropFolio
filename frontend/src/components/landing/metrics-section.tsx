@@ -35,6 +35,7 @@ export function MetricsSection() {
 
   return (
     <section
+      id="impact"
       ref={ref}
       className="relative py-12 sm:py-16 px-6 overflow-hidden bg-surface"
     >

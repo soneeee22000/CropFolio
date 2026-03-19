@@ -18,11 +18,6 @@ const faqs: FaqItem[] = [
       "Yield correlations: Yes — 12 years of FAOSTAT data (2010-2021, element code 5419, country code 28). Price data: Based on WFP-published ranges but generated synthetically for the hackathon prototype. Climate data: NASA POWER + Open-Meteo with regional fallback. Crop profiles: Updated to FAOSTAT 2019-2021 means with cited sources. The covariance matrix — the core of the optimizer — uses real FAOSTAT yield correlations. This is our strongest data asset.",
   },
   {
-    question: "Why does the simulation run so fast?",
-    answer:
-      "Because it's not machine learning. Monte Carlo simulation samples 1,000 scenarios from a multivariate normal distribution — a single matrix operation that takes ~50ms. The Markowitz optimizer solves a convex optimization with 6 variables. The value is in the statistical insight (stress-testing portfolios across 1,000 climate seasons), not in compute time. A simulation that takes 3 hours but produces the same distribution is not more valuable — it's just slower.",
-  },
-  {
     question: "Can individual farmers use this?",
     answer:
       "Not directly. CropFolio targets agricultural extension workers and cooperative managers — intermediaries who advise 500+ farmers each. They have the digital literacy, smartphones, and mandate to translate portfolio recommendations into planting advice. The tool speaks their language (literally — it supports Burmese), not the farmer's.",
@@ -37,25 +32,14 @@ const faqs: FaqItem[] = [
     answer:
       "Because the data says so. We computed yield correlations from 12 years of FAOSTAT data and found that rice-sesame has a -0.49 correlation — the only strong negative correlation among Myanmar's major crops. Rice-chickpea is +0.13 (slightly positive, NOT a hedge). Pulses correlate with each other at +0.5 to +0.9. Diversification only works when crops respond differently to the same climate stress. Sesame is the one crop that genuinely hedges rice.",
   },
-  {
-    question: "How accurate are the Burmese translations?",
-    answer:
-      "They're AI-generated and have not been reviewed by a native speaker. They may contain grammatical errors, overly formal register, or awkward phrasing. Native speaker review is a priority before any real deployment. The crop names (စပါး, မတ်ပဲ, နှမ်း, etc.) are standard and correct.",
-  },
-  {
-    question:
-      "What about crops not in the system? Myanmar grows hundreds of varieties.",
-    answer:
-      "The current prototype covers 6 major crops: rice, black gram, green gram, chickpea, sesame, and groundnut. These represent the bulk of Myanmar's agricultural output and the crops with available FAOSTAT yield data. Adding more crops requires historical yield time series to compute correlations — without data, the optimizer can't make meaningful recommendations.",
-  },
 ];
 
-/** FAQ section with expandable accordion. */
+/** FAQ section with expandable accordion — 5 honest answers. */
 export function FaqSection() {
   const { ref, isInView } = useInView<HTMLElement>({ threshold: 0.1 });
 
   return (
-    <section ref={ref} className="bg-surface py-12 sm:py-16 px-6">
+    <section id="faq" ref={ref} className="bg-surface py-12 sm:py-16 px-6">
       <div className="max-w-3xl mx-auto">
         <div
           className={`text-center mb-8 transition-all duration-700 ${

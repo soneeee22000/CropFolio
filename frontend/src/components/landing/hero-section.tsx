@@ -165,13 +165,118 @@ export function HeroSection() {
           </Link>
 
           <a
-            href="#problem"
+            href="#insight"
             className="text-text-tertiary hover:text-text-secondary transition-colors duration-300 flex items-center gap-2 text-sm font-body"
           >
             See how it works
             <ChevronDown className="h-4 w-4" />
           </a>
         </div>
+
+        {/* Product Preview — appears after counter animation */}
+        {showNewStat && (
+          <div
+            className="mt-14 max-w-2xl mx-auto opacity-60 hover:opacity-100 transition-all duration-500 animate-fade-in-up"
+            style={{
+              animationDuration: "0.8s",
+              animationDelay: "0.3s",
+              animationFillMode: "both",
+            }}
+          >
+            <div className="bg-surface-elevated border border-border rounded-2xl overflow-hidden shadow-lg">
+              {/* Fake browser chrome */}
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-surface-subtle border-b border-border">
+                <div className="flex gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-text-tertiary/20" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-text-tertiary/20" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-text-tertiary/20" />
+                </div>
+                <div className="flex-1 mx-4 px-3 py-1 bg-surface rounded-md text-[10px] text-text-tertiary font-body">
+                  cropfolio.pro/dashboard
+                </div>
+              </div>
+              {/* Dashboard mockup */}
+              <div className="p-5 grid grid-cols-3 gap-4">
+                {/* Donut chart */}
+                <div className="flex flex-col items-center gap-2">
+                  <svg viewBox="0 0 36 36" className="w-16 h-16 -rotate-90">
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="15"
+                      fill="none"
+                      stroke="var(--color-border)"
+                      strokeWidth="3"
+                    />
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="15"
+                      fill="none"
+                      stroke="#1B7A4A"
+                      strokeWidth="3"
+                      strokeDasharray="47 100"
+                    />
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="15"
+                      fill="none"
+                      stroke="#B8860B"
+                      strokeWidth="3"
+                      strokeDasharray="28 100"
+                      strokeDashoffset="-47"
+                    />
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="15"
+                      fill="none"
+                      stroke="#5D8A66"
+                      strokeWidth="3"
+                      strokeDasharray="25 100"
+                      strokeDashoffset="-75"
+                    />
+                  </svg>
+                  <p className="text-[9px] text-text-tertiary font-body">
+                    Allocation
+                  </p>
+                </div>
+                {/* Mini histogram bars */}
+                <div className="flex flex-col justify-center gap-1">
+                  <div
+                    className="h-2 bg-primary/60 rounded-full"
+                    style={{ width: "90%" }}
+                  />
+                  <div
+                    className="h-2 bg-accent/60 rounded-full"
+                    style={{ width: "65%" }}
+                  />
+                  <div
+                    className="h-2 bg-[#5D8A66]/60 rounded-full"
+                    style={{ width: "50%" }}
+                  />
+                  <div
+                    className="h-2 bg-primary/30 rounded-full"
+                    style={{ width: "35%" }}
+                  />
+                  <p className="text-[9px] text-text-tertiary font-body mt-1">
+                    Returns
+                  </p>
+                </div>
+                {/* Key metric */}
+                <div className="flex flex-col items-center justify-center">
+                  <p className="font-data text-2xl text-primary font-medium">
+                    -51%
+                  </p>
+                  <p className="text-[9px] text-text-tertiary font-body">
+                    Risk Reduction
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Scroll indicator — minimal, barely there */}

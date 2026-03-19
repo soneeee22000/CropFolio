@@ -5,7 +5,7 @@ const steps = [
   {
     number: "01",
     title: "Select Township",
-    description: "Choose from 25 Myanmar agricultural townships",
+    description: "Choose from 50 townships across 14 regions of Myanmar",
     icon: MapPin,
     mockUI: (
       <div className="bg-surface-elevated border border-border rounded-lg p-4 space-y-3">
@@ -145,21 +145,41 @@ const steps = [
         <div className="text-xs text-text-tertiary font-body uppercase tracking-wide">
           Monte Carlo Results
         </div>
-        <div className="h-16 flex items-end gap-0.5">
-          {[12, 18, 35, 58, 72, 85, 92, 88, 75, 52, 35, 20, 10, 5, 3].map(
-            (h, i) => (
-              <div
-                key={i}
-                className="flex-1 bg-primary/60 rounded-t"
-                style={{ height: `${h}%` }}
-              />
-            ),
-          )}
+        <div className="grid grid-cols-2 gap-2">
+          {/* Rice Only — skewed left (red) */}
+          <div>
+            <p className="text-[9px] text-center text-[#C43B3B] font-body font-medium mb-1">
+              Rice Only
+            </p>
+            <div className="h-10 flex items-end gap-px">
+              {[85, 40, 25, 15, 10, 5].map((h, i) => (
+                <div
+                  key={i}
+                  className="flex-1 bg-[#C43B3B]/70 rounded-t"
+                  style={{ height: `${h}%` }}
+                />
+              ))}
+            </div>
+          </div>
+          {/* Optimized — centered (green) */}
+          <div>
+            <p className="text-[9px] text-center text-primary font-body font-medium mb-1">
+              Optimized
+            </p>
+            <div className="h-10 flex items-end gap-px">
+              {[5, 15, 35, 40, 30, 10].map((h, i) => (
+                <div
+                  key={i}
+                  className="flex-1 bg-primary/70 rounded-t"
+                  style={{ height: `${h}%` }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="flex justify-between text-xs text-text-tertiary font-body">
-          <span>Low Income</span>
-          <span>Expected</span>
-          <span>High Income</span>
+        <div className="flex justify-between text-[9px] text-text-tertiary font-body">
+          <span>Loss</span>
+          <span>Gain</span>
         </div>
       </div>
     ),
