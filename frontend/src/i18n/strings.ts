@@ -442,6 +442,48 @@ const strings: Record<string, Record<Lang, string>> = {
     mm: "စိုက်ကွက် သတိပေးချက်များ",
   },
 
+  // Advisory
+  "nav.advisory": {
+    en: "AI Advisory",
+    mm: "AI အကြံပြုချက်",
+  },
+  "advisory.title": {
+    en: "AI Advisory",
+    mm: "AI အကြံပြုချက်",
+  },
+  "advisory.subtitle": {
+    en: "AI-powered township intelligence — ask questions and get bilingual answers backed by satellite, climate, and market data",
+    mm: "AI စွမ်းအားသုံး မြို့နယ် ထိုးထွင်းသိမြင်မှု — ဂြိုလ်တု၊ ရာသီဥတု နှင့် ဈေးကွက် အချက်အလက်များဖြင့် အထောက်အကူပြု နှစ်ဘာသာ အဖြေများ ရယူပါ",
+  },
+  "advisory.selectArea": {
+    en: "Select Township",
+    mm: "မြို့နယ် ရွေးချယ်ပါ",
+  },
+  "advisory.generate": {
+    en: "Generate Advisory",
+    mm: "အကြံပြုချက် ထုတ်ပါ",
+  },
+  "advisory.generating": {
+    en: "Generating advisory...",
+    mm: "အကြံပြုချက် ထုတ်လုပ်နေသည်...",
+  },
+  "advisory.askTitle": {
+    en: "Ask CropFolio",
+    mm: "CropFolio ကို မေးမြန်းပါ",
+  },
+  "advisory.queryPlaceholder": {
+    en: "Ask a question about this township...",
+    mm: "ဤမြို့နယ်အကြောင်း မေးခွန်းတစ်ခု မေးပါ...",
+  },
+  "advisory.ask": {
+    en: "Ask",
+    mm: "မေးပါ",
+  },
+  "advisory.noAiFallback": {
+    en: "AI features are unavailable. Showing static data summary. Configure a Gemini API key to enable AI advisories.",
+    mm: "AI လုပ်ဆောင်ချက်များ မရရှိနိုင်ပါ။ Gemini API key ကို ပြင်ဆင်သတ်မှတ်ပြီး AI အကြံပြုချက်များ ဖွင့်ပါ။",
+  },
+
   // Reports
   "reports.title": { en: "Reports", mm: "အစီရင်ခံစာများ" },
   "reports.subtitle": {

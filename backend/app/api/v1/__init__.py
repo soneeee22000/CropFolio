@@ -2,6 +2,7 @@
 
 from fastapi import APIRouter
 
+from app.api.v1.routes.advisory import router as advisory_router
 from app.api.v1.routes.climate import router as climate_router
 from app.api.v1.routes.compare import router as compare_router
 from app.api.v1.routes.crops import router as crops_router
@@ -26,3 +27,4 @@ api_v1_router.include_router(fertilizers_router)
 api_v1_router.include_router(recommend_router)
 api_v1_router.include_router(sar_router)
 api_v1_router.include_router(field_monitor_router)
+api_v1_router.include_router(advisory_router)

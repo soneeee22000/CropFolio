@@ -13,6 +13,7 @@ import { ReportsPage } from "./components/reports/ReportsPage";
 import { BayesianDashboard } from "./components/bayesian/BayesianDashboard";
 import { SARDashboard } from "./components/sar/SARDashboard";
 import { FieldMonitorDashboard } from "./components/field-monitor/FieldMonitorDashboard";
+import { AdvisoryPage } from "./components/advisory/AdvisoryPage";
 import "./index.css";
 import App from "./App.tsx";
 
@@ -37,6 +38,7 @@ createRoot(document.getElementById("root")!).render(
                 path="/field-monitor"
                 element={<FieldMonitorDashboard />}
               />
+              <Route path="/advisory" element={<AdvisoryPage />} />
             </Route>
 
             {/* Legacy wizard */}

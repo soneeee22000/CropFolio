@@ -225,6 +225,32 @@ class AiService:
             logger.warning("Gemini analysis failed", exc_info=True)
             return None
 
+    async def generate_content(
+        self, system_prompt: str, user_prompt: str
+    ) -> str | None:
+        """Generate content with system + user prompt separation.
+
+        Args:
+            system_prompt: System instructions for the model.
+            user_prompt: User-facing prompt with context and request.
+
+        Returns:
+            Raw response text, or None if unavailable/failed.
+        """
+        if self._client is None:
+            return None
+
+        combined = system_prompt + "\n\n" + user_prompt
+        try:
+            raw = await asyncio.wait_for(
+                asyncio.to_thread(self._generate, combined),
+                timeout=GEMINI_TIMEOUT_SECONDS,
+            )
+            return raw
+        except Exception:
+            logger.warning("Gemini generate_content failed", exc_info=True)
+            return None
+
     def _generate(self, prompt: str) -> str:
         """Synchronous Gemini API call (run in thread)."""
         from google.genai import types
