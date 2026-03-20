@@ -6,7 +6,6 @@ from app.domain.context_builder import (
     render_context_document,
 )
 
-
 MOCK_TOWNSHIP = {
     "id": "mdy_amarapura",
     "name": "Amarapura",
