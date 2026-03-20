@@ -82,6 +82,9 @@ const strings: Record<string, Record<Lang, string>> = {
 
   // B2B Dashboard
   "nav.overview": { en: "Overview", mm: "ခြုံငုံသုံးသပ်ချက်" },
+  "nav.groupPlan": { en: "Plan", mm: "စီစဉ်ခြင်း" },
+  "nav.groupAnalyze": { en: "Analyze", mm: "ပိုင်းခြမ်းစိတ်ဖြာ" },
+  "nav.groupMonitor": { en: "Monitor", mm: "စောင့်ကြည့်" },
   "nav.recommend": { en: "Recommend", mm: "အကြံပြုချက်" },
   "nav.demoRoi": { en: "Demo ROI", mm: "သရုပ်ပြ ROI" },
   "nav.reports": { en: "Reports", mm: "အစီရင်ခံစာ" },
