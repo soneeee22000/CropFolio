@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/common/Card";
 import { MetricCard } from "@/components/common/MetricCard";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
@@ -29,6 +29,7 @@ export function RecommendPage() {
   const [riskTolerance, setRiskTolerance] = useState(0.5);
   const [loadError, setLoadError] = useState<string | null>(null);
   const { result, isLoading, error, recommend } = useRecommend();
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function loadOptions() {
@@ -74,6 +75,12 @@ export function RecommendPage() {
     });
   };
 
+  useEffect(() => {
+    if (result) {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [result]);
+
   const regions = [...new Set(townships.map((tw) => tw.region))];
 
   if (loadError) {
@@ -107,7 +114,7 @@ export function RecommendPage() {
                         key={tw.id}
                         data-testid={`township-${tw.id}`}
                         onClick={() => toggleTownship(tw.id)}
-                        className={`px-3 py-1.5 rounded-lg text-sm border transition-colors ${
+                        className={`px-4 py-2.5 rounded-lg text-sm border transition-colors ${
                           selected
                             ? "border-primary bg-primary/10 text-primary font-medium"
                             : "border-border text-text-secondary hover:border-text-tertiary"
@@ -134,7 +141,7 @@ export function RecommendPage() {
                   key={c.id}
                   data-testid={`crop-${c.id}`}
                   onClick={() => toggleCrop(c.id)}
-                  className={`px-3 py-1.5 rounded-lg text-sm border transition-colors ${
+                  className={`px-4 py-2.5 rounded-lg text-sm border transition-colors ${
                     selected
                       ? "border-primary bg-primary/10 text-primary font-medium"
                       : "border-border text-text-secondary hover:border-text-tertiary"
@@ -158,7 +165,7 @@ export function RecommendPage() {
                     key={s}
                     data-testid={`season-${s}`}
                     onClick={() => setSeason(s)}
-                    className={`px-4 py-2 rounded-lg text-sm border transition-colors ${
+                    className={`px-4 py-2.5 rounded-lg text-sm border transition-colors ${
                       season === s
                         ? "border-primary bg-primary/10 text-primary font-medium"
                         : "border-border text-text-secondary"
@@ -210,7 +217,7 @@ export function RecommendPage() {
 
       {/* Results */}
       {result && (
-        <div data-testid="recommend-results">
+        <div data-testid="recommend-results" ref={resultsRef}>
           {result.recommendations.map((rec) => (
             <div key={rec.township_id} className="space-y-6">
               <div className="flex items-center justify-between">

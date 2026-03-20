@@ -126,7 +126,7 @@ export function BayesianDashboard() {
               <select
                 value={selectedTownship}
                 onChange={(e) => setSelectedTownship(e.target.value)}
-                className="w-full p-2 rounded-lg border border-border bg-surface-elevated text-text-primary text-sm"
+                className="w-full p-3 rounded-lg border border-border bg-surface-elevated text-text-primary text-base"
               >
                 <option value="">Select township...</option>
                 {townships.map((tw) => (
@@ -147,7 +147,7 @@ export function BayesianDashboard() {
                     <button
                       key={c.id}
                       onClick={() => toggleCrop(c.id)}
-                      className={`px-3 py-1.5 rounded-lg text-sm border transition-colors ${
+                      className={`px-4 py-2.5 rounded-lg text-sm border transition-colors ${
                         selected
                           ? "border-primary bg-primary/10 text-primary font-medium"
                           : "border-border text-text-secondary hover:border-text-tertiary"
@@ -164,7 +164,7 @@ export function BayesianDashboard() {
                 <button
                   key={s}
                   onClick={() => setSeason(s)}
-                  className={`px-4 py-2 rounded-lg text-sm border transition-colors ${
+                  className={`px-4 py-2.5 rounded-lg text-sm border transition-colors ${
                     season === s
                       ? "border-primary bg-primary/10 text-primary font-medium"
                       : "border-border text-text-secondary"
@@ -195,7 +195,7 @@ export function BayesianDashboard() {
                       <button
                         key={val}
                         onClick={() => setEvidenceValue(opt.variable, val)}
-                        className={`px-3 py-1.5 rounded-lg text-sm border transition-colors capitalize ${
+                        className={`px-4 py-2.5 rounded-lg text-sm border transition-colors capitalize ${
                           active
                             ? "border-accent bg-accent/10 text-accent font-medium"
                             : "border-border text-text-secondary hover:border-text-tertiary"

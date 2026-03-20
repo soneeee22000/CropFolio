@@ -360,6 +360,10 @@ const strings: Record<string, Record<Lang, string>> = {
     en: "Backscatter Time Series",
     mm: "Backscatter အချိန်စီးရီး",
   },
+  "sar.analysisArea": {
+    en: "Analysis Area",
+    mm: "ပိုင်းခြမ်းစိတ်ဖြာမည့် ဧရိယာ",
+  },
 
   // Reports
   "reports.title": { en: "Reports", mm: "အစီရင်ခံစာများ" },

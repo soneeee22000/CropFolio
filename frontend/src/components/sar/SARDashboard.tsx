@@ -3,6 +3,7 @@ import { Card } from "@/components/common/Card";
 import { MetricCard } from "@/components/common/MetricCard";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
+import { SARMapView } from "./SARMapView";
 import { useSARAnalysis } from "@/hooks/useSARAnalysis";
 import { fetchTownships } from "@/api/townships";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -37,6 +38,8 @@ export function SARDashboard() {
     }
   };
 
+  const activeTownship = townships.find((tw) => tw.id === selectedTownship);
+
   return (
     <div className="space-y-8 animate-fade-in-up">
       <div>
@@ -61,7 +64,7 @@ export function SARDashboard() {
             <select
               value={selectedTownship}
               onChange={(e) => setSelectedTownship(e.target.value)}
-              className="w-full p-2 rounded-lg border border-border bg-surface-elevated text-text-primary text-sm"
+              className="w-full p-3 rounded-lg border border-border bg-surface-elevated text-text-primary text-base"
             >
               <option value="">Select township...</option>
               {townships.map((tw) => (
@@ -80,7 +83,7 @@ export function SARDashboard() {
                 <button
                   key={s}
                   onClick={() => setSeason(s)}
-                  className={`px-4 py-2 rounded-lg text-sm border transition-colors ${
+                  className={`px-4 py-2.5 rounded-lg text-sm border transition-colors ${
                     season === s
                       ? "border-primary bg-primary/10 text-primary font-medium"
                       : "border-border text-text-secondary"
@@ -95,13 +98,24 @@ export function SARDashboard() {
             <button
               onClick={handleAnalyze}
               disabled={!selectedTownship || isLoading}
-              className="w-full px-6 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-6 py-2.5 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? t("sar.analyzing") : t("sar.analyze")}
             </button>
           </div>
         </div>
       </Card>
+
+      {/* Map — shown when a township is selected */}
+      {activeTownship && (
+        <Card title={t("sar.analysisArea")}>
+          <SARMapView
+            latitude={activeTownship.latitude}
+            longitude={activeTownship.longitude}
+            townshipName={activeTownship.name}
+          />
+        </Card>
+      )}
 
       {loadError && <ErrorAlert message={loadError} />}
       {isLoading && <LoadingSpinner message={t("sar.analyzing")} />}
