@@ -22,6 +22,7 @@ export function FertilizerPlanCard({ plan }: FertilizerPlanCardProps) {
       {/* Header — always visible */}
       <button
         onClick={() => setExpanded(!expanded)}
+        aria-expanded={expanded}
         className="w-full flex items-center justify-between p-4 hover:bg-surface-subtle transition-colors text-left"
       >
         <div className="flex items-center gap-3">
@@ -103,7 +104,7 @@ export function FertilizerPlanCard({ plan }: FertilizerPlanCardProps) {
               <div className="flex h-6 rounded-lg overflow-hidden">
                 {plan.nutrient_totals.N > 0 && (
                   <div
-                    className="bg-blue-500 flex items-center justify-center text-[10px] text-white font-medium"
+                    className="bg-nutrient-n flex items-center justify-center text-[10px] text-white font-medium"
                     style={{
                       width: `${(plan.nutrient_totals.N / npkTotal) * 100}%`,
                     }}
@@ -113,7 +114,7 @@ export function FertilizerPlanCard({ plan }: FertilizerPlanCardProps) {
                 )}
                 {plan.nutrient_totals.P > 0 && (
                   <div
-                    className="bg-amber-500 flex items-center justify-center text-[10px] text-white font-medium"
+                    className="bg-nutrient-p flex items-center justify-center text-[10px] text-white font-medium"
                     style={{
                       width: `${(plan.nutrient_totals.P / npkTotal) * 100}%`,
                     }}
@@ -123,7 +124,7 @@ export function FertilizerPlanCard({ plan }: FertilizerPlanCardProps) {
                 )}
                 {plan.nutrient_totals.K > 0 && (
                   <div
-                    className="bg-red-500 flex items-center justify-center text-[10px] text-white font-medium"
+                    className="bg-nutrient-k flex items-center justify-center text-[10px] text-white font-medium"
                     style={{
                       width: `${(plan.nutrient_totals.K / npkTotal) * 100}%`,
                     }}

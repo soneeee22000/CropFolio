@@ -47,19 +47,25 @@ export function BayesianDashboard() {
   const [evidence, setEvidence] = useState<Record<string, string>>({});
   const { result, isLoading, error, optimize } = useBayesianOptimize();
 
+  const [loadError, setLoadError] = useState<string | null>(null);
+
   useEffect(() => {
     async function load() {
-      const [twpRes, cropRes] = await Promise.all([
-        fetchTownships(),
-        fetchCrops(),
-      ]);
-      setTownships(twpRes.townships);
-      setCrops(
-        cropRes.crops.map((c: { id: string; name_en: string }) => ({
-          id: c.id,
-          name_en: c.name_en,
-        })),
-      );
+      try {
+        const [twpRes, cropRes] = await Promise.all([
+          fetchTownships(),
+          fetchCrops(),
+        ]);
+        setTownships(twpRes.townships);
+        setCrops(
+          cropRes.crops.map((c: { id: string; name_en: string }) => ({
+            id: c.id,
+            name_en: c.name_en,
+          })),
+        );
+      } catch {
+        setLoadError("Failed to load townships and crops");
+      }
     }
     load();
   }, []);
@@ -95,6 +101,10 @@ export function BayesianDashboard() {
   };
 
   const canSubmit = selectedTownship && selectedCrops.length >= 2;
+
+  if (loadError) {
+    return <ErrorAlert message={loadError} />;
+  }
 
   return (
     <div className="space-y-8 animate-fade-in-up">

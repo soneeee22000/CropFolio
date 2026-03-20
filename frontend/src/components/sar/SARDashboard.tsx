@@ -17,10 +17,16 @@ export function SARDashboard() {
   const [season, setSeason] = useState<"monsoon" | "dry">("monsoon");
   const { result, isLoading, error, analyze } = useSARAnalysis();
 
+  const [loadError, setLoadError] = useState<string | null>(null);
+
   useEffect(() => {
     async function load() {
-      const res = await fetchTownships();
-      setTownships(res.townships);
+      try {
+        const res = await fetchTownships();
+        setTownships(res.townships);
+      } catch {
+        setLoadError("Failed to load townships");
+      }
     }
     load();
   }, []);
@@ -97,6 +103,7 @@ export function SARDashboard() {
         </div>
       </Card>
 
+      {loadError && <ErrorAlert message={loadError} />}
       {isLoading && <LoadingSpinner message={t("sar.analyzing")} />}
       {error && <ErrorAlert message={error} />}
 

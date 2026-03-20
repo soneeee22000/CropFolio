@@ -111,7 +111,7 @@ class SARService:
             msg = f"Unknown township: '{township_id}'"
             raise ValueError(msg)
 
-        job_id = str(uuid.uuid4())[:8]
+        job_id = str(uuid.uuid4())
         job = SARJob(
             job_id=job_id,
             township_id=township_id,

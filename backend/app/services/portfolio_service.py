@@ -204,14 +204,7 @@ class PortfolioService:
             evidence,
         )
 
-        _, bayesian_result = compute_bayesian_returns(
-            crops,
-            risk_profile.drought_probability,
-            risk_profile.flood_probability,
-            evidence,
-        )
-
-        adjusted_returns_list, _ = compute_bayesian_returns(
+        adjusted_returns_list, bayesian_result = compute_bayesian_returns(
             crops,
             risk_profile.drought_probability,
             risk_profile.flood_probability,

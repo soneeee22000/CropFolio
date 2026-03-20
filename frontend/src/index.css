@@ -11,6 +11,11 @@
   --color-warning: #d4940a;
   --color-success: #1b7a4a;
 
+  /* NPK nutrient colors */
+  --color-nutrient-n: #3b82f6;
+  --color-nutrient-p: #d97706;
+  --color-nutrient-k: #dc2626;
+
   /* Surfaces (dark default) */
   --color-surface: #1a1a18;
   --color-surface-elevated: #242422;

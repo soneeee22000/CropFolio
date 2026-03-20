@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { submitSARAnalysis, getSARJobStatus } from "@/api/sar";
 import type { SARAnalyzeRequest, SARResult } from "@/types/sar";
 
@@ -19,6 +19,10 @@ export function useSARAnalysis() {
       pollRef.current = null;
     }
   }, []);
+
+  useEffect(() => {
+    return () => cleanup();
+  }, [cleanup]);
 
   const analyze = useCallback(
     async (request: SARAnalyzeRequest) => {
