@@ -365,6 +365,80 @@ const strings: Record<string, Record<Lang, string>> = {
     mm: "ပိုင်းခြမ်းစိတ်ဖြာမည့် ဧရိယာ",
   },
 
+  // Field Monitor
+  "nav.fieldMonitor": {
+    en: "Field Monitor",
+    mm: "ကွင်းဆင်း စောင့်ကြည့်မှု",
+  },
+  "fieldMonitor.title": {
+    en: "Field Monitor Dashboard",
+    mm: "ကွင်းဆင်း စောင့်ကြည့်မှု ဒက်ရှ်ဘုတ်",
+  },
+  "fieldMonitor.subtitle": {
+    en: "Monitor plot compliance from satellite imagery — liability shield for distributors",
+    mm: "ဂြိုလ်တုပုံရိပ်မှ စိုက်ကွက် လိုက်နာမှု စောင့်ကြည့်ခြင်း — ဖြန့်ဖြူးသူများအတွက် တာဝန်ယူမှု အကာအကွယ်",
+  },
+  "fieldMonitor.selectArea": {
+    en: "Select Monitoring Area",
+    mm: "စောင့်ကြည့်မည့် ဧရိယာ ရွေးချယ်ပါ",
+  },
+  "fieldMonitor.monitor": { en: "Monitor", mm: "စောင့်ကြည့်ပါ" },
+  "fieldMonitor.monitoring": {
+    en: "Monitoring...",
+    mm: "စောင့်ကြည့်နေသည်...",
+  },
+  "fieldMonitor.totalPlots": { en: "Total Plots", mm: "စုစုပေါင်း စိုက်ကွက်" },
+  "fieldMonitor.complianceRate": {
+    en: "Compliance Rate",
+    mm: "လိုက်နာမှု နှုန်း",
+  },
+  "fieldMonitor.activeAlerts": {
+    en: "Active Alerts",
+    mm: "တက်ကြွသော သတိပေးချက်များ",
+  },
+  "fieldMonitor.verifiedArea": {
+    en: "Verified Area",
+    mm: "အတည်ပြုထားသော ဧရိယာ",
+  },
+  "fieldMonitor.plotMap": { en: "Plot Map", mm: "စိုက်ကွက် မြေပုံ" },
+  "fieldMonitor.complianceBreakdown": {
+    en: "Compliance Breakdown",
+    mm: "လိုက်နာမှု ခွဲခြမ်းစိတ်ဖြာမှု",
+  },
+  "fieldMonitor.compliant": { en: "Compliant", mm: "လိုက်နာ" },
+  "fieldMonitor.warning": { en: "Warning", mm: "သတိပေးချက်" },
+  "fieldMonitor.deviation": { en: "Deviation", mm: "သွေဖည်မှု" },
+  "fieldMonitor.alerts": { en: "Alerts", mm: "သတိပေးချက်များ" },
+  "fieldMonitor.allAlerts": { en: "All", mm: "အားလုံး" },
+  "fieldMonitor.noAlerts": {
+    en: "No alerts matching filter",
+    mm: "စစ်ထုတ်မှုနှင့် ကိုက်ညီသော သတိပေးချက် မရှိပါ",
+  },
+  "fieldMonitor.score": { en: "Score", mm: "အမှတ်" },
+  "fieldMonitor.recommendedCrop": {
+    en: "Recommended Crop",
+    mm: "အကြံပြုထားသော သီးနှံ",
+  },
+  "fieldMonitor.plantingDetected": {
+    en: "Planting Detected",
+    mm: "စိုက်ပျိုးမှု တွေ့ရှိ",
+  },
+  "fieldMonitor.cropMatch": { en: "Crop Match", mm: "သီးနှံ ကိုက်ညီမှု" },
+  "fieldMonitor.phenologyMatch": {
+    en: "Phenology Match",
+    mm: "ဖီနိုလိုဂျီ ကိုက်ညီမှု",
+  },
+  "fieldMonitor.sarComparison": {
+    en: "SAR: Expected vs Observed",
+    mm: "SAR: မျှော်မှန်း vs တွေ့ရှိ",
+  },
+  "fieldMonitor.expectedVH": { en: "Expected VH", mm: "မျှော်မှန်း VH" },
+  "fieldMonitor.observedVH": { en: "Observed VH", mm: "တွေ့ရှိ VH" },
+  "fieldMonitor.plotAlerts": {
+    en: "Plot Alerts",
+    mm: "စိုက်ကွက် သတိပေးချက်များ",
+  },
+
   // Reports
   "reports.title": { en: "Reports", mm: "အစီရင်ခံစာများ" },
   "reports.subtitle": {

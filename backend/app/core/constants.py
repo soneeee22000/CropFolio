@@ -51,3 +51,12 @@ SAR_VH_FLOOD_THRESHOLD = -18.0  # dB, VH below this indicates flooding
 SAR_VH_VEGETATION_THRESHOLD = -14.0  # dB, VH above this indicates vegetation
 SAR_CONFIDENCE_MIN_SIGNALS = 3  # Minimum phenological signals for confidence
 SAR_JOB_TIMEOUT_SECONDS = 300  # Maximum SAR analysis duration
+
+# Field monitor
+FIELD_MONITOR_MIN_PLOTS = 5
+FIELD_MONITOR_MAX_PLOTS = 15
+FIELD_MONITOR_PLOT_RADIUS_M = 3000  # Plot scatter radius around township
+FIELD_MONITOR_COMPLIANCE_GREEN = 0.8  # Score >= this = compliant
+FIELD_MONITOR_COMPLIANCE_YELLOW = 0.5  # Score >= this = warning
+FIELD_MONITOR_PLOT_AREA_MIN_HA = 0.5
+FIELD_MONITOR_PLOT_AREA_MAX_HA = 5.0

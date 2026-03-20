@@ -19,6 +19,16 @@ export const OSM_TILE_URL =
 export const OSM_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 
+/** Field monitor plot marker radius in pixels. */
+export const PLOT_MARKER_RADIUS = 8;
+
+/** Compliance status colors for field monitor map. */
+export const COMPLIANCE_COLORS: Record<string, string> = {
+  compliant: "#1B7A4A",
+  warning: "#D4940A",
+  deviation: "#C43B3B",
+};
+
 /** Esri World Imagery (free satellite basemap) tile URL and attribution. */
 export const ESRI_SATELLITE_TILE_URL =
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";

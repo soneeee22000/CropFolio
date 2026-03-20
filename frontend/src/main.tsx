@@ -12,6 +12,7 @@ import { DemoROICalculator } from "./components/demo/DemoROICalculator";
 import { ReportsPage } from "./components/reports/ReportsPage";
 import { BayesianDashboard } from "./components/bayesian/BayesianDashboard";
 import { SARDashboard } from "./components/sar/SARDashboard";
+import { FieldMonitorDashboard } from "./components/field-monitor/FieldMonitorDashboard";
 import "./index.css";
 import App from "./App.tsx";
 
@@ -32,6 +33,10 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/reports" element={<ReportsPage />} />
               <Route path="/bayesian" element={<BayesianDashboard />} />
               <Route path="/sar" element={<SARDashboard />} />
+              <Route
+                path="/field-monitor"
+                element={<FieldMonitorDashboard />}
+              />
             </Route>
 
             {/* Legacy wizard */}
