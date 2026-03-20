@@ -17,7 +17,8 @@
     <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
     <img src="https://img.shields.io/badge/D3.js-7-F9A03C?logo=d3dotjs&logoColor=white" alt="D3.js" />
-    <img src="https://img.shields.io/badge/tests-131%20passing-brightgreen" alt="Tests" />
+    <img src="https://img.shields.io/badge/tests-163%20passing-brightgreen" alt="Tests" />
+    <img src="https://img.shields.io/badge/CI-passing-brightgreen?logo=github-actions&logoColor=white" alt="CI" />
   </p>
 </p>
 
@@ -136,6 +137,8 @@ flowchart LR
     B --> C["Recommendation\nEngine"]
     B --> D["Demo ROI\nCalculator"]
     B --> E["Reports &\nExport"]
+    B --> G["Bayesian\nAnalyzer"]
+    B --> H["SAR\nVerification"]
     B --> F["Legacy\nWizard"]
 
     style A fill:#f0fdf4,stroke:#16a34a,stroke-width:2px
@@ -143,6 +146,8 @@ flowchart LR
     style C fill:#fef3c7,stroke:#d97706,stroke-width:2px
     style D fill:#fdf2f8,stroke:#ec4899,stroke-width:2px
     style E fill:#ede9fe,stroke:#7c3aed,stroke-width:2px
+    style G fill:#fef9c3,stroke:#ca8a04,stroke-width:2px
+    style H fill:#ecfdf5,stroke:#059669,stroke-width:2px
     style F fill:#f1f5f9,stroke:#64748b,stroke-width:2px
 ```
 
@@ -153,7 +158,24 @@ Select townships, crops, and risk tolerance. The engine combines:
 - **Markowitz portfolio optimization** for optimal crop allocation
 - **SoilGrids-based soil profiling** (pH, organic carbon, nitrogen, clay content)
 - **Fertilizer matching** — scored by crop nutrient needs, soil conditions, cost-effectiveness, and brand compatibility
+- **LP-optimized fertilizer plans** — growth-stage application schedules with NPK delivery, ROI estimates, micronutrient alerts, and nutrient interaction flags
 - **Confidence metrics** — transparency on data quality for each recommendation
+
+#### Bayesian Analyzer
+
+Input field observations (rainfall, drought, flood, soil quality) to update yield predictions with Bayesian inference:
+
+- **Bayesian Belief Network** — custom numpy-based BBN with conditional probability tables for each crop
+- **Evidence updating** — posterior yield probabilities shift based on observed field conditions
+- **Bayesian-adjusted portfolio** — Markowitz optimization using updated expected returns from BBN predictions
+
+#### SAR Planting Verification (Beta)
+
+Sentinel-1 synthetic aperture radar analysis for rice paddy detection and crop monitoring:
+
+- **VH/VV backscatter time series** — 10-day Sentinel-1 observations
+- **Phenology signal detection** — transplanting, vegetative growth, heading, and harvest stages
+- **Rice area estimation** — percentage of township area under rice cultivation
 
 #### Demo ROI Calculator
 
@@ -192,7 +214,7 @@ graph TB
     end
 
     subgraph Backend["Backend (FastAPI + Python)"]
-        API["REST API\n15 Endpoints"]
+        API["REST API\n21 Endpoints"]
         AI["Gemini 2.5 Flash\nAI Analysis"]
         subgraph Domain["Domain Layer"]
             OPT["Markowitz\nOptimizer"]
@@ -200,9 +222,13 @@ graph TB
             CLM["Climate Risk\nEngine"]
             FERT["Fertilizer\nCatalog"]
             FMATCH["Fertilizer\nMatcher"]
+            BBN["Bayesian\nBelief Network"]
+            COP["Copula\nTail Risk"]
+            FOPT["Fertilizer LP\nOptimizer"]
         end
         subgraph Services["Service Layer"]
             RECSVC["Recommendation\nService"]
+            SARSVC["SAR Analysis\nService"]
         end
         subgraph Infra["Infrastructure"]
             NASA["NASA POWER\nClient"]
@@ -210,6 +236,7 @@ graph TB
             FAOLOAD["FAOSTAT Yield\nLoader"]
             WFPLOAD["WFP Price\nLoader"]
             SOIL["SoilGrids\nClient"]
+            SARPIPE["SAR Pipeline\n(Sentinel-1)"]
         end
     end
 
@@ -234,10 +261,16 @@ graph TB
     API --> CLM
     API --> AI
     API --> RECSVC
+    API --> SARSVC
+    API --> BBN
     RECSVC --> FMATCH
     RECSVC --> OPT
     RECSVC --> FERT
+    RECSVC --> FOPT
     FMATCH --> FERT
+    SIM --> COP
+    OPT --> BBN
+    SARSVC --> SARPIPE
     CLM --> NASA
     CLM --> METEO
     OPT --> FAOLOAD
@@ -273,8 +306,14 @@ graph TB
 | `POST` | `/api/v1/recommend`                  | Crop + fertilizer recommendations for townships |
 | `POST` | `/api/v1/recommend/demo-roi`         | Demo farm ROI calculation for distributors      |
 | `GET`  | `/api/v1/recommend/soil/{id}`        | SoilGrids-based soil profile for a township     |
+| `POST` | `/api/v1/optimize/bayesian`          | Bayesian portfolio optimization with evidence   |
+| `POST` | `/api/v1/sar/analyze`                | Submit SAR planting verification analysis       |
+| `GET`  | `/api/v1/sar/results/{job_id}`       | Poll SAR analysis job status and results        |
+| `GET`  | `/api/v1/sar/coverage/{township_id}` | Get latest SAR coverage for a township          |
 
 Full interactive API docs available at `/docs` (Swagger UI).
+
+> **Note:** The `/simulate/` endpoint now supports `distribution_model: "copula"` for tail-risk-aware Monte Carlo simulation using Gaussian copulas.
 
 ### Routes
 
@@ -285,6 +324,8 @@ Full interactive API docs available at `/docs` (Swagger UI).
 | `/recommend`       | Recommendation engine — crop + fertilizer matching with soil data |
 | `/demo-calculator` | Demo ROI calculator for field trial planning                      |
 | `/reports`         | Reports and PDF export (bilingual English/Burmese)                |
+| `/bayesian`        | Bayesian analyzer — evidence panel + yield prediction dashboard   |
+| `/sar`             | SAR planting verification — Sentinel-1 radar analysis (Beta)      |
 | `/app`             | Legacy 4-step wizard (township, climate, optimize, simulate)      |
 
 ---
@@ -311,20 +352,24 @@ Sources: FAOSTAT 2010-2021 (yield means + variance), FAO GAEZ, IRRI, Myanmar DoA
 
 ## Tech Stack
 
-| Layer                   | Technology                              | Why                                                  |
-| ----------------------- | --------------------------------------- | ---------------------------------------------------- |
-| **Backend**             | Python 3.10, FastAPI                    | Best ecosystem for scientific computing + API        |
-| **Optimization**        | scipy.optimize (SLSQP)                  | Markowitz mean-variance optimization                 |
-| **Simulation**          | numpy                                   | Monte Carlo with multivariate normal sampling        |
-| **Fertilizer Matching** | Custom scoring engine                   | Crop need + soil condition + cost + compatibility    |
-| **Soil Profiling**      | SoilGrids API (250m resolution)         | pH, organic carbon, nitrogen, clay for each township |
-| **Frontend**            | React 18, TypeScript (strict)           | Component-driven, type-safe UI                       |
-| **AI/ML**               | Google Gemini 2.0 Flash                 | AI-powered analysis and recommendations              |
-| **Visualization**       | D3.js + Recharts                        | Custom animated histogram + standard charts          |
-| **Styling**             | Tailwind CSS v4                         | Utility-first, rapid prototyping                     |
-| **Data**                | NASA POWER, Open-Meteo, FAOSTAT, WFP    | All open, all verified for Myanmar coverage          |
-| **Deployment**          | Railway (backend) + Vercel (frontend)   | Zero-config, instant deploys                         |
-| **Testing**             | pytest (106 tests), Playwright (25 E2E) | 131 total tests across backend + E2E                 |
+| Layer                    | Technology                            | Why                                                    |
+| ------------------------ | ------------------------------------- | ------------------------------------------------------ |
+| **Backend**              | Python 3.10, FastAPI                  | Best ecosystem for scientific computing + API          |
+| **Optimization**         | scipy.optimize (SLSQP)                | Markowitz mean-variance optimization                   |
+| **Simulation**           | numpy                                 | Monte Carlo with multivariate normal + copula sampling |
+| **Bayesian Inference**   | Custom numpy BBN                      | Crop yield prediction with evidence updating           |
+| **Fertilizer Optimizer** | scipy.optimize (linprog)              | LP-optimized growth-stage application plans            |
+| **SAR Analysis**         | Earth Engine API (optional)           | Sentinel-1 VH/VV backscatter phenology detection       |
+| **Fertilizer Matching**  | Custom scoring engine                 | Crop need + soil condition + cost + compatibility      |
+| **Soil Profiling**       | SoilGrids API (250m resolution)       | pH, organic carbon, nitrogen, clay for each township   |
+| **Frontend**             | React 18, TypeScript (strict)         | Component-driven, type-safe UI                         |
+| **AI/ML**                | Google Gemini 2.0 Flash               | AI-powered analysis and recommendations                |
+| **Visualization**        | D3.js + Recharts                      | Custom animated histogram + standard charts            |
+| **Styling**              | Tailwind CSS v4                       | Utility-first, rapid prototyping                       |
+| **Data**                 | NASA POWER, Open-Meteo, FAOSTAT, WFP  | All open, all verified for Myanmar coverage            |
+| **Deployment**           | Railway (backend) + Vercel (frontend) | Zero-config, instant deploys                           |
+| **Testing**              | pytest (163 tests), Playwright (E2E)  | 163 backend tests + E2E suite                          |
+| **CI/CD**                | GitHub Actions                        | Lint + typecheck + test on every push                  |
 
 ---
 
@@ -404,7 +449,7 @@ npm run dev
 ### Run Tests
 
 ```bash
-# Backend (106 tests)
+# Backend (163 tests)
 cd backend && pytest -v
 
 # Frontend unit tests
@@ -441,20 +486,25 @@ cropfolio/
 │   │   │   ├── simulator.py               # Monte Carlo simulation
 │   │   │   ├── crops.py                   # 11 Myanmar crop profiles
 │   │   │   ├── fertilizers.py             # Fertilizer catalog + soil profiles [B2B]
-│   │   │   └── fertilizer_matcher.py      # Crop-fertilizer scoring engine [B2B]
+│   │   │   ├── fertilizer_matcher.py      # Crop-fertilizer scoring engine [B2B]
+│   │   │   ├── bayesian.py                # Bayesian Belief Network for yield prediction [Moat]
+│   │   │   ├── copula_risk.py             # Gaussian copula tail-risk simulation [Moat]
+│   │   │   └── fertilizer_optimizer.py    # LP-optimized fertilizer plans [Moat]
 │   │   ├── infrastructure/                # External API clients
 │   │   │   ├── nasa_power.py              # NASA POWER satellite data
 │   │   │   ├── open_meteo.py              # Open-Meteo weather forecasts
-│   │   │   └── soilgrids.py               # SoilGrids 250m soil data [B2B]
+│   │   │   ├── soilgrids.py               # SoilGrids 250m soil data [B2B]
+│   │   │   └── sar_pipeline.py            # Sentinel-1 SAR analysis pipeline [Moat]
 │   │   └── services/                      # Orchestration layer
-│   │       └── recommendation_service.py  # Crop + fertilizer recommendation [B2B]
+│   │       ├── recommendation_service.py  # Crop + fertilizer recommendation [B2B]
+│   │       └── sar_service.py             # Async SAR job management [Moat]
 │   ├── data/                              # Static data files
 │   │   ├── crops.json                     # Myanmar crop profiles
 │   │   ├── townships.json                 # 50 townships with coordinates
 │   │   ├── fertilizers.json               # Fertilizer product catalog [B2B]
 │   │   ├── soil_profiles.json             # 50 township soil profiles (SoilGrids + regional fallbacks) [B2B]
 │   │   └── wfp_prices/                    # Historical price CSVs
-│   ├── tests/                             # 106 tests (unit + integration)
+│   ├── tests/                             # 163 tests (unit + integration)
 │   └── Dockerfile
 ├── frontend/
 │   ├── src/
@@ -462,7 +512,9 @@ cropfolio/
 │   │   ├── components/
 │   │   │   ├── landing/                   # Landing page (hero, sections, CTA)
 │   │   │   ├── dashboard/                 # B2B dashboard overview [B2B]
-│   │   │   ├── recommend/                 # Recommendation engine UI [B2B]
+│   │   │   ├── recommend/                 # Recommendation engine + FertilizerPlanCard [B2B]
+│   │   │   ├── bayesian/                  # Bayesian evidence panel + yield predictions [Moat]
+│   │   │   ├── sar/                       # SAR planting verification dashboard [Moat]
 │   │   │   ├── demo/                      # Demo ROI calculator [B2B]
 │   │   │   ├── reports/                   # Reports and export [B2B]
 │   │   │   ├── township/                  # Step 1: Township selector
@@ -534,24 +586,62 @@ score = 0.4 * crop_need + 0.3 * soil_fit + 0.2 * cost_effectiveness + 0.1 * comp
 
 Each factor is normalized to [0, 1]. Soil fit is derived from SoilGrids data (pH, organic carbon, nitrogen, clay content) matched against crop nutrient requirements.
 
+### Bayesian Belief Network
+
+For each crop, a BBN models `P(yield | climate, soil)`:
+
+```
+P(yield=high | drought=yes) = P(drought=yes | yield=high) * P(yield=high) / P(drought=yes)
+```
+
+Evidence (observed rainfall, drought, flood, soil quality) updates the posterior. The optimizer then uses `expected_yield_factor * base_income` as adjusted returns.
+
+### Copula Tail Risk
+
+Gaussian copula replaces the multivariate normal assumption in Monte Carlo:
+
+```
+u = Phi(z)                    # uniform marginals from correlated normals
+x = F_i^{-1}(u_i)            # inverse CDF of each crop's marginal
+```
+
+This captures tail dependence — simultaneous crop failures that a normal distribution underestimates.
+
+### LP Fertilizer Optimizer
+
+Linear programming minimizes cost while meeting NPK delivery targets per growth stage:
+
+```
+Minimize:    c^T * x                    (total cost)
+Subject to:  A * x >= b                 (nutrient requirements by stage)
+             x_i >= 0                   (non-negative application rates)
+             sum(x) <= budget           (budget constraint)
+```
+
 ---
 
 ## Testing
 
 ```
-131 tests | 0 failures
+163 backend tests | 0 failures | CI: GitHub Actions (lint + typecheck + test)
 
-Backend — pytest (106 tests):
-  Unit Tests (40):
+Backend — pytest (163 tests):
+  Unit Tests (56):
     - Climate risk engine: 8 tests
     - Portfolio optimizer: 12 tests (weights sum to 1, PSD correction, convergence, risk reduction)
     - Monte Carlo simulator: 8 tests (reproducible, bounded, convergent)
     - Fertilizer matcher: 7 tests (N-heavy ranking, sulfur ranking, all 11 crops, score range)
+    - Bayesian BBN: 8 tests (prior predictions, evidence updating, yield factor range)
+    - Copula tail risk: 5 tests (normal vs copula, VaR shift, correlation structure)
+    - Fertilizer LP optimizer: 3 tests (LP feasibility, nutrient delivery, ROI)
     - Diversification proof: monocrop vs diversified catastrophic loss
     - Report service, AI service: 5 tests
 
-  Integration Tests (46):
+  Integration Tests (62):
     - Recommendation API: 9 tests (happy path, multi-township, zero-price crops, validation)
+    - Enhanced recommendation API: 5 tests (fertilizer plan structure, ROI fields)
+    - Bayesian optimization API: 4 tests (evidence updating, validation)
+    - SAR analysis API: 4 tests (job submission, polling, validation)
     - Demo ROI API: 6 tests (ROI scaling, zero-price, error handling)
     - Climate, optimizer, simulator, report, compare, crop, township APIs: 31 tests
     - Error handling: 400, 404, 422 responses
@@ -562,12 +652,14 @@ Backend — pytest (106 tests):
   AI & Comparison Tests (11):
     - Gemini AI analysis, multi-township comparison, AI-enhanced PDF
 
-Frontend — Playwright E2E (25 tests):
+Frontend — Playwright E2E (25+ tests):
   - Landing page: 3 tests (branding, CTA navigation, attribution)
   - Dashboard: 5 tests (KPI cards, quick actions, sidebar nav, region coverage)
   - Recommendation flow: 6 tests (selection, validation, results, multi-township)
   - Demo ROI calculator: 6 tests (form, ROI calculation, soil, fertilizer, zero-price)
   - Reports: 5 tests (language toggle, PDF download)
+  - Bayesian analyzer: navigation, evidence panel, form validation
+  - SAR verification: navigation, controls, beta badge
 ```
 
 ---
@@ -596,6 +688,7 @@ AI features are **optional** — the app works fully without a Gemini API key. W
 | Projects with heuristic data  | **Data-driven correlations**: real FAOSTAT 2010-2021 covariance, not assumed            |
 | Farmer-facing only tools      | **B2B distribution**: targets intermediaries who multiply impact across farmer networks |
 | English-only interfaces       | **Bilingual**: full English + Burmese support across all features                       |
+| Single-model predictions      | **4 moat engines**: Bayesian BBN, copula tail risk, LP fertilizer optimizer, SAR radar  |
 
 ---
 

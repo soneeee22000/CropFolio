@@ -28,6 +28,11 @@ const faqs: FaqItem[] = [
       "Gemini 2.5 Flash generates natural language analysis of optimization results — translating numbers into actionable crop-fertilizer advice in English and Burmese. It does not perform the optimization itself. The portfolio math is pure scipy/numpy. The AI adds contextual interpretation: 'Given Magway's 30% drought probability and sandy loam soil, sesame with balanced NPK is your strongest recommendation.' Without the API key, the app works fully — AI is additive, not essential.",
   },
   {
+    question: "What are the 4 moat engines?",
+    answer:
+      "Beyond Markowitz optimization, CropFolio Pro has four defensible technical engines: (1) Bayesian Belief Network — field observations update yield predictions using conditional probability tables, (2) Copula Tail Risk — Gaussian copula simulation captures simultaneous crop failures that normal distributions miss, (3) LP Fertilizer Optimizer — linear programming generates growth-stage application schedules with NPK delivery targets and ROI estimates, (4) SAR Planting Verification — Sentinel-1 radar analysis detects rice paddy phenology stages from space. Each engine is built from first principles with numpy/scipy — no black-box ML dependencies.",
+  },
+  {
     question: "Why sesame? Why not just diversify with any crop?",
     answer:
       "Because the data says so. We computed yield correlations from 12 years of FAOSTAT data and found that rice-sesame has a -0.49 correlation — the only strong negative correlation among Myanmar's 11 major crops. Rice-chickpea is +0.13 (slightly positive, NOT a hedge). Diversification only works when crops respond differently to the same climate stress. For distributors, this means recommending sesame alongside rice actually reduces the risk of their farmers failing — and that means fewer reimbursements.",

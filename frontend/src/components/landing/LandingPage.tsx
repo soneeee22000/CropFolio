@@ -3,6 +3,7 @@ import { HeroSection } from "./hero-section";
 import { InsightSection } from "./insight-section";
 import { HowItWorksSection } from "./how-it-works-section";
 import { MetricsSection } from "./metrics-section";
+import { MoatSection } from "./moat-section";
 import { FaqSection } from "./faq-section";
 import { CTAFooter } from "./cta-footer";
 
@@ -18,6 +19,7 @@ export function LandingPage() {
       <InsightSection />
       <HowItWorksSection />
       <MetricsSection />
+      <MoatSection />
       <FaqSection />
       <CTAFooter />
     </main>

@@ -43,3 +43,6 @@ frontend/dist/
 # Docker
 docker-compose.override.yml
 CLAUDE.md
+
+# SAR analysis results (generated at runtime)
+backend/data/sar_results/
