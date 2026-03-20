@@ -24,7 +24,7 @@ from app.domain.ai_prompts import (
 
 logger = logging.getLogger(__name__)
 
-GEMINI_TIMEOUT_SECONDS = 15
+GEMINI_TIMEOUT_SECONDS = 30
 GEMINI_MODEL_NAME = "gemini-2.5-flash"
 
 
