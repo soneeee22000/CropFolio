@@ -1,0 +1,17 @@
+{
+  "name": "CropFolio - Smart Farming",
+  "short_name": "CropFolio",
+  "description": "Smart farming recommendations for Myanmar farmers",
+  "start_url": "/farmer",
+  "display": "standalone",
+  "background_color": "#1a1a18",
+  "theme_color": "#1b7a4a",
+  "lang": "my",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -23,6 +23,8 @@ import { FarmerWeather } from "./components/farmer/FarmerWeather";
 import { FarmerLoanStatus } from "./components/farmer/FarmerLoanStatus";
 import { LoanPortfolio } from "./components/distributor/LoanPortfolio";
 import { ComplianceOverview } from "./components/distributor/ComplianceOverview";
+import { ContentManager } from "./components/distributor/ContentManager";
+import { FarmerFeed } from "./components/farmer/FarmerFeed";
 import "./index.css";
 import App from "./App.tsx";
 
@@ -50,6 +52,7 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/advisory" element={<AdvisoryPage />} />
               <Route path="/loan-portfolio" element={<LoanPortfolio />} />
               <Route path="/compliance" element={<ComplianceOverview />} />
+              <Route path="/content-manager" element={<ContentManager />} />
             </Route>
 
             {/* Farmer app (mobile-first, auth required) */}
@@ -60,6 +63,7 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/farmer/plan" element={<FarmerPlan />} />
               <Route path="/farmer/weather" element={<FarmerWeather />} />
               <Route path="/farmer/loans" element={<FarmerLoanStatus />} />
+              <Route path="/farmer/feed" element={<FarmerFeed />} />
             </Route>
 
             {/* Legacy wizard */}

@@ -445,3 +445,90 @@ class CreditScoreHistory(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
+
+
+# ──────────────────────────────────────────────────────
+# Phase 4: Content & Feed
+# ──────────────────────────────────────────────────────
+
+
+class ContentType(str, enum.Enum):
+    """Type of content delivered to farmers."""
+
+    WEATHER_ALERT = "weather_alert"
+    PEST_ALERT = "pest_alert"
+    FERTILIZER_REMINDER = "fertilizer_reminder"
+    TIP = "tip"
+    MARKET_UPDATE = "market_update"
+
+
+class Content(Base):
+    """Content item for the farmer feed."""
+
+    __tablename__ = "content"
+    __table_args__ = (
+        Index("idx_content_type", "content_type", "published"),
+        Index("idx_content_org", "organization_id"),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    organization_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("organizations.id")
+    )
+    content_type: Mapped[ContentType] = mapped_column(
+        Enum(ContentType), nullable=False
+    )
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    title_mm: Mapped[str | None] = mapped_column(String(255))
+    body: Mapped[str] = mapped_column(Text, nullable=False)
+    body_mm: Mapped[str | None] = mapped_column(Text)
+    audio_url: Mapped[str | None] = mapped_column(String(500))
+    township_ids: Mapped[dict | None] = mapped_column(JSONB)
+    crop_ids: Mapped[dict | None] = mapped_column(JSONB)
+    published: Mapped[bool] = mapped_column(Boolean, default=False)
+    published_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True)
+    )
+    expires_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True)
+    )
+    created_by: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("users.id")
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+
+    interactions: Mapped[list[ContentInteraction]] = relationship(
+        "ContentInteraction", back_populates="content"
+    )
+
+
+class ContentInteraction(Base):
+    """Farmer engagement tracking for content items."""
+
+    __tablename__ = "content_interactions"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    content_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("content.id"), nullable=False
+    )
+    farmer_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("users.id"), nullable=False
+    )
+    viewed: Mapped[bool] = mapped_column(Boolean, default=False)
+    viewed_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True)
+    )
+    helpful: Mapped[bool | None] = mapped_column(Boolean)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+
+    content: Mapped[Content] = relationship(
+        "Content", back_populates="interactions"
+    )

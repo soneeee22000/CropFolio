@@ -88,6 +88,7 @@ const strings: Record<string, Record<Lang, string>> = {
   "nav.groupManage": { en: "Manage", mm: "စီမံခန့်ခွဲ" },
   "nav.loanPortfolio": { en: "Loan Portfolio", mm: "ချေးငွေ" },
   "nav.compliance": { en: "Compliance", mm: "လိုက်နာမှု" },
+  "nav.contentManager": { en: "Content", mm: "အကြောင်းအရာ" },
   "nav.recommend": { en: "Recommend", mm: "အကြံပြုချက်" },
   "nav.demoRoi": { en: "Demo ROI", mm: "သရုပ်ပြ ROI" },
   "nav.reports": { en: "Reports", mm: "အစီရင်ခံစာ" },
