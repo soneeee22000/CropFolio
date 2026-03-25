@@ -89,6 +89,8 @@ const strings: Record<string, Record<Lang, string>> = {
   "nav.loanPortfolio": { en: "Loan Portfolio", mm: "ချေးငွေ" },
   "nav.compliance": { en: "Compliance", mm: "လိုက်နာမှု" },
   "nav.contentManager": { en: "Content", mm: "အကြောင်းအရာ" },
+  "nav.farmerPortfolio": { en: "Farmers", mm: "တောင်သူများ" },
+  "nav.analytics": { en: "Analytics", mm: "ပိုင်းခြမ်းစိတ်ဖြာ" },
   "nav.recommend": { en: "Recommend", mm: "အကြံပြုချက်" },
   "nav.demoRoi": { en: "Demo ROI", mm: "သရုပ်ပြ ROI" },
   "nav.reports": { en: "Reports", mm: "အစီရင်ခံစာ" },

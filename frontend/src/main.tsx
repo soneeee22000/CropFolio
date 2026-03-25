@@ -25,6 +25,9 @@ import { LoanPortfolio } from "./components/distributor/LoanPortfolio";
 import { ComplianceOverview } from "./components/distributor/ComplianceOverview";
 import { ContentManager } from "./components/distributor/ContentManager";
 import { FarmerFeed } from "./components/farmer/FarmerFeed";
+import { FarmerPortfolio } from "./components/distributor/FarmerPortfolio";
+import { FarmerDetail } from "./components/distributor/FarmerDetail";
+import { AnalyticsPage } from "./components/distributor/AnalyticsPage";
 import "./index.css";
 import App from "./App.tsx";
 
@@ -53,6 +56,12 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/loan-portfolio" element={<LoanPortfolio />} />
               <Route path="/compliance" element={<ComplianceOverview />} />
               <Route path="/content-manager" element={<ContentManager />} />
+              <Route path="/farmer-portfolio" element={<FarmerPortfolio />} />
+              <Route
+                path="/farmer-detail/:farmerId"
+                element={<FarmerDetail />}
+              />
+              <Route path="/analytics" element={<AnalyticsPage />} />
             </Route>
 
             {/* Farmer app (mobile-first, auth required) */}
