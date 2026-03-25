@@ -2,19 +2,34 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from app.api.v1 import api_v1_router
+from app.api.v2 import api_v2_router
 from app.core.config import settings
 from app.core.limiter import limiter
+from app.infrastructure.database import close_db, init_db
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    """Application lifespan: initialize and tear down database connections."""
+    await init_db()
+    yield
+    await close_db()
+
 
 app = FastAPI(
     title="CropFolio API",
     description="Portfolio Theory for Climate-Resilient Farming in Myanmar",
-    version="0.1.0",
+    version="0.2.0",
+    lifespan=lifespan,
 )
 
 app.state.limiter = limiter
@@ -38,6 +53,7 @@ app.add_middleware(
 
 
 app.include_router(api_v1_router, prefix="/api/v1")
+app.include_router(api_v2_router, prefix="/api/v2")
 
 
 @app.get("/health")

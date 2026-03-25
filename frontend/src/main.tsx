@@ -14,6 +14,15 @@ import { BayesianDashboard } from "./components/bayesian/BayesianDashboard";
 import { SARDashboard } from "./components/sar/SARDashboard";
 import { FieldMonitorDashboard } from "./components/field-monitor/FieldMonitorDashboard";
 import { AdvisoryPage } from "./components/advisory/AdvisoryPage";
+import { FarmerLayout } from "./components/farmer/FarmerLayout";
+import { FarmerLogin } from "./components/farmer/FarmerLogin";
+import { FarmerHome } from "./components/farmer/FarmerHome";
+import { FarmerFarm } from "./components/farmer/FarmerFarm";
+import { FarmerPlan } from "./components/farmer/FarmerPlan";
+import { FarmerWeather } from "./components/farmer/FarmerWeather";
+import { FarmerLoanStatus } from "./components/farmer/FarmerLoanStatus";
+import { LoanPortfolio } from "./components/distributor/LoanPortfolio";
+import { ComplianceOverview } from "./components/distributor/ComplianceOverview";
 import "./index.css";
 import App from "./App.tsx";
 
@@ -39,6 +48,18 @@ createRoot(document.getElementById("root")!).render(
                 element={<FieldMonitorDashboard />}
               />
               <Route path="/advisory" element={<AdvisoryPage />} />
+              <Route path="/loan-portfolio" element={<LoanPortfolio />} />
+              <Route path="/compliance" element={<ComplianceOverview />} />
+            </Route>
+
+            {/* Farmer app (mobile-first, auth required) */}
+            <Route path="/farmer/login" element={<FarmerLogin />} />
+            <Route element={<FarmerLayout />}>
+              <Route path="/farmer" element={<FarmerHome />} />
+              <Route path="/farmer/farm" element={<FarmerFarm />} />
+              <Route path="/farmer/plan" element={<FarmerPlan />} />
+              <Route path="/farmer/weather" element={<FarmerWeather />} />
+              <Route path="/farmer/loans" element={<FarmerLoanStatus />} />
             </Route>
 
             {/* Legacy wizard */}
